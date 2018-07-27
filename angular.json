@@ -27,7 +27,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/theme.scss",
+              "node_modules/ngx-toastr/toastr.css",
+              "src/app/admin/timetables/_timetable/_scss/timetable.scss"             
             ],
             "scripts": []
           },

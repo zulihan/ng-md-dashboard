@@ -1,0 +1,103 @@
+<div class="container">
+  <mat-sidenav-container class="sidenav-container">      
+    <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
+      <mat-toolbar color="primary">Menu</mat-toolbar>
+      <mat-nav-list>
+        <mat-list-item>
+          <a href="" routerLink="dashboard" routerLinkActive="active">
+            <span>
+              <mat-icon mat-list-icon color="accent">dashboard</mat-icon>
+              <span>Dashboard</span>
+            </span>
+          </a>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <a href="" routerLink="artists" routerLinkActive="active">
+            <span>
+              <mat-icon mat-list-icon color="accent">mic</mat-icon>
+              <span>Artists</span>
+            </span>
+          </a>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <a routerLink="tasks" routerLinkActive="active">
+            <span>
+              <mat-icon mat-list-icon color="accent">assignment</mat-icon>
+              <span>Tasks</span>
+            </span>
+          </a>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <a href="" routerLink="map/runners" routerLinkActive="active">
+            <span>
+              <mat-icon mat-list-icon color="accent">room</mat-icon>
+              <span>Map</span>
+            </span>
+          </a>
+        </mat-list-item>
+        <mat-divider></mat-divider>        
+        <mat-list-item>
+            <a href="" routerLink="calendar" routerLinkActive="active">
+              <span>
+                <mat-icon mat-list-icon color="accent">calendar_today</mat-icon>
+                <span>Calendar</span>
+              </span>
+            </a>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        <mat-list-item>
+          <a (click)="logout()">
+            <span>
+              <mat-icon mat-list-icon color="accent">exit_to_app</mat-icon>            
+              <span>Logout</span>
+            </span> 
+          </a>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>    
+    <mat-sidenav-content>
+      <mat-toolbar color="primary" class="top-toolbar">
+        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <div fxFlex fxLayout fxLayoutAlign="flex-start">
+            <ul fxLayout fxLayoutGap="20px" class="navigation-items">               
+                <li>
+                    <a href="https://www.marsatac.com" target="_blank">
+                      <img src="assets/icons/m2018.svg" alt="">
+                     </a>
+                </li>
+            </ul>
+         </div>
+        <div class="right-links" fxFlex fxLayout fxLayoutAlign="flex-end">
+            <ul fxLayout fxLayoutGap="20px" class="navigation-items">               
+                <li>
+                    <a (click)="logout()">
+                      <mat-icon class="icon">exit_to_app</mat-icon>
+                      <span class="label">Logout</span>
+                     </a>
+                </li>
+            </ul>
+         </div>        
+      </mat-toolbar>
+      <!-- Add Content Here -->
+      <ng-content></ng-content>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+
+<!-- <div class="flex-spacer"></div>
+        <mat-nav-list>
+          <mat-list-item>
+            <a (click)="logout()">
+              <span>
+                <mat-icon mat-list-icon color="accent">exit_to_app</mat-icon>
+                <span>Log out</span>
+              </span>
+            </a>
+          </mat-list-item>
+        </mat-nav-list> -->

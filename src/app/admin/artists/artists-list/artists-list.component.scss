@@ -1,0 +1,28 @@
+.artist-card {
+    max-width: 300px;
+    padding: 10px 0 0 0;
+
+    mat-icon {
+        font-size: 24px;
+    }
+
+    .last-child {
+        margin-bottom: 0;
+    }
+}
+
+.img-container {
+    width: 300px;
+    overflow: hidden;
+}
+
+.example-card {
+    max-width: 300px;
+  }
+  
+.example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+}
+
+

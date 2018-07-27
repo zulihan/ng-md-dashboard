@@ -1,0 +1,95 @@
+@import '~@angular/material/theming';
+@import 'src/theme.scss';
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+
+    table {
+        width: 100%;
+    }
+    
+    td {
+        display: flex;
+        /* align-content: center; */
+        justify-content: center;
+    }
+    
+    .mat-icon.mat-primary.material-icons {
+        align-self: center;
+        font-size: 30px;
+        margin-right: 20px;
+        height: 30px;
+    }    
+  
+    .mat-card-content {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+
+   .mat-card {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .mat-card-header {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: -50px !important;
+        background-color: $primary;
+        border-radius: 5px;
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+    }
+    
+    .mat-card-header-text {
+        width: 100%;
+    }
+    
+    .mat-card-title {
+        text-align: center;
+        color: white; 
+        font-size: 1.5em !important;
+        margin-top: 10px;
+        border-radius: 5px;
+    }
+
+    form {
+        padding: 10px;
+    }
+
+    mat-icon {
+        color: $gray;
+    }
+    
+    .mat-form-field {
+        width: 100%;
+    }
+
+    mat-card-actions {
+        display: flex;
+        margin-bottom: 0;
+    }
+
+    button {
+        margin: auto;
+        width: 33%;
+    }
+    
+  }
+  
+  .login-container > * {
+    margin: 50px auto;
+  }
+
+.help-block { 
+    color: red;
+}
+
+input.ng-invalid.ng-touched {
+    border: 1px solid red;
+}

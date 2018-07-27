@@ -1,0 +1,265 @@
+<div class="login-container">
+  <mat-card>
+    <mat-card-header color="primary">
+      <mat-card-title>Login to your account</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <table cellspacing="0">
+          <tr>
+            <td>
+              <mat-icon matPrefix color="primary">mail</mat-icon>                                
+              <mat-form-field>           
+                <input matInput placeholder="Email" formControlName="email" required>                              
+                </mat-form-field>
+            </td>
+            <td *ngIf="loginForm.get('email').hasError('email') && loginForm.get('email').touched" class="help-block">Please enter a valid email</td>
+          </tr>
+          <tr>
+            <td>
+              <mat-icon matPrefix color="primary">lock</mat-icon>
+              <mat-form-field>
+                <input matInput placeholder="Password" formControlName="password" type="password" required>
+              </mat-form-field>
+              </td>
+              <td 
+            *ngIf="loginForm.get('password').hasError('minlength') && loginForm.get('password').touched"
+            class="help-block">Password must be at least 6 characters</td>
+            
+          </tr>
+        </table>
+        <mat-card-actions>
+            <button type="submit" mat-raised-button color="primary">Login</button>
+        </mat-card-actions>
+      </form>
+      <!-- <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner> -->
+    </mat-card-content>    
+  </mat-card>
+</div>
+
+  <!-- [style.display]="showSpinner ? 'block' : 'none'" -->
+
+
+<!-- Login form -->
+<!-- <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" *ngIf="!loggedIn; else alreadyLoggedIn">
+    <p class="h5 text-center mb-4">Sign in</p>
+  
+    <div class="md-form">
+      <i class="fa fa-envelope prefix grey-text"></i>
+      <input type="text" formControlName="email" id="defaultForm-email" class="form-control" mdbInputDirective>
+      <label for="defaultForm-email">Your email</label>
+    </div>
+  
+    <div class="md-form">
+      <i class="fa fa-lock prefix grey-text"></i>
+      <input type="password" formControlName="password" id="defaultForm-pass" class="form-control" mdbInputDirective>
+      <label for="defaultForm-pass">Your password</label>
+    </div>
+  
+    <div class="text-center">
+      <input type="submit" class="btn btn-default waves-light" mdbWavesEffect value="Login">
+    </div>
+  </form> -->
+  <!-- Login form -->  
+
+  <ng-template #alreadyLoggedIn>
+      <main class="pt-5 mx-lg-5" >  
+        <div class="mt-5">
+          <p>You're already logged in. 
+            <a href="" (click)="logout()">Logout ?</a>
+          </p>
+          <p>
+            Go back to dashboard ?
+            <a routerLink="/">Dashboard ?</a>
+          </p>
+        </div>
+        </main>
+      
+    </ng-template>
+
+
+
+
+
+
+
+<!-- <form
+  *ngIf="!loggedIn; else alreadyLoggedIn"
+  #login="mdb-modal"
+  mdbModal 
+  [formGroup]="loginForm"
+  [ngClass]="{'in show' : !loggedIn}"
+  class="modal fade in show"
+  tabindex="-1"                                          
+  role="dialog"
+  aria-labelledby="myModalLabel"  
+  aria-hidden="true"
+  style="display: block;" 
+  (ngSubmit)="onSubmit()">
+  <div class="modal-dialog cascading-modal" role="document"> -->
+    <!--Content-->
+    <!-- <div class="modal-content"> -->
+
+      <!--Header-->
+      <!-- <div class="modal-header light-blue darken-3 white-text">
+        <h4 class="title">
+          <i class="fa fa-user"></i> Log in</h4>
+        <button 
+          type="button" 
+          class="close waves-effect waves-light" 
+          data-dismiss="modal" 
+          aria-label="Close" 
+          (click)="login.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div> -->
+      <!--Body-->
+      <!-- <div class="modal-body">
+        <div class="md-form form-sm">
+          <i class="fa fa-envelope prefix"></i>
+          <input mdbInputDirective formControlName="email" type="text" id="email" class="form-control" >
+          <label for="form30">Your email</label>
+        </div>
+
+        <div class="md-form form-sm">
+          <i class="fa fa-lock prefix"></i>
+          <input mdbInputDirective formControlName="password" type="password" id="password" class="form-control" >
+          <label for="form31">Your password</label>
+        </div>
+
+        <div class="text-center mt-2">
+          <button 
+            class="btn btn-info waves-light"
+            type="submit"
+            mdbWavesEffect
+            (click)="login.hide()">Log in
+            <i class="fa fa-sign-in ml-1"></i>
+          </button>
+        </div>
+
+      </div> -->
+      <!--Footer-->
+      <!-- <div class="modal-footer">
+        <div class="options text-center text-md-right mt-1">
+          <p>Not a member?
+            <a href="#">Sign Up</a>
+          </p>
+          <p>Forgot
+            <a href="#">Password?</a>
+          </p>
+        </div>
+        <button 
+          [disabled]="!loginForm.valid" 
+          type="button" 
+          class="btn btn-outline-info ml-auto" 
+          data-dismiss="modal"
+          (click)="loggedIn = false"
+          dbWavesEffect>
+          Close
+        </button>
+      </div>
+    </div> -->
+    <!--/.Content-->
+  <!-- </div>
+</form> -->
+<!--Modal: Login Form-->
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="form-container">
+  <img src="assets/images/lock.svg" id="lock">
+
+    <span class="error" *ngIf="error">{{ error }}</span>
+
+  <button (click)="loginFb()" id="fb">Login With Facebook</button><br>
+  <button (click)="loginGoogle()" id="google">Login With Google</button>
+  <button routerLink="/login-email" id="email">Email</button>
+
+  <a routerLink="/signup" routerLinkActive="active" class="alc">No account? <strong>Create one here</strong></a>
+</div> -->
+
+
+<!-- <div *ngIf="auth.user | async; then authenticated else guest"> -->
+  <!-- template will replace this div -->
+<!-- </div> -->
+
+
+<!-- User NOT logged in -->
+<!-- <ng-template #guest>
+<h3>Howdy, GUEST</h3>
+<p>Login to get started...</p>
+
+<button (click)="auth.googleLogin()">
+  <i class="fa fa-google"></i> Connect Google
+</button>
+
+</ng-template> -->
+
+
+<!-- User logged in -->
+<!-- <ng-template #authenticated>
+<div *ngIf="auth.user | async as user">
+  <h3>Howdy, {{ user.displayName }}</h3>
+  <img  [src]="user.photoUrl">
+  <p>UID: {{ user.uid }}</p>
+  <p>Favorite Color: {{ user?.favoriteColor }} </p>
+  <button (click)="auth.signOut()">Logout</button>
+</div>
+</ng-template> -->
+
+
+<!--Modal: Login Form-->
+<!-- <div aria-hidden="false" aria-labelledby="myModalLabel" class="modal fade in show" id="modalLogin" mdbmodal="" role="dialog" tabindex="-1" style="display: block;">
+  <div class="modal-dialog cascading-modal" role="document">
+    <div class="modal-content">
+      <div class="modal-header light-blue darken-3 white-text">
+        <h4 class="title">
+          <i class="fa fa-user"></i> Log in
+        </h4>
+        <button aria-label="Close" class="close waves-effect waves-light" data-dismiss="modal" type="button">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="md-form form-sm">
+          <i class="fa fa-envelope prefix"></i>
+          <input class="form-control" id="form30" mdbinputdirective="" type="text" ng-reflect-mdb-input-directive="">
+          <label for="form30">Your email</label>
+          <span class="inputVal text-danger" style="visibility: hidden;">wrong</span>
+          <span class="inputVal text-success" style="visibility: hidden;">success</span>
+        </div>
+        <div class="md-form form-sm">
+          <i class="fa fa-lock prefix"></i>
+          <input class="form-control" id="form31" mdbinputdirective="" type="password" ng-reflect-mdb-input-directive="">
+          <label for="form31">Your password</label>
+          <span class="inputVal text-danger" style="visibility: hidden;">wrong</span>
+          <span class="inputVal text-success" style="visibility: hidden;">success</span>
+        </div>
+        <div class="text-center mt-2">
+          <button class="btn btn-info waves-light" mdbwaveseffect="">
+            Log in
+          <i class="fa fa-sign-in ml-1"></i>
+        </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="options text-center text-md-right mt-1">
+            <p _ngcontent-c3="">Not a member? <a href="#">Sign Up</a></p>
+            <p _ngcontent-c3="">Forgot <a href="#">Password?</a></p>
+          </div>
+          <button class="btn btn-outline-info ml-auto" data-dismiss="modal" mdbwaveseffect="" type="button">Close</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+<!--Modal: Login Form-->
+

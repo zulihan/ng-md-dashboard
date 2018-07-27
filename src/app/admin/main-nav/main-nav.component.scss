@@ -1,0 +1,114 @@
+@import '~@angular/material/theming';
+@import 'src/theme.scss';
+// $custom-accent: map-palette($custom-accent,800);
+
+.container {
+  max-width: 100%;
+  padding: 0;
+}
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+  background-color: $gray;
+}
+
+.top-toolbar  {
+  position: fixed;
+  top: 0;
+  z-index: 2;
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+
+  // span, mat-nav-list {
+  //   flex-grow: 1;
+  // }
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+  img {
+    max-width: 150px;
+    padding-top: 10px;
+  }
+
+  // .flex-spacer {
+  //   flex-grow: 3;
+  // }
+
+  .navigation-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .icon {
+    display: inline-block;
+    height: 30px;
+    margin: 0 auto;
+    padding-right: 15px;
+    text-align: center;
+    vertical-align: middle;
+    width: 15%;
+  }
+
+  .label {
+    display: inline-block;
+    line-height: 30px;
+    margin: 0;
+    width: 85%;
+    font-size: 16px;
+  }
+
+}
+
+mat-list-item a {
+  width: 100%;
+  padding: 0.3rem .25rem;
+  margin-bottom: -1px;
+}
+
+mat-list-item a.active {
+  z-index: 2;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+  height: 100%;
+  align-self: center;
+  border-left: 5px solid $accent;
+  display: flex;
+}
+
+mat-list-item:active {
+  color: white;
+}
+
+mat-list-item a>span {
+  display: flex;
+  align-items: center;
+}
+/* box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12); */
+
+mat-sidenav-content {
+  padding-top: 80px;
+}
+
+ng-content {
+  margin-top: 60px;
+ }
+
+
+
+//  mat-list-item a.active {
+//   z-index: 2;
+//   border-radius: 5px;
+//   color: white;
+//   background-color: mat-color($custom-primary);
+//   border: 1px solid rgba(0, 150, 136, 0.125);
+//   box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+// }

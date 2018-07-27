@@ -3,7 +3,17 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: 'http://localhost:4201/api/',
+  firebaseConfig: {
+    apiKey: 'AIzaSyAwkFHZ4qZUoBSAVCz6SJCtldRfDmd20vE',
+    authDomain: 'festivalgeotracker.firebaseapp.com',
+    databaseURL: 'https://festivalgeotracker.firebaseio.com',
+    projectId: 'festivalgeotracker',
+    storageBucket: 'festivalgeotracker.appspot.com',
+    messagingSenderId: '1058082994374'
+  },
+  googleMapsKey: 'AIzaSyAjUVpulfQoIt0LHVGcO9KLzitRXwbZVfs'
 };
 
 /*

@@ -1,10 +1,28 @@
+import { RouterModule, Route } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [];
+import { AuthGuard } from './auth/guard/auth.guard';
+
+//  import { NotFoundComponent } from './views/errors/not-found/not-found.component';
+import { LoginComponent } from './auth/login/login.component';
+import { DayOneTimetableComponent } from './admin/timetables/day-one-timetable/day-one-timetable.component';
+
+
+const routes: Route[] = [
+  { path: '', canActivate: [AuthGuard], redirectTo: 'admin', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'timetable', component: DayOneTimetableComponent },
+
+  // { path: '**', component: NotFoundComponent }
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
+    imports: [
+      CommonModule,
+      RouterModule.forRoot(routes)
+    ],
+    exports: [RouterModule],
+    declarations: []
+  })
+export class AppRoutingModule {}

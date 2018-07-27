@@ -1,0 +1,78 @@
+<!-- <div class="grid-container">
+    <h1 class="mat-h1">Map</h1>
+    <mat-grid-list cols="2" rowHeight="600px">
+      <mat-grid-tile [colspan]="1" [rowspan]="1">
+        
+    </mat-grid-tile>
+  </mat-grid-list>
+</div> -->
+
+<div class="grid-container">
+  <mat-grid-list cols="2" rowHeight="600px">
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
+      <mat-card class="dashboard-card">
+        <mat-card-header>          
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+            <div class="map" *ngIf="lat && lng">
+                <agm-map 
+                  [latitude]="marsatacLat" 
+                  [longitude]="marsatacLng" 
+                  [styles]="styles"
+                  [zoom]="zoom" 
+                  [usePanning]="true"> 
+      
+                  <agm-marker 
+                    [latitude]="marsatacLat"
+                    [longitude]="marsatacLng"
+                    [iconUrl]="'/../../assets/icons/m2018.png'">
+                    <agm-info-window>
+                      <h3><strong>Marsatac</strong></h3>      
+                      <p>Here is Marsatac</p>
+                    </agm-info-window>      
+                  </agm-marker>
+      
+                  <agm-marker
+                    [latitude]="lat"
+                    [longitude]="lng"
+                    [iconUrl]="'/../../assets/icons/m1.png'">
+                    <agm-info-window>
+                      <h3><strong>Julien</strong></h3>
+                      <p>That's where I am right now !</p>
+                    </agm-info-window>
+                  </agm-marker>
+      
+      
+                  <agm-marker *ngFor="let location of locations"
+                    [latitude]="location['coord'].latitude"
+                    [longitude]="location['coord'].longitude"
+                    >
+                    <agm-info-window>
+                      <h3><strong>{{location.name}}</strong></h3>
+                      <p>You are </p>
+                    </agm-info-window>
+                  </agm-marker>  
+                  
+      
+                </agm-map> 
+              </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+  
+</div>
+
+
+
+
+
+<!-- <agm-marker *ngFor="let marker of markers"
+                  [latitude]="marker.location[0]"
+                  [longitude]="marker.location[1]"
+                  [iconUrl]="'/../../assets/icons/van.png'">
+                  <agm-info-window>
+                    <h3><strong>Location Details</strong></h3>
+                    <p>You are {{ marker.distance }} kilometers from this point</p>
+                  </agm-info-window>
+                </agm-marker>   -->
