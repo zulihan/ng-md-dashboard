@@ -18,3 +18,6 @@ hoek node module before 5.0.3 or 4.2.1 suffers from a Modification of Assumed-Im
 > package-lock.json update suggested:
 hoek ~> 4.2.1
 
+Used Snyk tool
+https://snyk.io/org/zulihan/
+
