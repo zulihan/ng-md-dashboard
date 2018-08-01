@@ -1,4 +1,5 @@
 import { Tt } from './_models/tt';
+import { getTime } from 'date-fns';
 
 
 export class Renderer {
@@ -65,6 +66,7 @@ export class Renderer {
         const t = container.appendChild(document.createElement('section'));
         const n = t.appendChild(document.createElement('time'));
         this.appendColumnHeaders(n);
+        this.appendDivTimeNow(n);
         this.appendTimeRows(n);
     }
 
@@ -88,26 +90,12 @@ export class Renderer {
         }
     }
 
-
-    // appendColumnHeaders(e) {
-    //     for (
-    //         let
-    //         t = e.appendChild(document.createElement('header')),
-    //         n = t.appendChild(document.createElement('ul')),
-    //         r = !1,
-    //         o = !1,
-    //         a = this.timetable.scope.hourStart; !r;) {
-    //         const i = n.appendChild(document.createElement('li'));
-    //         const u = i.appendChild(document.createElement('span'));
-    //         u.className = 'time-label';
-    //         u.textContent = this.prettyFormatHour(a);
-    //         if (a !== this.timetable.scope.hourEnd
-    //             || this.timetable.scope.hourStart === this.timetable.scope.hourEnd
-    //             && !o || (r = !0), 24 === ++a ) {
-    //                 a = 0, o = !0;
-    //         }
-    //     }
-    // }
+    appendDivTimeNow(node) {
+        const divtn = node.appendChild(document.createElement('div'));
+        divtn.className = 'timenow';
+        const timeNow = getTime(+Date.now);
+        divtn.style.left = timeNow / this.timetable.scopeDurationHours * 100 + '%';
+    }
 
 
     appendTimeRows(node) {
@@ -143,7 +131,35 @@ export class Renderer {
         a.textContent = event.name;
     }
 
-    // appendEvent(event, node) {
+    computeEventBlockWidth(event) {
+        const start = event.startDate;
+        const end = event.endDate;
+        const durationHours = this.computeDurationInHours(start, end);
+        return durationHours / this.timetable.scopeDurationHours * 100 + '%';
+    }
+
+
+    computeDurationInHours(start, end) {
+        return (end.getTime() - start.getTime()) / 1000 / 60 / 60;
+    }
+
+    computeEventBlockOffset(event) {
+        const eventStart = event.startDate;
+        const eventStartHours = eventStart.getHours() + (eventStart.getMinutes() / 60);
+        return (eventStartHours - this.timetable.scope.hourStart) / this.timetable.scopeDurationHours * 100 + '%';
+    }
+
+    // computeEventBlockOffset(event) {
+    //     const eventStart = event.hourStart;
+    //     const eventStartHours = eventStart.getHours() + (eventStart.getMinutes() / 60);
+    //     // const hoursBeforeEvent = this.timetable.getDurationHours(scopeStartHours, eventStartHours);
+    //     return (eventStartHours - this.timetable.scope.hourStart ) / this.timetable.scopeDurationHours * 100 + '%';
+    // }
+
+}
+
+
+// appendEvent(event, node) {
     //     const hasOptions = event.options !== undefined;
     //     let hasURL, hasAdditionalClass, hasDataAttributes, hasClickHandler = false;
 
@@ -182,29 +198,22 @@ export class Renderer {
     //     smallNode.textContent = event.name;
     // }
 
-    computeEventBlockWidth(event) {
-        const start = event.startDate;
-        const end = event.endDate;
-        const durationHours = this.computeDurationInHours(start, end);
-        return durationHours / this.timetable.scopeDurationHours * 100 + '%';
-    }
-
-
-    computeDurationInHours(start, end) {
-        return (end.getTime() - start.getTime()) / 1000 / 60 / 60;
-    }
-
-    computeEventBlockOffset(event) {
-        const eventStart = event.startDate;
-        const eventStartHours = eventStart.getHours() + (eventStart.getMinutes() / 60);
-        return (eventStartHours - this.timetable.scope.hourStart) / this.timetable.scopeDurationHours * 100 + '%';
-    }
-
-    // computeEventBlockOffset(event) {
-    //     const eventStart = event.hourStart;
-    //     const eventStartHours = eventStart.getHours() + (eventStart.getMinutes() / 60);
-    //     // const hoursBeforeEvent = this.timetable.getDurationHours(scopeStartHours, eventStartHours);
-    //     return (eventStartHours - this.timetable.scope.hourStart ) / this.timetable.scopeDurationHours * 100 + '%';
+    // appendColumnHeaders(e) {
+    //     for (
+    //         let
+    //         t = e.appendChild(document.createElement('header')),
+    //         n = t.appendChild(document.createElement('ul')),
+    //         r = !1,
+    //         o = !1,
+    //         a = this.timetable.scope.hourStart; !r;) {
+    //         const i = n.appendChild(document.createElement('li'));
+    //         const u = i.appendChild(document.createElement('span'));
+    //         u.className = 'time-label';
+    //         u.textContent = this.prettyFormatHour(a);
+    //         if (a !== this.timetable.scope.hourEnd
+    //             || this.timetable.scope.hourStart === this.timetable.scope.hourEnd
+    //             && !o || (r = !0), 24 === ++a ) {
+    //                 a = 0, o = !0;
+    //         }
+    //     }
     // }
-
-}

@@ -1,34 +1,29 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { Artist } from '../../../_models/artist';
-import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operator/map';
+import { Artist } from 'src/app/_models/artist';
+import { HttpClient } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArtistsService {
-  artistsCollection: AngularFirestoreCollection<Artist> = this.afs.collection<Artist>('artists');
-  artistDocument: AngularFirestoreDocument<Artist>;
 
-  artists: Observable<Artist[]>;
+  artists: any;
 
-  constructor(private afs: AngularFirestore) { }
+constructor(private http: HttpClient) { }
 
-  getArtists(): Observable<Artist[]> {
-    return this.artists = this.artistsCollection.valueChanges();
+  getArtists() {
+    return this.http.get('http://localhost:5000/api/artists');
   }
 
   // getArtists() {
-  //   this.artists = this.artistsCollection.snapshotChanges().map(actions => {
-  //     return actions.map(a => {
-  //       const data = a.payload.doc.data() as Artist;
-  //       data.id = a.payload.doc.id;
-  //       return data;
-  //     });
+  //   this.http.get('http://localhost:5000/api/artists').subscribe( response => {
+  //     this.artists = response;
+  //   }, error => {
+  //     console.log(error);
   //   });
-  //     return this.artists;
+  //   console.log('artists from service: ', this.artists);
+  //   return this.artists;
   // }
-
 
 }

@@ -1,0 +1,52 @@
+import { Injectable } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { Artist } from '../../../_models/artist';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ArtistsService {
+  artistsCollection: AngularFirestoreCollection<Artist> = this.afs.collection<Artist>('artists');
+  artistDocument: AngularFirestoreDocument<Artist>;
+
+  artists: Observable<Artist[]>;
+
+  constructor(private afs: AngularFirestore) { }
+
+  getArtists() {
+     return this.artists = this.artistsCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Artist;
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      }))
+    );
+
+  }
+
+  // getArtists() {
+  //   this.artists = this.artistsCollection.snapshotChanges().map(actions => {
+  //     return actions.map(a => {
+  //       const data = a.payload.doc.data() as Artist;
+  //       data.id = a.payload.doc.id;
+  //       return data;
+  //     });
+  //   });
+  //     return this.artists;
+  // }
+
+
+}
+
+// this.artists = this.artistsCollection.valueChanges();
+//      return this.artists;
+
+// .snapshotChanges().pipe(
+//   map(actions => actions.map(a => {
+//     const data = a.payload.doc.data() as Shirt;
+//     const id = a.payload.doc.id;
+//     return { id, ...data };
+//   }))
+// );

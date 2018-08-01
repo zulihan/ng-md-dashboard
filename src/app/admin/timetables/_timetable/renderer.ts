@@ -6,6 +6,8 @@ export class Renderer {
     timetable;
     selector;
     container;
+    dateNow = new Date();
+    timeNow = +(this.dateNow.getHours() + (this.dateNow.getMinutes() / 60)).toFixed(2);
 
     constructor(tt) {
         if (!(this.isOfTypeITimetable(tt))) {
@@ -21,6 +23,11 @@ export class Renderer {
     prettyFormatHour(e) {
         const t = 10 > e ? '0' : '';
         return t + e + ':00';
+    }
+
+    scrollToTimeNow() {
+        const elmnt = document.getElementById('rtl');
+        elmnt.scrollIntoView();
     }
 
     draw(selector) {
@@ -51,11 +58,11 @@ export class Renderer {
     }
 
     o(e) {
-        for (let t = 0; t < this.timetable.locations.length; t++) {
+        for (let t = 0; t < this.timetable.artists.length; t++) {
             const n = e.appendChild(document.createElement('li'));
             const r = n.appendChild(document.createElement('span'));
             r.className = 'row-heading';
-            r.textContent = this.timetable.locations[t];
+            r.textContent = this.timetable.artists[t];
         }
     }
 
@@ -85,19 +92,35 @@ export class Renderer {
         }
     }
 
+    appendDivTimeNow(node) {
+        const divtn = node.appendChild(document.createElement('div'));
+        divtn.className = 'timenow';
+        divtn.id = 'time';
+        divtn.style.left = (this.timeNow - this.timetable.scope.hourStart) / this.timetable.scopeDurationHours * 100 + '%';
+        setInterval(() => {
+            const dateNow = new Date();
+            const timeN = +(dateNow.getHours() + (dateNow.getMinutes() / 60)).toFixed(2);
+            this.timeNow = timeN;
+            divtn.style.left = (this.timeNow - this.timetable.scope.hourStart) / this.timetable.scopeDurationHours * 100 + '%';
+          }, 60000);
+    }
+
+
     l(e) {
         const t = e.appendChild(document.createElement('ul'));
         t.className = 'room-timeline';
-        for (let n = 0; n < this.timetable.locations.length; n++) {
+        t.id = 'rtl';
+        this.appendDivTimeNow(t);
+        for (let n = 0; n < this.timetable.artists.length; n++) {
             const r = t.appendChild(document.createElement('li'));
-            this.s(this.timetable.locations[n], r);
+            this.s(this.timetable.artists[n], r);
         }
     }
 
     s(e, t) {
         for (let n = 0; n < this.timetable.events.length; n++) {
             const r = this.timetable.events[n];
-            if (r.location === e)  {
+            if (r.artist === e)  {
                 this.d(r, t);
             }
         }
@@ -122,7 +145,7 @@ export class Renderer {
         }
         o.style.width = this.h(e);
         o.style.left = this.f(e);
-        // a.textContent = e.name;
+        a.textContent = e.name;
     }
 
     h(e) {
@@ -146,4 +169,3 @@ export class Renderer {
     }
 
 }
-

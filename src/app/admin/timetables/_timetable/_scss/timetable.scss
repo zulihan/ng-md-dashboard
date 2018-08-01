@@ -63,12 +63,20 @@
   }
   section {
     width: 85%;
+    position: relative;
     padding: 0 !important;
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
     time {
       white-space: nowrap;
       display: inline-block;
+
+      .timenow {
+        position: absolute;
+        height: 100%;
+        border-left: 1px solid red;
+        z-index: 3;
+      }
     }
     header {
       height: 46px;

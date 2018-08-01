@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, NgZone, Renderer2 } from '@angular/core';
 
 import { Timetable } from '../_timetable/timetable';
 import { Renderer } from '../_timetable/renderer';
@@ -9,10 +9,10 @@ import { Scope } from '../_timetable/_models/scope';
   templateUrl: './day-one-timetable.component.html',
   styleUrls: ['./day-one-timetable.component.scss']
 })
-export class DayOneTimetableComponent implements OnInit {
+export class DayOneTimetableComponent implements OnInit, AfterViewInit {
 
   options = {
-    url: '#', // makes the event clickable
+    url: '', // makes the event clickable
     class: 'getin', // additional css class
     data: { // each property will be added to the data-* attributes of the DOM node for this event
       id: 4,
@@ -25,40 +25,54 @@ export class DayOneTimetableComponent implements OnInit {
   };
 
 
-  @ViewChild('timetable') element: ElementRef;
+  @ViewChild('timetableOne') firstTimetable: ElementRef;
   selector;
-  timetable: Timetable;
+  timetableOne: Timetable;
   renderer: Renderer;
   scope: Scope;
-  locations = [];
+  artists = [];
   events = [];
+  zone;
+  render;
+
+  dateNow = new Date();
+  timeNow = +(this.dateNow.getHours() + (this.dateNow.getMinutes() / 60)).toFixed(2);
 
   constructor() {
-    this.timetable = new Timetable();
+    this.timetableOne = new Timetable();
   }
 
   ngOnInit() {
-    this.selector =  this.element.nativeElement;
-    this.addTimeTable();
+    this.selector =  this.firstTimetable.nativeElement;
+    this.addTimeTable(this.timetableOne);
   }
 
-  addTimeTable() {
-    this.timetable.setScope(9, 9);
+  ngAfterViewInit() {
+    document.getElementById('time').scrollIntoView();
 
-    this.timetable.addLocations(['London', 'Paris', 'Los Angeles']);
+}
 
-    this.timetable.addEvent('Sightseeing', 'London', new Date(2018, 8, 25, 11, 45), new Date(2018, 8, 25, 12, 45), this.options);
-    this.timetable.addEvent('Sightseeing', 'London', new Date(2018, 8, 25, 13), new Date(2018, 8, 25, 15, 30), { url: '#' });
 
-    this.timetable.addEvent('Zumba', 'Paris', new Date(2018, 8, 27, 9), new Date(2018, 8, 27, 10), { url: '#' });
+  addTimeTable(tt) {
+    tt.setScope(9, 9);
 
-    this.timetable.addEvent('Cocktails', 'Los Angeles', new Date(2018, 8, 22, 9), new Date(2018, 8, 22, 10), {  onClick: function(event) {
+    tt.addArtists(['Lord Esperanza', 'Biffty & DJ Weedim', 'Ho99o9', 'Gangue', 'Myth Syzer']);
+
+    tt.addEvent('GI', 'Lord Esperanza', new Date(2018, 8, 25, 17, 15), new Date(2018, 8, 25, 17, 30), this.options);
+    tt.addEvent('GI', 'Biffty & DJ Weedim', new Date(2018, 8, 25, 16, 15), new Date(2018, 8, 25, 16, 30), this.options);
+
+    tt.addEvent('GI', 'Ho99o9', new Date(2018, 8, 27, 9), new Date(2018, 8, 27, 10), { url: '#' });
+
+    tt.addEvent('GI', 'Gangue', new Date(2018, 8, 22, 9), new Date(2018, 8, 22, 10), {  onClick: function(event) {
+      window.alert('You clicked on the ' + event.name + ' event in ' + event.location + '. This is an example of a click handler');
+    }} );
+    tt.addEvent('GI', 'Myth Syzer', new Date(2018, 8, 22, 9), new Date(2018, 8, 22, 10), {  onClick: function(event) {
       window.alert('You clicked on the ' + event.name + ' event in ' + event.location + '. This is an example of a click handler');
     }} );
 
-    this.renderer = new Renderer(this.timetable);
+    this.renderer = new Renderer(tt);
     this.renderer.draw(this.selector);
+    console.log('timeNow from day-one-component in addTimeTable method: ', this.timeNow);
   }
-
 
 }

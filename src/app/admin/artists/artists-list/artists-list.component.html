@@ -1,6 +1,6 @@
 <div class="grid-container">
   <mat-grid-list [cols]="cols | async" [rowHeight]="rowHeight + 'px'" gutterSize="5px">
-    <mat-grid-tile *ngFor="let artistCard of artistsInfos | async" [colspan]="1" [rowspan]="1">
+    <mat-grid-tile *ngFor="let artistCard of artistsInfos" [colspan]="1" [rowspan]="1">
       <mat-card class="artist-card" >
         <mat-card-header>
           <mat-card-title>{{artistCard.name | uppercase}}</mat-card-title>

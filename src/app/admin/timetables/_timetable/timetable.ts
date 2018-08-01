@@ -3,9 +3,9 @@ import { Scope } from './_models/scope';
 export class Timetable {
 
     scope: Scope;
-    locations = [];
+    artists = [];
     events = [];
-    newLocations = [];
+    newArtists = [];
     scopeDurationHours: number;
 
     constructor() {
@@ -13,7 +13,7 @@ export class Timetable {
             hourStart: 0,
             hourEnd: 24
           };
-        this.locations = [];
+        this.artists = [];
         this.events = [];
         this.scopeDurationHours = this.getDurationHours(this.scope.hourStart, this.scope.hourEnd);
     }
@@ -28,32 +28,32 @@ export class Timetable {
         return this.scope;
     }
 
-    hasProperFormat(newLocations) {
-        return this.newLocations instanceof Array;
+    hasProperFormat(newArtists) {
+        return this.newArtists instanceof Array;
     }
 
-    addLocations(newLocations) {
-        const existingLocations = this.locations;
+    addArtists(newArtists) {
+        const existingArtists = this.artists;
 
-        if (this.hasProperFormat(newLocations)) {
-            newLocations.forEach ( loc => {
-                if (!this.locationExistsIn(loc, existingLocations)) {
-                    existingLocations.push(loc);
+        if (this.hasProperFormat(newArtists)) {
+            newArtists.forEach ( artist => {
+                if (!this.artistExistsIn(artist, existingArtists)) {
+                    existingArtists.push(artist);
                 } else {
-                    throw new Error('Location already exists');
+                    throw new Error('Artist already exists');
                 }
             });
 
         } else {
-            throw new Error('Tried to add locations in wrong format');
+            throw new Error('Tried to add artists in wrong format');
         }
         console.log('this:', this);
         // return this;
     }
 
-    addEvent(name, location, start, end, options) {
-        if (!this.locationExistsIn(location, this.locations)) {
-            throw new Error('Unknown location');
+    addEvent(name, artist, start, end, options) {
+        if (!this.artistExistsIn(artist, this.artists)) {
+            throw new Error('Unknown artist');
         }
         if (!this.isValidTimeRange(start, end)) {
             throw new Error('Invalid time range: ' + JSON.stringify([start, end]));
@@ -63,7 +63,7 @@ export class Timetable {
 
         this.events.push({
             name: name,
-            location: location,
+            artist: artist,
             startDate: start,
             endDate: end,
             options: optionsHasValidType ? options : undefined
@@ -88,8 +88,8 @@ export class Timetable {
         return number >= 0 && number < 24;
     }
 
-    locationExistsIn(loc, locs) {
-        return locs.indexOf(loc) !== -1;
+    artistExistsIn(art, arts) {
+        return arts.indexOf(art) !== -1;
     }
 
     isValidTimeRange(start, end) {

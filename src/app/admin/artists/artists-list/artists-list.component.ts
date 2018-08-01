@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
 import { ArtistsService } from '../service/artists.service';
 
 import { Observable } from 'rxjs/Observable';
@@ -7,6 +7,7 @@ import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/operator/startWith';
 
 import { ObservableMedia } from '@angular/flex-layout';
+import { Artist } from 'src/app/_models/artist';
 
 
 @Component({
@@ -14,20 +15,31 @@ import { ObservableMedia } from '@angular/flex-layout';
   templateUrl: './artists-list.component.html',
   styleUrls: ['./artists-list.component.scss']
 })
-export class ArtistsListComponent implements OnInit, OnDestroy {
+export class ArtistsListComponent implements OnInit, OnDestroy, AfterViewChecked {
 
-  artistsInfos: Observable<any[]>;
+  artistsInfos;
   artistsCards: Observable<any[]>;
+  artists;
 
   cols;
   rowHeight;
 
   constructor(
     private artistsService: ArtistsService,
-    private observableMedia: ObservableMedia) {}
+    private observableMedia: ObservableMedia) {
+      this.artistsInfos = this.artistsService.getArtists().subscribe( response => {
+        this.artistsInfos = response;
+      }, error => {
+        console.log(error);
+      });
+      console.log('artists from service: ', this.artists);
+      return this.artists;
+      // this.artistsInfos.subscribe( artists => this.artists = artists);
+    }
 
 
   ngOnInit() {
+
     const grid = new Map([
       ['xs', 1],
       ['sm', 1],
@@ -49,25 +61,29 @@ export class ArtistsListComponent implements OnInit, OnDestroy {
       .map(change => {
 
         this.rowHeight = this.heightToCols(grid.get(change.mqAlias));
-        console.log(this.rowHeight);
+        // console.log(this.rowHeight);
 
         return grid.get(change.mqAlias);
 
       })
       .startWith(start);
 
-    this.artistsInfos = this.artistsService.getArtists();
+
+  }
+
+  ngAfterViewChecked() {
+    console.log('artistsInfos:', this.artistsInfos);
   }
 
   ngOnDestroy() {}
 
   heightToCols(cols: number): number {
     if (cols === 1) {
-      return 450;
+      return 250;
     } else if (cols === 2) {
-      return 500;
+      return 270;
     } else {
-      return 550;
+      return 300;
     }
 
   }
