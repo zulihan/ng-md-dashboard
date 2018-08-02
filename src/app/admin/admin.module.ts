@@ -24,13 +24,16 @@ import { ArtistsService } from './artists/service/artists.service';
 import { CalModule } from './calendar/calendar.module';
 // import { Day1CalendarComponent } from 'src/app/admin/calendar/day1-calendar/day1-calendar.component';
 import { TimetablesModule } from './timetables/timetables.module';
+import { UsersComponent } from './users/users.component';
+import { AuthModule } from '../auth/auth.module';
 
 @NgModule({
   declarations: [
     AdminComponent,
     DashboardComponent,
     MainNavComponent,
-    MapComponent
+    MapComponent,
+    UsersComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +46,8 @@ import { TimetablesModule } from './timetables/timetables.module';
     }),
     ArtistsModule,
     CalModule,
-    TimetablesModule
+    TimetablesModule,
+    AuthModule
   ],
   exports: [
     AdminComponent,

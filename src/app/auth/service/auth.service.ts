@@ -1,66 +1,52 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-
-import * as firebase from 'firebase';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/switchMap';
 import { of, Subject } from 'rxjs';
-import { User } from '../../_models/User';
-// import { take, map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
+
+import { User } from '../../_models/User';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  baseUrl = 'http://localhost:5000/api/auth/';
   tokenSubject = new Subject<boolean>();
   decodedToken;
   user: Observable<User | null>;
   loginErrorMessage: any;
 
-  constructor(private afAuth: AngularFireAuth,
-              private afs: AngularFirestore,
-              private router: Router,
-              private jwtHelperService: JwtHelperService) {
+  constructor(private router: Router,
+              private jwtHelperService: JwtHelperService,
+              private http: HttpClient) {
 
-    this.user = this.afAuth.authState
-                .switchMap(user => {
-                  if (user) {
-                    return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
-                } else {
-                  return of(null);
-                }
-              });
   }
 
-  // isLoggedIn(): Observable<boolean> {
-  //   return this.afAuth.authState.map((auth) =>  {
-  //         if(auth == null) {
-  //           return false;
-  //         } else {
-  //           return true;
-  //         }
-  //   });
-  // }
+  register(username: string, password: string) {
+    const model = {
+      username,
+      password
+    };
+    return this.http.post(this.baseUrl + 'register', model);
 
-// Good one
-  // isLoggedIn() {
-  //   return this.user.pipe(
-  //     take(1),
-  //     map(user => !!user),
-  //     tap(loggedIn => {
-  //       if (!loggedIn) {
-  //         return false
-  //       }
-  //     return true
-  //     })
-  //   )
-  // }
+  }
+
+  login(model: any) {
+    return this.http.post(this.baseUrl + 'login', model)
+      .pipe(
+        map( (response: any) => {
+          const user = response;
+          if (user) {
+            localStorage.setItem('token', user.token);
+          }
+        })
+      );
+  }
 
   isLoggedIn(): Observable<boolean> {
     const token = this.jwtHelperService.tokenGetter();
@@ -70,73 +56,6 @@ export class AuthService {
     console.log('called isLoggedIn method in AuthService: ');
     return of(!this.jwtHelperService.isTokenExpired(token));
   }
-
-  emailSignUp(email: string, password: string) {
-    return this.afAuth.auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(credential => {
-        // this.notify.update('Welcome new user!', 'success');
-        return this.updateUserData(credential.user); // if using firestore
-      })
-      .catch(error => this.handleError(error));
-  }
-
-  emailLogin(email: string, password: string) {
-    return this.afAuth.auth
-      .signInWithEmailAndPassword(email, password)
-      .then(
-        credential => {
-          // this.notify.update('Welcome back!', 'success');
-          console.log('credential', credential);
-          credential.user.getIdToken()
-            .then(
-              tk => {
-                // console.log('token from authService:', JSON.stringify(tk));
-                // console.log("this", this);
-                // this.token.next(tk);
-                localStorage.setItem('token', JSON.stringify(tk));
-                this.decodedToken = this.jwtHelperService.decodeToken(JSON.stringify(tk));
-                console.log('decoded token:', this.decodedToken);
-              }
-            );
-        }
-      );
-      // .catch(error => this.handleError(error));
-  }
-
-
-  googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    return this.oAuthLogin(provider);
-  }
-
-  private oAuthLogin(provider) {
-    return this.afAuth.auth.signInWithPopup(provider)
-      .then((credential) => {
-        this.updateUserData(credential.user);
-      });
-  }
-
-  // Sets user data to Firestore on login
-  private updateUserData(user) {
-
-    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
-
-    const data: User = {
-      uid: user.uid,
-      email: user.email
-    };
-
-    return userRef.set(data, {merge: true });
-
-  }
-
-  // phone: user.phone,
-  //     displayName: user.displayName,
-  //     photoUrl: user.photoUrl,
-  //     roles: {
-  //       runner: true
-  //     }
 
   // Abilities and Roles Authorization
   // Assign roles to an ability method
@@ -169,12 +88,7 @@ export class AuthService {
   }
 
   signOut() {
-    return this.afAuth.auth.signOut()
-      .then((x) => {
-        console.log(x);
-    //     localStorage.removeItem('token');
-        this.router.navigate(['login']);
-    });
+    localStorage.removeItem('token');
   }
 
   // If error, console log and notify user

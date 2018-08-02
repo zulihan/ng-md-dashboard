@@ -34,6 +34,7 @@ import { GeoService } from './_services/geo.service';
 
 import { MaterialModule } from './material/material.module';
 import { CalendarModule } from 'angular-calendar';
+import { ErrorInterceptorProvider } from './_services/error.interceptor';
 
 
 @NgModule({
@@ -71,7 +72,14 @@ import { CalendarModule } from 'angular-calendar';
     LayoutModule,
     CalendarModule.forRoot()
   ],
-  providers: [AuthService, AuthGuard, AlertifyService, JwtHelperService, GeoService],
+  providers: [
+    AuthService,
+    AuthGuard,
+    AlertifyService,
+    JwtHelperService,
+    GeoService,
+    ErrorInterceptorProvider
+  ],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA ]
 })

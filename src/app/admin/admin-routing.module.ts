@@ -14,6 +14,7 @@ import { CalendarEditComponent } from './calendar/calendar-edit/calendar-edit.co
 import { DayOneComponent } from './calendar/day-one/day-one.component';
 import { TimetablesComponent } from './timetables/timetables.component';
 import { DayOneTimetableComponent } from './timetables/day-one-timetable/day-one-timetable.component';
+import { UsersComponent } from './users/users.component';
 
 // { path: 'admin', canActivate: [AuthGuard] , redirectTo: 'admin/dashboard/v1'},
 
@@ -38,6 +39,8 @@ const adminRoutes: Routes = [
         ]
       },
       { path: 'artists', component: ArtistsComponent},
+
+      { path: 'users', component: UsersComponent},
 
       { path: 'calendar', component: CalendarComponent, children:
         [

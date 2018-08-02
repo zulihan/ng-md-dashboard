@@ -22,10 +22,10 @@ export class MainNavComponent {
               private toastr: ToastrService) {}
 
   logout() {
-    this.authService.signOut()
-      .then(
-        () => this.showLogoutSuccess()
-      );
+    this.authService.signOut();
+      // .then(
+      //   () => this.showLogoutSuccess()
+      // );
   }
 
   showLogoutSuccess() {

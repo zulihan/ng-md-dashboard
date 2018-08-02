@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private router: Router,
-    private alertify: AlertifyService,
     private toastr: ToastrService
     ) {
       // this.loggedIn = this.authService.tokenSubject.subscribe(
@@ -45,30 +44,30 @@ export class LoginComponent implements OnInit {
 
   createLoginForm() {
     this.loginForm = this.fb.group({
-      email: [null, [Validators.required, Validators.pattern(this.emailPattern)]],
+      // email: [null, [Validators.required, Validators.pattern(this.emailPattern)]],
+      username: [null, [Validators.required, Validators.minLength(2)]],
       password: [null, [Validators.required, Validators.minLength(6)]]
     });
   }
 
   onSubmit() {
     console.log(this.loginForm.value);
-    const email = this.loginForm.value.email;
+    // const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
-    this.authService.emailLogin(email, password)
-      .then(
-        () => {
+    this.authService.login(this.loginForm.value)
+      .subscribe(
+        next => {
           console.log('logged in');
           this.showLoginSuccess();
           // this.alertify.success('logged in successfully');
           this.router.navigate(['/']);
-        }
-      )
-      .catch(error => {
-        console.log(error.message);
-        this.showLoginError(error.message);
-        this.loggingErrorMessage = error.message;
-      })
-      ;
+        },
+        error => {
+          console.log(error.message);
+          this.showLoginError(error.message);
+          this.loggingErrorMessage = error.message;
+      }
+    );
   }
 
   showLoginSuccess() {
@@ -81,7 +80,7 @@ export class LoginComponent implements OnInit {
 
   logout() {
     this.authService.signOut();
-    this.alertify.message('logged out');
+    // this.alertify.message('logged out');
   }
 
 }

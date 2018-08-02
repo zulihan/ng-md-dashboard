@@ -6,30 +6,36 @@
     <mat-card-content>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <table cellspacing="0">
-          <tr>
+            <tr>
+                <td>
+                  <mat-icon matPrefix color="primary">perm_identity</mat-icon>
+                  <mat-form-field>
+                    <input matInput placeholder="Name" formControlName="username" required>
+                    <mat-error *ngIf="loginForm.get('username').hasError('minlength') && loginForm.get('username').touched" class="help-block">Your name must be at least 2 characters</mat-error>
+                  </mat-form-field>
+                </td>
+            </tr>
+          <!-- <tr>
             <td>
               <mat-icon matPrefix color="primary">mail</mat-icon>                                
               <mat-form-field>           
-                <input matInput placeholder="Email" formControlName="email" required>                              
+                <input matInput placeholder="Email" formControlName="email" required> 
+                <mat-error *ngIf="loginForm.get('email').hasError('email') && loginForm.get('email').touched" class="help-block">Please enter a valid email</mat-error>                          
                 </mat-form-field>
             </td>
-            <td *ngIf="loginForm.get('email').hasError('email') && loginForm.get('email').touched" class="help-block">Please enter a valid email</td>
-          </tr>
+          </tr> -->          
           <tr>
             <td>
               <mat-icon matPrefix color="primary">lock</mat-icon>
               <mat-form-field>
                 <input matInput placeholder="Password" formControlName="password" type="password" required>
+                <mat-error *ngIf="loginForm.get('password').hasError('minlength') && loginForm.get('password').touched" class="help-block">Password must be at least 6 characters</mat-error>
               </mat-form-field>
-              </td>
-              <td 
-            *ngIf="loginForm.get('password').hasError('minlength') && loginForm.get('password').touched"
-            class="help-block">Password must be at least 6 characters</td>
-            
+            </td>
           </tr>
         </table>
         <mat-card-actions>
-            <button type="submit" mat-raised-button color="primary">Login</button>
+            <button [disabled]="!loginForm.valid" type="submit" mat-raised-button color="primary">Login</button>
         </mat-card-actions>
       </form>
       <!-- <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner> -->
