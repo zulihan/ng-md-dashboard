@@ -2,13 +2,10 @@ import { Component, OnInit, Inject, Injectable } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 
-import { map, take, debounceTime } from 'rxjs/operators';
-
 import { AuthService } from '../service/auth.service';
 
 import { ToastrService } from 'ngx-toastr';
 
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -39,9 +36,9 @@ export class RegisterComponent implements OnInit {
 
   createRegisterForm() {
     this.registerForm = this.fb.group({
-      // email: [null, [Validators.required, Validators.pattern(this.emailPattern)]],
-      username: [null, [Validators.required, Validators.minLength(2)]],
-      // phone: [null, [Validators.required, Validators.minLength(10), , Validators.maxLength(10)]],
+      email: [null, [Validators.required, Validators.pattern(this.emailPattern)]],
+      name: [null, [Validators.required, Validators.minLength(2)]],
+      phone: [null, [Validators.required, Validators.minLength(10), , Validators.maxLength(10)]],
       role: ['runner'],
       password: [null, [Validators.required, Validators.minLength(6)]],
       confirmPassword: [null, [Validators.required, Validators.minLength(6)]]
@@ -53,19 +50,18 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    const username = this.registerForm.value.username;
-    const password = this.registerForm.value.password;
-    this.authService.register(username, password).subscribe( () => {
-      this.showRegisterSuccess(username);
-      console.log(this.registerForm.value.username);
+    const name = this.registerForm.value.name;
+    this.authService.register(this.registerForm.value).subscribe( () => {
+      this.showRegisterSuccess(name);
+      console.log(this.registerForm.value);
     }, error => {
       console.log(error);
       this.showRegisterError(error);
     });
   }
 
-  showRegisterSuccess(username) {
-    this.toastr.success('You\'ve susccesfully registered user ' + username);
+  showRegisterSuccess(name) {
+    this.toastr.success('You\'ve susccesfully registered user ' + name);
   }
 
   showRegisterError(response) {

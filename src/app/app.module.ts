@@ -35,6 +35,8 @@ import { GeoService } from './_services/geo.service';
 import { MaterialModule } from './material/material.module';
 import { CalendarModule } from 'angular-calendar';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
+import { ArtistDetailResolver } from './_resolvers/artist-detail.resolver';
+import { ArtistListResolver } from './_resolvers/artist-list.resolver';
 
 
 @NgModule({
@@ -57,8 +59,8 @@ import { ErrorInterceptorProvider } from './_services/error.interceptor';
         tokenGetter: () => {
           return localStorage.getItem('token');
         },
-        whitelistedDomains: ['localhost:4200'],
-        blacklistedRoutes: ['localhost:4200/auth/']
+        whitelistedDomains: ['localhost:5000'],
+        blacklistedRoutes: ['localhost:5000/api/auth']
       }
     }),
     ToastrModule.forRoot({
@@ -78,7 +80,9 @@ import { ErrorInterceptorProvider } from './_services/error.interceptor';
     AlertifyService,
     JwtHelperService,
     GeoService,
-    ErrorInterceptorProvider
+    ErrorInterceptorProvider,
+    ArtistDetailResolver,
+    ArtistListResolver
   ],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA ]

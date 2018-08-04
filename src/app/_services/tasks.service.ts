@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 
 import { Observable } from 'rxjs/Observable';
-import { Task } from '../_models/Task';
+import { Task } from '../_models/task';
 import { Subject } from 'rxjs/Subject';
 
 

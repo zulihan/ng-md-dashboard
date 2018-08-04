@@ -10,8 +10,8 @@
                 <td>
                   <mat-icon matPrefix color="primary">perm_identity</mat-icon>
                   <mat-form-field>
-                    <input matInput placeholder="Name" formControlName="username" required>
-                    <mat-error *ngIf="loginForm.get('username').hasError('minlength') && loginForm.get('username').touched" class="help-block">Your name must be at least 2 characters</mat-error>
+                    <input matInput placeholder="Name" formControlName="name" required>
+                    <mat-error *ngIf="loginForm.get('name').hasError('minlength') && loginForm.get('name').touched" class="help-block">Your name must be at least 2 characters</mat-error>
                   </mat-form-field>
                 </td>
             </tr>

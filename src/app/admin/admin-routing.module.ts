@@ -15,6 +15,12 @@ import { DayOneComponent } from './calendar/day-one/day-one.component';
 import { TimetablesComponent } from './timetables/timetables.component';
 import { DayOneTimetableComponent } from './timetables/day-one-timetable/day-one-timetable.component';
 import { UsersComponent } from './users/users.component';
+import { ArtistDetailComponent } from './artists/artist-detail/artist-detail.component';
+import { ArtistsListComponent } from './artists/artists-list/artists-list.component';
+import { ArtistDetailResolver } from '../_resolvers/artist-detail.resolver';
+import { ArtistListResolver } from 'src/app/_resolvers/artist-list.resolver';
+import { ArtistEditComponent } from 'src/app/admin/artists/artist-edit/artist-edit.component';
+import { UserEditComponent } from 'src/app/admin/users/user-edit/user-edit.component';
 
 // { path: 'admin', canActivate: [AuthGuard] , redirectTo: 'admin/dashboard/v1'},
 
@@ -38,9 +44,15 @@ const adminRoutes: Routes = [
           { path: 'runners', component: MapComponent},
         ]
       },
-      { path: 'artists', component: ArtistsComponent},
+      { path: 'artists', component: ArtistsListComponent, resolve: {
+        artistsInfos: ArtistListResolver }},
+      {path: 'artists/:id', component: ArtistDetailComponent, resolve: {
+        artist: ArtistDetailResolver
+      }},
+      {path: 'artists/edit', component: ArtistEditComponent },
 
-      { path: 'users', component: UsersComponent},
+      { path: 'users', component: UsersComponent },
+      { path: 'user/edit/:id', component: UserEditComponent },
 
       { path: 'calendar', component: CalendarComponent, children:
         [

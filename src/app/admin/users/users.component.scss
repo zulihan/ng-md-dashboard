@@ -1,0 +1,40 @@
+.grid-container {
+    margin: 0 20px;
+
+    .user-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+    }
+
+    .filter-role {
+        display:  flex;
+        justify-content: space-around;
+        flex: 1 0 auto;
+        flex-wrap:  wrap;
+        /* margin-bottom:  10px; */
+    }
+
+    .user-card {
+        width: 350px;
+
+        .header-image {
+            background-size: cover;
+        }
+
+        .mat-card-avatar {
+            height: 60px;
+            width: 60px;
+        }
+
+        mat-icon {
+            margin-right: 10px; 
+        }
+    }
+
+    
+    
+}
+

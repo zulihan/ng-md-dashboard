@@ -1,18 +1,155 @@
-<mat-card class="artist-card">
-  <mat-card-header>
-    <mat-card-title>Shiba Inu</mat-card-title>
-    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-  </mat-card-header>
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-  <mat-card-content>
-    <p>
-      The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-      A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-      bred for hunting.
-    </p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button>LIKE</button>
-    <button mat-button>SHARE</button>
-  </mat-card-actions>
-</mat-card>
+<div class="grid-container">
+
+  <mat-grid-list [cols]="cols | async" [rowHeight]="rowHeight + 'px'" gutterSize="5px">
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+
+      <mat-card class="artist-detail-card">
+        <mat-card-header>
+          <mat-card-title>{{artist.name}}</mat-card-title>          
+        </mat-card-header>
+        <img mat-card-image src="{{artist.photoUrl}}" alt="Photo of {{artist.name}}">
+        <mat-card-content>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>Edit</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <mat-card class="artist-detail-card">
+        <mat-card-header>
+          <mat-card-title>Timeline</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item>
+              <span>
+                <mat-icon mat-list-icon color="accent">calendar_today</mat-icon>
+                <span>Show: </span>
+                <span>Day 1</span>
+              </span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <span>
+                <mat-icon mat-list-icon color="accent">access_time</mat-icon>
+                <span>Show Time: </span>
+                <span>20:00</span>
+              </span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <span>
+                <mat-icon mat-list-icon color="accent">access_time</mat-icon>
+                <span>Get in: </span>
+                <span>15:00</span>
+              </span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <span>
+                <mat-icon mat-list-icon color="accent">access_time</mat-icon>
+                <span>Set up: </span>
+                <span>17:00 - 18:00</span>
+              </span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <span>
+                <mat-icon mat-list-icon color="accent">access_time</mat-icon>
+                <span>Sound-Check: </span>
+                <span>19:00 - 20:00</span>
+              </span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </mat-list>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>Edit</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <mat-card class="artist-detail-card">
+        <mat-card-header>
+          <mat-card-title>Infos</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item>
+              <span>
+                <mat-icon mat-list-icon color="accent">contact_phone</mat-icon>
+                <span>Contact Phone: </span>
+                <span>060000000</span>
+              </span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <span>
+                <mat-icon mat-list-icon color="accent">contact_mail</mat-icon>
+                <span>Contact email: </span>
+                <span>john@gmail.com</span>
+              </span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <span>
+                <mat-icon mat-list-icon color="accent">hotel</mat-icon>
+                <span>Hotel: </span>
+                <span>Ibis</span>
+              </span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <span>
+                <mat-icon mat-list-icon color="accent">people</mat-icon>
+                <span>On road: </span>
+                <span>5</span>
+              </span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <span>
+                <mat-icon mat-list-icon color="accent">people_outlined</mat-icon>
+                <span>On stage: </span>
+                <span>3</span>
+              </span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </mat-list>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>Edit</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+</div>
+
+
+
+
+
+
+<!-- <mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>Shiba Inu</mat-card-title>
+      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <mat-card-content>
+      <p>
+        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+        A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+        bred for hunting.
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button>
+    </mat-card-actions>
+  </mat-card> -->

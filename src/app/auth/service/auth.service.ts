@@ -9,13 +9,15 @@ import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { User } from '../../_models/User';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  baseUrl = 'http://localhost:5000/api/auth/';
+
+  baseUrl = environment.apiUrl + 'auth/';
   tokenSubject = new Subject<boolean>();
   decodedToken;
   user: Observable<User | null>;
@@ -27,16 +29,15 @@ export class AuthService {
 
   }
 
-  register(username: string, password: string) {
-    const model = {
-      username,
-      password
-    };
+  register(model) {
     return this.http.post(this.baseUrl + 'register', model);
-
   }
 
-  login(model: any) {
+  login(name, password) {
+    const model = {
+      name,
+      password
+    };
     return this.http.post(this.baseUrl + 'login', model)
       .pipe(
         map( (response: any) => {

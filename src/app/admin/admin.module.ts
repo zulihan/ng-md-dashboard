@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AdminRoutingModule } from './admin-routing.module';
 
@@ -26,6 +27,10 @@ import { CalModule } from './calendar/calendar.module';
 import { TimetablesModule } from './timetables/timetables.module';
 import { UsersComponent } from './users/users.component';
 import { AuthModule } from '../auth/auth.module';
+import { PipesModule } from './pipes/pipes.module';
+import { UsersListComponent } from './users/users-list/users-list.component';
+import { UserEditComponent } from './users/user-edit/user-edit.component';
+
 
 @NgModule({
   declarations: [
@@ -33,7 +38,9 @@ import { AuthModule } from '../auth/auth.module';
     DashboardComponent,
     MainNavComponent,
     MapComponent,
-    UsersComponent
+    UsersComponent,
+    UsersListComponent,
+    UserEditComponent,
   ],
   imports: [
     CommonModule,
@@ -47,12 +54,15 @@ import { AuthModule } from '../auth/auth.module';
     ArtistsModule,
     CalModule,
     TimetablesModule,
-    AuthModule
+    AuthModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PipesModule
   ],
   exports: [
     AdminComponent,
     DashboardComponent,
-    MapComponent
+    MapComponent,
   ],
   providers: [ArtistsService]
 })

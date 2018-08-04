@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Artist } from 'src/app/_models/artist';
 import { HttpClient } from '@angular/common/http';
+
+import { Observable } from 'rxjs';
+
+import { environment } from '../../../../environments/environment';
+
+import { Artist } from '../../../_models/artist';
+
 
 
 @Injectable({
@@ -8,13 +14,18 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ArtistsService {
 
-  artists: any;
+  baseUrl = environment.apiUrl;
 
-constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  getArtists() {
-    return this.http.get('http://localhost:5000/api/artists');
+  getArtists(): Observable<Artist[]> {
+    return this.http.get<Artist[]>(this.baseUrl + 'artists');
   }
+
+  getArtist(id): Observable<Artist> {
+    return this.http.get<Artist>(this.baseUrl + 'artists/' + id);
+  }
+
 
   // getArtists() {
   //   this.http.get('http://localhost:5000/api/artists').subscribe( response => {

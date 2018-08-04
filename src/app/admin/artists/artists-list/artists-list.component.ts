@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
-import { ArtistsService } from '../service/artists.service';
+import { ActivatedRoute } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/operator/startWith';
 
 import { ObservableMedia } from '@angular/flex-layout';
-import { Artist } from 'src/app/_models/artist';
+import { Artist } from '../../../_models/artist';
+
 
 
 @Component({
@@ -15,30 +15,30 @@ import { Artist } from 'src/app/_models/artist';
   templateUrl: './artists-list.component.html',
   styleUrls: ['./artists-list.component.scss']
 })
-export class ArtistsListComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class ArtistsListComponent implements OnInit {
 
-  artistsInfos;
-  artistsCards: Observable<any[]>;
-  artists;
+  artistsInfos: Artist[];
+  // artistsCards: Observable<any[]>;
+  // artists;
+  searchName;
 
   cols;
   rowHeight;
 
   constructor(
-    private artistsService: ArtistsService,
+    private route: ActivatedRoute,
     private observableMedia: ObservableMedia) {
-      this.artistsInfos = this.artistsService.getArtists().subscribe( response => {
-        this.artistsInfos = response;
-      }, error => {
-        console.log(error);
-      });
-      console.log('artists from service: ', this.artists);
-      return this.artists;
+
+      // return this.artists;
       // this.artistsInfos.subscribe( artists => this.artists = artists);
     }
 
 
   ngOnInit() {
+
+    this.route.data.subscribe(data => {
+      this.artistsInfos = data['artistsInfos'];
+    });
 
     const grid = new Map([
       ['xs', 1],
@@ -68,14 +68,7 @@ export class ArtistsListComponent implements OnInit, OnDestroy, AfterViewChecked
       })
       .startWith(start);
 
-
   }
-
-  ngAfterViewChecked() {
-    console.log('artistsInfos:', this.artistsInfos);
-  }
-
-  ngOnDestroy() {}
 
   heightToCols(cols: number): number {
     if (cols === 1) {

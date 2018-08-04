@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
   createLoginForm() {
     this.loginForm = this.fb.group({
       // email: [null, [Validators.required, Validators.pattern(this.emailPattern)]],
-      username: [null, [Validators.required, Validators.minLength(2)]],
+      name: [null, [Validators.required, Validators.minLength(2)]],
       password: [null, [Validators.required, Validators.minLength(6)]]
     });
   }
@@ -53,8 +53,9 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     console.log(this.loginForm.value);
     // const email = this.loginForm.value.email;
+    const name = this.loginForm.value.name;
     const password = this.loginForm.value.password;
-    this.authService.login(this.loginForm.value)
+    this.authService.login(name, password)
       .subscribe(
         next => {
           console.log('logged in');
