@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, Injectable } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 
 import { AuthService } from '../service/auth.service';
@@ -14,11 +14,11 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RegisterComponent implements OnInit {
 
-  state: string;
   error: any;
   registerForm: FormGroup;
   roles = ['admin', 'host', 'runner'];
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
+
 
   constructor(
     private fb: FormBuilder,
@@ -26,12 +26,12 @@ export class RegisterComponent implements OnInit {
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<RegisterComponent>) {}
 
-    onNoClick(): void {
-      this.dialogRef.close();
-    }
-
   ngOnInit() {
     this.createRegisterForm();
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
   createRegisterForm() {

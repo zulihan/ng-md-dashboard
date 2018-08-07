@@ -1,5 +1,7 @@
 <div class="grid-container">
 
+  <button mat-raised-button (click)="openDialog()">Register a new user</button>
+
   <div class="user-header">
     <mat-form-field class="filter-user">
         <input matInput [(ngModel)]="searchName" placeholder="Filter user">
@@ -13,9 +15,7 @@
           [(ngModel)]="r.checked" 
           (click)="r.checked ? filterArr.splice(filterArr.indexOf(r.role), 1) : filterArr.push(r.role)">{{r.role}}</mat-checkbox>
       </div>
-    </div>   
-  
-    <button mat-raised-button (click)="openDialog()">Register a new user</button>
+    </div>     
   </div>
     
     <mat-grid-list [cols]="cols | async" [rowHeight]="rowHeight + 'px'" gutterSize="5px">

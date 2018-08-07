@@ -1,9 +1,32 @@
 <div class="grid-container">
-
+  <button mat-raised-button (click)="openRegisterDialog()">Register a new artist</button>
+  
+<div class="artist-list-header">
     <mat-form-field class="filter">
         <input matInput [(ngModel)]="searchName" placeholder="Filtrer par artiste">
     </mat-form-field>
-  
+
+    <div class="filter-venue">
+        <span>Filter by venue</span>
+        <div *ngFor="let v of venues">
+          <mat-checkbox 
+            class="checkbox-margin" 
+            [(ngModel)]="v.checked" 
+            (click)="v.checked ? filterVenues.splice(filterVenues.indexOf(v.name), 1) : filterVenues.push(v.name)">{{v.name}}</mat-checkbox>
+        </div>
+      </div>
+
+      <div class="filter-days">
+          <span>Filter by day</span>
+          <div *ngFor="let d of days">
+            <mat-checkbox 
+              class="checkbox-margin" 
+              [(ngModel)]="d.checked" 
+              (click)="d.checked ? filterDays.splice(filterDays.indexOf(d.name), 1) : filterDays.push(d.name)">{{d.name}}</mat-checkbox>
+          </div>
+        </div>      
+  </div>  
+
 <mat-grid-list [cols]="cols | async" [rowHeight]="rowHeight + 'px'" gutterSize="5px">
     <mat-grid-tile *ngFor="let artistCard of artistsInfos | nameFilter:searchName" [colspan]="1" [rowspan]="1">
       <mat-card class="artist-card" >

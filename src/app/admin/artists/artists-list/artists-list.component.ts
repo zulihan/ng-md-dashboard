@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 
 import 'rxjs/add/operator/map';
@@ -7,7 +8,7 @@ import 'rxjs/add/operator/startWith';
 
 import { ObservableMedia } from '@angular/flex-layout';
 import { Artist } from '../../../_models/artist';
-
+import { ArtistsRegisterComponent } from '../artists-register/artists-register.component';
 
 
 @Component({
@@ -18,20 +19,25 @@ import { Artist } from '../../../_models/artist';
 export class ArtistsListComponent implements OnInit {
 
   artistsInfos: Artist[];
-  // artistsCards: Observable<any[]>;
-  // artists;
+
   searchName;
+  venues = [{ name: 'Open Air', checked: true}, { name: 'Grand Palais', checked: true}, { name: 'Palais Phocéen', checked: true}];
+  filterVenues = ['Open Air', 'Grand Palais', 'Palais Phocéen'];
+
+  days = [{ name: 'Day 1', checked: true}, { name: 'Day 2', checked: true}, { name: 'Day 3', checked: true}];
+  filterDays = ['Day 1', 'Day 2', 'Day 3'];
+
+  veenues: ['a', 'b', 'c', 'd'];
+  daays: ['1', '2', '3'];
 
   cols;
   rowHeight;
 
   constructor(
+    public dialog: MatDialog,
     private route: ActivatedRoute,
     private observableMedia: ObservableMedia) {
-
-      // return this.artists;
-      // this.artistsInfos.subscribe( artists => this.artists = artists);
-    }
+  }
 
 
   ngOnInit() {
@@ -68,6 +74,16 @@ export class ArtistsListComponent implements OnInit {
       })
       .startWith(start);
 
+  }
+
+  openRegisterDialog(): void {
+    const dialogRef = this.dialog.open(ArtistsRegisterComponent, {
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
   heightToCols(cols: number): number {

@@ -5,9 +5,11 @@ import { ArtistsListComponent } from './artists-list/artists-list.component';
 import { ArtistDetailComponent } from './artist-detail/artist-detail.component';
 import { ArtistEditComponent } from './artist-edit/artist-edit.component';
 import { MaterialModule } from '../../material/material.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from '../pipes/pipes.module';
 import { AdminRoutingModule } from '../admin-routing.module';
+import { ArtistsRegisterComponent } from './artists-register/artists-register.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 
 @NgModule({
@@ -16,15 +18,22 @@ import { AdminRoutingModule } from '../admin-routing.module';
     MaterialModule,
     FormsModule,
     PipesModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PipesModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   ],
   exports: [
+    ArtistsRegisterComponent
   ],
   declarations: [
     ArtistsComponent,
     ArtistsListComponent,
     ArtistDetailComponent,
-    ArtistEditComponent
+    ArtistEditComponent,
+    ArtistsRegisterComponent
   ]
 })
 export class ArtistsModule { }

@@ -30,7 +30,7 @@ import { AuthModule } from '../auth/auth.module';
 import { PipesModule } from './pipes/pipes.module';
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
-
+import { ArtistsRegisterComponent } from './artists/artists-register/artists-register.component';
 
 @NgModule({
   declarations: [
@@ -40,8 +40,9 @@ import { UserEditComponent } from './users/user-edit/user-edit.component';
     MapComponent,
     UsersComponent,
     UsersListComponent,
-    UserEditComponent,
+    UserEditComponent
   ],
+  entryComponents: [ArtistsRegisterComponent],
   imports: [
     CommonModule,
     RouterModule,

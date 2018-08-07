@@ -1,5 +1,23 @@
+
+
 .grid-container {
     margin: 0 20px;
+
+    .artist-list-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+    }
+
+    .filter-venue, .filter-days {
+        display:  flex;
+        justify-content: space-around;
+        flex: 1 0 auto;
+        flex-wrap:  wrap;
+        /* margin-bottom:  10px; */ 
+    }
 }
 
 .artist-card {
@@ -10,37 +28,31 @@
         font-size: 24px;
     }
 
+    .mat-card-header .mat-card-title {
+        font-size: 16px;
+        padding-left: 15px;
+    }
+
+    .img-container {
+        width: 300px;
+        height: 150px;
+        overflow: hidden;
+    }
+    
+    .img-container:hover img {
+        transform: scale(1.0, 1.0);
+        transition-duration: 500ms;
+        transition-timing-function: ease-out;
+        opacity: 0.7;
+    }
+    
+    .img-container img {
+        transform: scale(1.2, 1.2);
+        transition-duration: 500ms;
+        transition-timing-function: ease-out;
+    }
+
     .last-child {
         margin-bottom: 0;
     }
 }
-
-.img-container {
-    width: 300px;
-    height: 150px;
-    overflow: hidden;
-}
-
-.img-container:hover img {
-    transform: scale(1.0, 1.0);
-    transition-duration: 500ms;
-    transition-timing-function: ease-out;
-    opacity: 0.7;
-}
-
-.img-container img {
-    transform: scale(1.2, 1.2);
-    transition-duration: 500ms;
-    transition-timing-function: ease-out;
-}
-
-.example-card {
-    max-width: 300px;
-  }
-  
-.example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
-}
-
-

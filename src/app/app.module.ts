@@ -37,6 +37,7 @@ import { CalendarModule } from 'angular-calendar';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { ArtistDetailResolver } from './_resolvers/artist-detail.resolver';
 import { ArtistListResolver } from './_resolvers/artist-list.resolver';
+import { ArtistsRegisterComponent } from './admin/artists/artists-register/artists-register.component';
 
 
 @NgModule({

@@ -19,12 +19,10 @@ export class UsersComponent implements OnInit, AfterViewChecked {
   users: User[];
   searchName: string;
   rolesStatus = [{ role: 'admin', checked: true }, { role: 'host', checked: true }, {role: 'runner', checked: true }];
+  filterArr = ['admin', 'host', 'runner'];
   admin;
   host;
   runner;
-
-
-  filterArr = ['admin', 'host', 'runner'];
 
   cols;
   rowHeight;
