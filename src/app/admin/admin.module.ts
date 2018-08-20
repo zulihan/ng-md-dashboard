@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { FileUploadModule } from 'ng2-file-upload';
+
 import { AdminRoutingModule } from './admin-routing.module';
 
 import { AgmCoreModule } from '@agm/core';
@@ -31,6 +33,8 @@ import { PipesModule } from './pipes/pipes.module';
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { ArtistsRegisterComponent } from './artists/artists-register/artists-register.component';
+import { PhotoEditorComponent } from './users/photo-editor/photo-editor.component';
+
 
 @NgModule({
   declarations: [
@@ -40,7 +44,8 @@ import { ArtistsRegisterComponent } from './artists/artists-register/artists-reg
     MapComponent,
     UsersComponent,
     UsersListComponent,
-    UserEditComponent
+    UserEditComponent,
+    PhotoEditorComponent
   ],
   entryComponents: [ArtistsRegisterComponent],
   imports: [
@@ -58,7 +63,8 @@ import { ArtistsRegisterComponent } from './artists/artists-register/artists-reg
     AuthModule,
     FormsModule,
     ReactiveFormsModule,
-    PipesModule
+    PipesModule,
+    FileUploadModule
   ],
   exports: [
     AdminComponent,

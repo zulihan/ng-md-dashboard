@@ -1,0 +1,30 @@
+.photo-editor {
+    max-width: 85%;
+    
+    .pic {
+        display: flex;
+    
+        img.img-thumbnail {
+            height: 100px;
+            width: 100px;
+        }
+    }
+    
+    input[type=file] {
+        color: transparent;
+    }
+
+    .drop-zone {
+        border: 1px solid #e4e4e4;
+        border-radius: 5px;
+        height: 100px;
+        width: 100px;
+        margin-left: 10px;
+    }
+
+    .nv-file-over {
+        border: dotted 3px red;
+    }
+}
+
+

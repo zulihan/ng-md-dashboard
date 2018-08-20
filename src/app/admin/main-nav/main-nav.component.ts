@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,7 +10,8 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './main-nav.component.html',
   styleUrls: ['./main-nav.component.scss']
 })
-export class MainNavComponent {
+export class MainNavComponent implements OnInit{
+  photoUrl: string;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -18,11 +19,18 @@ export class MainNavComponent {
     );
 
   constructor(private breakpointObserver: BreakpointObserver,
-              private authService: AuthService,
+              public authService: AuthService,
               private toastr: ToastrService) {}
+
+  ngOnInit() {
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
+  }
 
   logout() {
     this.authService.signOut();
+    this.authService.decodedToken = null;
+    this.authService.currentUser = null;
+    this.showLogoutSuccess();
       // .then(
       //   () => this.showLogoutSuccess()
       // );

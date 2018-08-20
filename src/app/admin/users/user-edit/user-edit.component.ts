@@ -16,9 +16,11 @@ export class UserEditComponent implements OnInit {
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
   roles = ['admin', 'host', 'runner'];
   userToEdit = this.data.dataKey;
+  photoUrl: string;
 
   constructor(
     private userService: UserService,
+    private authService: AuthService,
     private toastr: ToastrService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<UserEditComponent>,
@@ -27,7 +29,8 @@ export class UserEditComponent implements OnInit {
   ngOnInit() {
     console.log(this.data.dataKey);
     this.createEditForm();
-    console.log(this.userToEdit.email);
+    console.log(this.userToEdit);
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
 
   onNoClick(): void {

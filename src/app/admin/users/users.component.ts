@@ -83,7 +83,7 @@ export class UsersComponent implements OnInit, AfterViewChecked {
   openEdit(user): void {
     console.log(user);
     const dialogRef = this.dialog.open(UserEditComponent, {
-      width: '300px',
+      width: '400px',
       data: {
         dataKey: user
       }

@@ -82,17 +82,21 @@
         <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
-        <div fxFlex fxLayout fxLayoutAlign="flex-start">
-            <ul fxLayout fxLayoutGap="20px" class="navigation-items">               
-                <li>
-                    <a href="https://www.marsatac.com" target="_blank">
-                      <img src="assets/icons/m2018.svg" alt="">
-                     </a>
-                </li>
-            </ul>
+        <div class="left-items" fxFlex fxLayout fxLayoutAlign="flex-start">
+          <ul fxLayout fxLayoutGap="30px" class="toolbar-items">           
+            <li>
+              <a href="https://www.marsatac.com" target="_blank">
+                <img src="assets/icons/m2018.svg" alt="">
+              </a>
+            </li>                
+            <li>Wass'up {{ authService.currentUser?.name | titlecase }} ?  
+                <img class="avatar" src="{{ photoUrl }}" alt="">                
+            </li>                          
+          </ul>
          </div>
-        <div class="right-links" fxFlex fxLayout fxLayoutAlign="flex-end">
-            <ul fxLayout fxLayoutGap="20px" class="navigation-items">               
+        <!-- <div class="right-items" fxFlex fxLayout fxLayoutAlign="flex-end">
+            <ul fxLayout fxLayoutGap="20px" class="navigation-items">
+              
                 <li>
                     <a (click)="logout()">
                       <mat-icon class="icon">exit_to_app</mat-icon>
@@ -100,7 +104,7 @@
                      </a>
                 </li>
             </ul>
-         </div>        
+         </div>         -->
       </mat-toolbar>
       <!-- Add Content Here -->
       <ng-content></ng-content>
