@@ -1,4 +1,4 @@
-import { RouterModule, Route } from '@angular/router';
+import { RouterModule, Route, PreloadAllModules } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
@@ -20,7 +20,7 @@ const routes: Route[] = [
 @NgModule({
     imports: [
       CommonModule,
-      RouterModule.forRoot(routes)
+      RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})
     ],
     exports: [RouterModule],
     declarations: []

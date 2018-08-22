@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'nameFilter'
+  name: 'userNameFilter'
 })
-export class NameFilterPipe implements PipeTransform {
+export class UserNameFilterPipe implements PipeTransform {
 
   transform(value: any, searchName: string = '') {
     if (searchName !== '') {
-      const result = value.filter((pers) => pers.name.toLowerCase().startsWith(searchName)
+      const result = value.filter((pers) => pers.userName.toLowerCase().startsWith(searchName)
       );
       return result;
     } else {

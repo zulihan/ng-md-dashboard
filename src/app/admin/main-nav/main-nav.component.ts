@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './main-nav.component.html',
   styleUrls: ['./main-nav.component.scss']
 })
-export class MainNavComponent implements OnInit{
+export class MainNavComponent implements OnInit {
   photoUrl: string;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -23,7 +23,10 @@ export class MainNavComponent implements OnInit{
               private toastr: ToastrService) {}
 
   ngOnInit() {
-    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
+    this.authService.currentPhotoUrl.subscribe(photoUrl => {
+      this.photoUrl = photoUrl;
+      console.log('photo url from nav component', photoUrl);
+    });
   }
 
   logout() {

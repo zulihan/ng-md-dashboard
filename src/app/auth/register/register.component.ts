@@ -37,8 +37,8 @@ export class RegisterComponent implements OnInit {
   createRegisterForm() {
     this.registerForm = this.fb.group({
       email: [null, [Validators.required, Validators.pattern(this.emailPattern)]],
-      name: [null, [Validators.required, Validators.minLength(2)]],
-      phone: [null, [Validators.required, Validators.minLength(10), , Validators.maxLength(10)]],
+      username: [null, [Validators.required, Validators.minLength(2)]],
+      phonenumber: [null, [Validators.required, Validators.minLength(10), , Validators.maxLength(10)]],
       role: ['runner'],
       password: [null, [Validators.required, Validators.minLength(6)]],
       confirmPassword: [null, [Validators.required, Validators.minLength(6)]]
@@ -50,12 +50,12 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    const name = this.registerForm.value.name;
+    const username = this.registerForm.value.username;
     this.authService.register(this.registerForm.value).subscribe( () => {
-      this.showRegisterSuccess(name);
+      this.showRegisterSuccess(username);
       console.log(this.registerForm.value);
     }, error => {
-      console.log(error);
+      console.log('register error', error);
       this.showRegisterError(error);
     });
   }

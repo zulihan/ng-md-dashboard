@@ -47,13 +47,22 @@ export class PhotoEditorComponent implements OnInit {
       if (response) {
         console.log('response from photo-editor', response);
         const res: Photo = JSON.parse(response);
+        this.photo.url = res.url;
         const photo = {
           id: res.id,
           url: res.url,
-          dateAdded: res.dateAdded
+          dateAdded: res.dateAdded,
+          publicId: res.publicId
         };
-        this.photo.url = photo.url;
-
+        this.photo = photo;
+        const currentUser = this.authService.currentUser;
+        const currentUserId = currentUser.id;
+        if (this.userToEdit.id === currentUserId) {
+          this.authService.changeUserPhoto(photo.url);
+          currentUser.photo = photo;
+          currentUser.photoUrl = photo.url;
+          localStorage.setItem('user', JSON.stringify(currentUser));
+        }
       }
     };
   }

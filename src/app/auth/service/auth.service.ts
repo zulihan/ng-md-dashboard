@@ -41,15 +41,16 @@ export class AuthService {
     return this.http.post(this.baseUrl + 'register', model);
   }
 
-  login(name, password) {
+  login(username, password) {
     const model = {
-      name,
+      username,
       password
     };
     return this.http.post(this.baseUrl + 'login', model)
       .pipe(
         map( (response: any) => {
           const user = response;
+          console.log('user from login response', user);
           if (user) {
             localStorage.setItem('token', user.token);
             this.decodedToken = this.jwtHelper.decodeToken(user.token);

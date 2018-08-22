@@ -13,26 +13,28 @@
         <mat-checkbox 
           class="checkbox-margin" 
           [(ngModel)]="r.checked" 
-          (click)="r.checked ? filterArr.splice(filterArr.indexOf(r.role), 1) : filterArr.push(r.role)">{{r.role}}</mat-checkbox>
+          (click)="r.checked ? filterArr.splice(filterArr.indexOf(r.role), 1) : filterArr.push(r.role)">
+          {{r.role}}
+        </mat-checkbox>
       </div>
     </div>     
   </div>
     
     <mat-grid-list [cols]="cols | async" [rowHeight]="rowHeight + 'px'" gutterSize="5px">
-            <mat-grid-tile *ngFor="let user of users | roleFilter: filterArr | nameFilter: searchName" [colspan]="1" [rowspan]="1">
+            <mat-grid-tile *ngFor="let user of users | roleFilter: filterArr | userNameFilter: searchName" [colspan]="1" [rowspan]="1">
               <mat-card class="user-card">
                 <mat-card-header>
                   <div mat-card-avatar class="header-image" [ngStyle]="{'background-image': 'url('+ user.photoUrl +')'}">
                     
                   </div>
-                  <mat-card-title>{{user.name | titlecase }}</mat-card-title>
+                  <mat-card-title>{{user.userName | titlecase }}</mat-card-title>
                   <mat-card-subtitle>{{user.role}}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
                   <mat-list>
                     <mat-list-item>
                       <mat-icon color="accent">phone</mat-icon>
-                      <span>{{user.phone}}</span>
+                      <span>{{user.phoneNumber}}</span>
                     </mat-list-item>
                     <mat-divider></mat-divider>
                     <mat-list-item>

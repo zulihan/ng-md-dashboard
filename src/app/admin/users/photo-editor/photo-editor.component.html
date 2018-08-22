@@ -1,12 +1,6 @@
 <div class="photo-editor">
         <div class="pic">
-            <img class="img-thumbnail" src="{{photo?.url}}" alt="">
-            <button 
-                mat-raised-button color="accent" 
-                (click)="deletePhoto(photo.id)"
-            >
-                <mat-icon>delete</mat-icon>
-            </button>
+            <img class="img-thumbnail" src="{{photo?.url}}" alt="">            
             <div 
                 ng2FileDrop 
                 [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" 
@@ -16,14 +10,20 @@
                 Drop photo here
             </div>
         </div>
+        <button
+            type="button" 
+            mat-raised-button color="accent" 
+            (click)="deletePhoto(photo.id)"
+        >
+            <mat-icon>delete</mat-icon>
+        </button>
     
-    
-        <div>
-            
+        <div>            
             <input 
                 type="file" 
                 ng2FileSelect 
-                [uploader]="uploader" />
+                [uploader]="uploader"
+             />
         </div>
     
         <div 

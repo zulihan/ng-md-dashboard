@@ -19,16 +19,15 @@ import { ArtistsRegisterComponent } from '../artists-register/artists-register.c
 export class ArtistsListComponent implements OnInit {
 
   artistsInfos: Artist[];
-
-  searchName;
+  searchName: string;
   venues = [{ name: 'Open Air', checked: true}, { name: 'Grand Palais', checked: true}, { name: 'Palais Phocéen', checked: true}];
   filterVenues = ['Open Air', 'Grand Palais', 'Palais Phocéen'];
 
-  days = [{ name: 'Day 1', checked: true}, { name: 'Day 2', checked: true}, { name: 'Day 3', checked: true}];
-  filterDays = ['Day 1', 'Day 2', 'Day 3'];
+  days = [{ day: 1, checked: true}, { day: 2, checked: true}, { day: 3, checked: true}];
+  filterDays = [1, 2, 3];
 
-  veenues: ['a', 'b', 'c', 'd'];
-  daays: ['1', '2', '3'];
+  // veenues: ['a', 'b', 'c', 'd'];
+  // daays: ['1', '2', '3'];
 
   cols;
   rowHeight;
@@ -45,6 +44,8 @@ export class ArtistsListComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.artistsInfos = data['artistsInfos'];
     });
+
+    console.log('artists: ', this.artistsInfos);
 
     const grid = new Map([
       ['xs', 1],
