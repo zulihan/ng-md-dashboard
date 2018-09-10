@@ -1,18 +1,17 @@
 <div class="grid-container">
+  <button mat-raised-button (click)="openEdit(artist)">Edit Artist</button>
+  <button mat-raised-button (click)="deleteArtist(artist.id, artist.name)">Delete Artist</button>
 
   <mat-grid-list [cols]="cols | async" [rowHeight]="rowHeight + 'px'" gutterSize="5px">
     <mat-grid-tile [colspan]="1" [rowspan]="1">
 
       <mat-card class="artist-detail-card">
         <mat-card-header>
-          <mat-card-title>{{artist.name}}</mat-card-title>          
+          <mat-card-title>{{artist.name | titlecase}}</mat-card-title>          
         </mat-card-header>
         <img mat-card-image src="{{artist.photoUrl}}" alt="Photo of {{artist.name}}">
         <mat-card-content>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button>Edit</button>
-        </mat-card-actions>
+        </mat-card-content>        
       </mat-card>
     </mat-grid-tile>
 
@@ -26,48 +25,57 @@
             <mat-list-item>
               <span>
                 <mat-icon mat-list-icon color="accent">calendar_today</mat-icon>
-                <span>Show: </span>
-                <span>Day 1</span>
+                <span>Show Day: {{ artist.day }} </span>                
+              </span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <span>
+                <mat-icon mat-list-icon color="accent">speaker</mat-icon>
+                <span>Venue: {{ artist.venue }} </span>                
               </span>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
               <span>
                 <mat-icon mat-list-icon color="accent">access_time</mat-icon>
-                <span>Show Time: </span>
-                <span>20:00</span>
+                <span>Show Time: 
+                  {{ artist.show?.start | date: 'HH:mm' }} -
+                  {{ artist.show?.end | date: 'HH:mm' }}
+                </span>
               </span>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
               <span>
                 <mat-icon mat-list-icon color="accent">access_time</mat-icon>
-                <span>Get in: </span>
-                <span>15:00</span>
+                <span>Get in: {{ artist.getIn?.start | date: 'HH:mm' }}</span>
               </span>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
               <span>
                 <mat-icon mat-list-icon color="accent">access_time</mat-icon>
-                <span>Set up: </span>
-                <span>17:00 - 18:00</span>
+                <span>
+                  Set up: 
+                  {{ artist.setUpWings?.start | date: 'HH:mm' }} - 
+                  {{ artist.setUpWings?.end | date: 'HH:mm' }}
+                </span>
               </span>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
               <span>
                 <mat-icon mat-list-icon color="accent">access_time</mat-icon>
-                <span>Sound-Check: </span>
-                <span>19:00 - 20:00</span>
+                <span>Sound-Check: 
+                    {{ artist.soundCheck?.start | date: 'HH:mm' }} - 
+                    {{ artist.soundCheck?.end | date: 'HH:mm' }}
+                </span>
               </span>
             </mat-list-item>
             <mat-divider></mat-divider>
           </mat-list>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button>Edit</button>
-        </mat-card-actions>
+        </mat-card-content>        
       </mat-card>
     </mat-grid-tile>
 
@@ -78,51 +86,49 @@
         </mat-card-header>
         <mat-card-content>
           <mat-list>
+              <mat-list-item>
+                  <span>
+                    <mat-icon mat-list-icon color="accent">contact_phone</mat-icon>
+                    <span>Contact Name:  {{ artist.contactName  }}</span>
+                  </span>
+                </mat-list-item>
             <mat-list-item>
               <span>
                 <mat-icon mat-list-icon color="accent">contact_phone</mat-icon>
-                <span>Contact Phone: </span>
-                <span>060000000</span>
+                <span>Contact Phone: {{ artist.contactPhone  }}</span>
               </span>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
               <span>
                 <mat-icon mat-list-icon color="accent">contact_mail</mat-icon>
-                <span>Contact email: </span>
-                <span>john@gmail.com</span>
+                <span>Contact email: {{ artist.contactEmail }}</span>
               </span>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
               <span>
                 <mat-icon mat-list-icon color="accent">hotel</mat-icon>
-                <span>Hotel: </span>
-                <span>Ibis</span>
+                <span>Hotel: {{ artist.hotel  }}</span>
               </span>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
               <span>
                 <mat-icon mat-list-icon color="accent">people</mat-icon>
-                <span>On road: </span>
-                <span>5</span>
+                <span>On road: {{ artist.onRoad  }}</span>
               </span>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
               <span>
                 <mat-icon mat-list-icon color="accent">people_outlined</mat-icon>
-                <span>On stage: </span>
-                <span>3</span>
+                <span>On stage: {{ artist.onStage  }}</span>
               </span>
             </mat-list-item>
             <mat-divider></mat-divider>
           </mat-list>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button>Edit</button>
-        </mat-card-actions>
+        </mat-card-content>        
       </mat-card>
     </mat-grid-tile>
   </mat-grid-list>

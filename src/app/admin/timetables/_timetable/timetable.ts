@@ -29,7 +29,7 @@ export class Timetable {
     }
 
     hasProperFormat(newArtists) {
-        return this.newArtists instanceof Array;
+        return newArtists instanceof Array;
     }
 
     addArtists(newArtists) {
@@ -85,7 +85,7 @@ export class Timetable {
     }
 
     isInHourRange(number) {
-        return number >= 0 && number < 24;
+        return number >= 0 && number <= 24;
     }
 
     artistExistsIn(art, arts) {
@@ -99,7 +99,12 @@ export class Timetable {
     }
 
     getDurationHours(startHour, endHour) {
-        return endHour >= startHour ? endHour - startHour : 24 + endHour - startHour;
+        return endHour > startHour  ? endHour - startHour : 24 + endHour - startHour;
+        // if (endHour >= startHour && endHour !== 0) {
+        //     return endHour - startHour;
+        // } else if (endHour < startHour) {
+        //     return (24 - startHour) + endHour;
+        // }
     }
 
     prettyFormatHour(hour) {

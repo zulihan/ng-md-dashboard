@@ -5,6 +5,7 @@ import { ArtistsService } from '../admin/artists/service/artists.service';
 import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { map } from '../../../node_modules/rxjs-compat/operator/map';
 
 
 @Injectable()

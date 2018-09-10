@@ -1,20 +1,23 @@
 
 
 .grid-container {
-    margin: 0 20px;
+    margin: 80px 20px;
+
+    .filter {
+        margin-left:15px;
+    }
 
     .artist-list-header {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
+        // align-items: center;
+        // justify-content: space-between;
+        // flex-wrap: wrap;
         margin-bottom: 10px;
     }
 
     .filter-venue, .filter-days {
         display:  flex;
-        justify-content: space-around;
-        flex: 1 0 auto;
+        justify-content: space-between;
         flex-wrap:  wrap;
         /* margin-bottom:  10px; */ 
     }

@@ -9,6 +9,7 @@ import 'rxjs/add/operator/startWith';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Artist } from '../../../_models/artist';
 import { ArtistsRegisterComponent } from '../artists-register/artists-register.component';
+import { ArtistsService } from 'src/app/admin/artists/service/artists.service';
 
 
 @Component({
@@ -20,11 +21,21 @@ export class ArtistsListComponent implements OnInit {
 
   artistsInfos: Artist[];
   searchName: string;
-  venues = [{ name: 'Open Air', checked: true}, { name: 'Grand Palais', checked: true}, { name: 'Palais Phocéen', checked: true}];
-  filterVenues = ['Open Air', 'Grand Palais', 'Palais Phocéen'];
+  venues = [
+    { name: 'Open Air', checked: false},
+    { name: 'Grand Palais', checked: false},
+    { name: 'Palais Phocéen', checked: false},
+    { name: 'Not set yet', checked: false}
+  ];
+  filterVenues = [];
 
-  days = [{ day: 1, checked: true}, { day: 2, checked: true}, { day: 3, checked: true}];
-  filterDays = [1, 2, 3];
+  days = [
+    { number: '1', dayId: 1, checked: false},
+    { number: '2', dayId: 2, checked: false},
+    { number: '3', dayId: 3, checked: false},
+    { number: 'Not set yet', dayId: 4, checked: false}
+  ];
+  filterDays = [];
 
   // veenues: ['a', 'b', 'c', 'd'];
   // daays: ['1', '2', '3'];
@@ -35,15 +46,18 @@ export class ArtistsListComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private route: ActivatedRoute,
+    private artistsService: ArtistsService,
     private observableMedia: ObservableMedia) {
   }
 
 
   ngOnInit() {
 
-    this.route.data.subscribe(data => {
-      this.artistsInfos = data['artistsInfos'];
-    });
+    // this.route.data.subscribe(data => {
+    //   this.artistsInfos = data['artistsInfos'];
+    // });
+
+    this.artistsService.artistListObservable.subscribe(artists => this.artistsInfos = artists);
 
     console.log('artists: ', this.artistsInfos);
 

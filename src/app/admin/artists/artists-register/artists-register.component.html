@@ -1,165 +1,174 @@
-<mat-card>
-  <mat-card-header color="primary">
-    <mat-card-title>Register a new artist</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <table>
-        <tr>
-          <td>
-            <mat-icon matPrefix color="primary">perm_identity</mat-icon>
-            <mat-form-field>
-              <input matInput placeholder="Name" formControlName="name">
-              <mat-error *ngIf="registerForm.get('name').hasError('minlength') && registerForm.get('name').touched" class="help-block">Your name must be at least 2 characters</mat-error>
-            </mat-form-field>
-          </td>
-
-          <td>
-            <mat-icon matPrefix color="primary">add_a_photo</mat-icon>
-            <mat-form-field>
-              <input matInput placeholder="Photo url" formControlName="photoUrl">
-              <!-- <mat-error *ngIf="registerForm.get('photoUrl').touched" class="help-block">Your name must be at least 2 characters</mat-error> -->
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <mat-icon matPrefix color="primary">local_phone</mat-icon>
-            <mat-form-field>
-              <input matInput placeholder="Contact Phone" formControlName="contactPhone" required>
-            </mat-form-field>
-          </td>
-          <td *ngIf="registerForm.get('contactPhone').hasError('minlength') && registerForm.get('contactPhone').touched" class="help-block">The phone number must be at least 10 digits</td>
-
-          <td>
-            <mat-icon matPrefix color="primary">mail</mat-icon>
-            <mat-form-field>
-              <input matInput placeholder="Contact Email" formControlName="contactEmail" required>
-              <mat-error *ngIf="registerForm.get('contactEmail').hasError('email') && registerForm.get('contactEmail').touched" class="help-block">Please enter a valid email</mat-error>
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <mat-icon matPrefix color="primary">people</mat-icon>
-            <mat-form-field>
-              <input matInput placeholder="On Road" formControlName="onRoad">
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-icon matPrefix color="primary">people</mat-icon>
-            <mat-form-field>
-              <input matInput placeholder="On Stage" formControlName="onStage">
-            </mat-form-field>
-          </td>
-        </tr>
-        
-        <tr>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-header color="primary">
+      <mat-card-title>Register a new artist</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <table>
+          <tr>
+            <td>
+              <mat-icon matPrefix color="primary">perm_identity</mat-icon>
+              <mat-form-field>
+                <input matInput placeholder="Name" formControlName="name">
+                <mat-error *ngIf="registerForm.get('name').hasError('minlength') && registerForm.get('name').touched" class="help-block">The name must be at least 2 characters</mat-error>
+              </mat-form-field>
+            </td>  
+            <td>
+              <mat-icon matPrefix color="primary">add_a_photo</mat-icon>
+              <mat-form-field>
+                <input matInput placeholder="Photo url" formControlName="photoUrl">
+                <!-- <mat-error *ngIf="registerForm.get('photoUrl').touched" class="help-block">Your name must be at least 2 characters</mat-error> -->
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>
+                <mat-icon matPrefix color="primary">perm_identity</mat-icon>
+                <mat-form-field>
+                  <input matInput placeholder="Contact Name" formControlName="contactName">
+                  <mat-error *ngIf="registerForm.get('contactName').hasError('minlength') && registerForm.get('contactName').touched" class="help-block">The name must be at least 2 characters</mat-error>
+                </mat-form-field>
+              </td>
+          </tr>
+          <tr>
+            <td>
+              <mat-icon matPrefix color="primary">local_phone</mat-icon>
+              <mat-form-field>
+                <input matInput placeholder="Contact Phone" formControlName="contactPhone" required>
+                <mat-error *ngIf="registerForm.get('contactPhone').hasError('minlength') && registerForm.get('contactPhone').touched" class="help-block">The phone number must be at least 10 digits</mat-error>
+              </mat-form-field>
+            </td>  
+            <td>
+              <mat-icon matPrefix color="primary">mail</mat-icon>
+              <mat-form-field>
+                <input matInput placeholder="Contact Email" formControlName="contactEmail" required>
+                <mat-error *ngIf="registerForm.get('contactEmail').hasError('contactEmail') && registerForm.get('contactEmail').touched" class="help-block">Please enter a valid email</mat-error>
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
             <td>
               <mat-icon matPrefix color="primary">people</mat-icon>
               <mat-form-field>
-                <mat-select placeholder="Day" formControlName="day">
-                    <mat-option>--</mat-option>
-                    <mat-option *ngFor="let day of days" [value]="day">
-                      {{ day }}
-                    </mat-option>
-                  </mat-select>
+                <input matInput placeholder="On Road" formControlName="onRoad">
               </mat-form-field>
             </td>
             <td>
               <mat-icon matPrefix color="primary">people</mat-icon>
               <mat-form-field>
-                <mat-select placeholder="Venue" formControlName="venue">
-                    <mat-option *ngFor="let venue of venues" [value]="venue">
-                      {{ venue }}
-                    </mat-option>
-                  </mat-select>
+                <input matInput placeholder="On Stage" formControlName="onStage">
               </mat-form-field>
             </td>
           </tr>
-        <tr>
-          <span>Show Time</span>
-        </tr>
-        <tr>
-          <td>
-            <mat-icon matPrefix color="primary">access_time</mat-icon>
-            <mat-form-field>
-              <input matInput placeholder="Show time start" formControlName="showTimeStart" [owlDateTime]="dtss" [owlDateTimeTrigger]="dtss">
-              <owl-date-time #dtss></owl-date-time>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-icon matPrefix color="primary">access_time</mat-icon>
-            <mat-form-field>
-              <input matInput placeholder="Show time End" formControlName="showTimeEnd" [owlDateTime]="dtse" [owlDateTimeTrigger]="dtse">
-              <owl-date-time #dtse></owl-date-time>
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr>
-            <span>Getin Time</span>
+          
+          <tr>
+              <td>
+                <mat-icon matPrefix color="primary">people</mat-icon>
+                <mat-form-field>
+                  <mat-select placeholder="Day" formControlName="day">
+                      <mat-option>--</mat-option>
+                      <mat-option *ngFor="let day of days" [value]="day.id">
+                        {{ day.number }}
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-icon matPrefix color="primary">people</mat-icon>
+                <mat-form-field>
+                  <mat-select placeholder="Venue" formControlName="venue">
+                      <mat-option *ngFor="let venue of venues" [value]="venue.id">
+                        {{ venue.name }}
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>
+              </td>
+            </tr>
+          <tr>
+            <span>Show Time</span>
           </tr>
           <tr>
             <td>
               <mat-icon matPrefix color="primary">access_time</mat-icon>
               <mat-form-field>
-                <input matInput placeholder="Get In time start" formControlName="getInStart" [owlDateTime]="dtgs" [owlDateTimeTrigger]="dtgs">
-                <owl-date-time #dtgs></owl-date-time>
+                <input matInput placeholder="Show time start" formControlName="showTimeStart" [owlDateTime]="dtss" [owlDateTimeTrigger]="dtss">
+                <owl-date-time #dtss></owl-date-time>
               </mat-form-field>
             </td>
             <td>
               <mat-icon matPrefix color="primary">access_time</mat-icon>
               <mat-form-field>
-                <input matInput placeholder="Getin time End" formControlName="getInEnd" [owlDateTime]="dtge" [owlDateTimeTrigger]="dtge">
-                <owl-date-time #dtge></owl-date-time>
+                <input matInput placeholder="Show time End" formControlName="showTimeEnd" [owlDateTime]="dtse" [owlDateTimeTrigger]="dtse">
+                <owl-date-time #dtse></owl-date-time>
               </mat-form-field>
             </td>
           </tr>
           <tr>
-              <span>Setup Time</span>
+              <span>Getin Time</span>
             </tr>
             <tr>
               <td>
                 <mat-icon matPrefix color="primary">access_time</mat-icon>
                 <mat-form-field>
-                  <input matInput placeholder="Setup time start" formControlName="setupStart" [owlDateTime]="dtsus" [owlDateTimeTrigger]="dtsus">
-                  <owl-date-time #dtsus></owl-date-time>
+                  <input matInput placeholder="Get In time start" formControlName="getInStart" [owlDateTime]="dtgs" [owlDateTimeTrigger]="dtgs">
+                  <owl-date-time #dtgs></owl-date-time>
                 </mat-form-field>
               </td>
               <td>
                 <mat-icon matPrefix color="primary">access_time</mat-icon>
                 <mat-form-field>
-                  <input matInput placeholder="Setup time End" formControlName="setupEnd" [owlDateTime]="dtsue" [owlDateTimeTrigger]="dtsue">
-                  <owl-date-time #dtsue></owl-date-time>
+                  <input matInput placeholder="Getin time End" formControlName="getInEnd" [owlDateTime]="dtge" [owlDateTimeTrigger]="dtge">
+                  <owl-date-time #dtge></owl-date-time>
                 </mat-form-field>
               </td>
             </tr>
             <tr>
-                <span>SoundCheck Time</span>
+                <span>Setup Time</span>
               </tr>
               <tr>
                 <td>
                   <mat-icon matPrefix color="primary">access_time</mat-icon>
                   <mat-form-field>
-                    <input matInput placeholder="SoundCheck time start" formControlName="soundCheckStart" [owlDateTime]="dtscs" [owlDateTimeTrigger]="dtscs">
-                    <owl-date-time #dtscs></owl-date-time>
+                    <input matInput placeholder="Setup time start" formControlName="setupStart" [owlDateTime]="dtsus" [owlDateTimeTrigger]="dtsus">
+                    <owl-date-time #dtsus></owl-date-time>
                   </mat-form-field>
                 </td>
                 <td>
                   <mat-icon matPrefix color="primary">access_time</mat-icon>
                   <mat-form-field>
-                    <input matInput placeholder="SoundCheck time End" formControlName="soundCheckEnd" [owlDateTime]="dtsce" [owlDateTimeTrigger]="dtsce">
-                    <owl-date-time #dtsce></owl-date-time>
+                    <input matInput placeholder="Setup time End" formControlName="setupEnd" [owlDateTime]="dtsue" [owlDateTimeTrigger]="dtsue">
+                    <owl-date-time #dtsue></owl-date-time>
                   </mat-form-field>
                 </td>
               </tr>
-
-      </table>
-      <mat-card-actions>
-        <button [disabled]="registerForm.valid" type="submit" mat-raised-button color="primary" (click)="onNoClick()">Register artist</button>
-        <button type="button" mat-raised-button color="accent" (click)="onNoClick()">Cancel</button>
-      </mat-card-actions>
-    </form>
-    <!-- <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner> -->
-  </mat-card-content>
-</mat-card>
+              <tr>
+                  <span>SoundCheck Time</span>
+                </tr>
+                <tr>
+                  <td>
+                    <mat-icon matPrefix color="primary">access_time</mat-icon>
+                    <mat-form-field>
+                      <input matInput placeholder="SoundCheck time start" formControlName="soundCheckStart" [owlDateTime]="dtscs" [owlDateTimeTrigger]="dtscs">
+                      <owl-date-time #dtscs></owl-date-time>
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-icon matPrefix color="primary">access_time</mat-icon>
+                    <mat-form-field>
+                      <input matInput placeholder="SoundCheck time End" formControlName="soundCheckEnd" [owlDateTime]="dtsce" [owlDateTimeTrigger]="dtsce">
+                      <owl-date-time #dtsce></owl-date-time>
+                    </mat-form-field>
+                  </td>
+                </tr>
+  
+        </table>
+        <mat-card-actions>
+          <button [disabled]="registerForm.valid" type="submit" mat-raised-button color="primary" (click)="onNoClick()">Register artist</button>
+          <button type="button" mat-raised-button color="accent" (click)="onNoClick()">Cancel</button>
+        </mat-card-actions>
+      </form>
+      <!-- <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner> -->
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>

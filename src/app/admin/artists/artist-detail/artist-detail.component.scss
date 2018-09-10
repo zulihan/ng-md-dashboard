@@ -1,11 +1,15 @@
 .grid-container {
-    margin:  0 20px;
+    margin:  80px 20px;
     //display:  flex;
 }
 
 .artist-detail-card {
     max-width: 400px;
     margin: 20px auto;
+
+    mat-card-title.mat-card-title {
+        font-size: 18px;
+    }
 }
 
 mat-list-item span {    

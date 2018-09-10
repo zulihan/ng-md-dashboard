@@ -9,8 +9,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from '../pipes/pipes.module';
 import { AdminRoutingModule } from '../admin-routing.module';
 import { ArtistsRegisterComponent } from './artists-register/artists-register.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
+// import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
 
+// export const MOMENT_FORMATS = {
+//   parseInput: 'l LT',
+//   fullPickerInput: 'l LT',
+//   datePickerInput: 'l',
+//   timePickerInput: 'LT',
+//   monthYearLabel: 'MMM YYYY',
+//   dateA11yLabel: 'LL',
+//   monthYearA11yLabel: 'MMMM YYYY',
+// };
 
 @NgModule({
   imports: [
@@ -23,7 +33,8 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     ReactiveFormsModule,
     PipesModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule
+    OwlNativeDateTimeModule,
+    // OwlMomentDateTimeModule
   ],
   exports: [
     ArtistsRegisterComponent
@@ -34,6 +45,10 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     ArtistDetailComponent,
     ArtistEditComponent,
     ArtistsRegisterComponent
-  ]
+  ],
+  // providers: [
+  //   // use french locale
+  //   {provide: OWL_DATE_TIME_FORMATS, useValue: MOMENT_FORMATS},
+  // ],
 })
 export class ArtistsModule { }

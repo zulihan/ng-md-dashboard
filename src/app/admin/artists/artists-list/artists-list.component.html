@@ -1,13 +1,13 @@
 <div class="grid-container">
   <button mat-raised-button (click)="openRegisterDialog()">Register a new artist</button>
-  
-<div class="artist-list-header">
-    <mat-form-field class="filter">
-        <input matInput [(ngModel)]="searchName" placeholder="Filtrer par artiste">
-    </mat-form-field>
+  <mat-form-field class="filter">
+    <input matInput [(ngModel)]="searchName" placeholder="Filter by artist">
+  </mat-form-field>
 
-    <div class="filter-venue">
-        <span>Filter by venue</span>
+<!-- <div class="artist-list-header"  fxLayout="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center"> -->
+    
+    <div class="filter-venue" fxLayout="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+        <span>Filter by venue: </span>
         <div *ngFor="let v of venues">
           <mat-checkbox 
             class="checkbox-margin" 
@@ -18,38 +18,41 @@
         </div>
       </div>
 
-      <div class="filter-days">
-          <span>Filter by day</span>
+      <div class="filter-days" fxLayout="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+          <span>Filter by day: </span>
           <div *ngFor="let d of days">
             <mat-checkbox 
               class="checkbox-margin" 
               [(ngModel)]="d.checked" 
-              (click)="d.checked ? filterDays.splice(filterDays.indexOf(d.day), 1) : filterDays.push(d.day)">
-              {{d.day}}
+              (click)="d.checked ? filterDays.splice(filterDays.indexOf(d.number), 1) : filterDays.push(d.dayId)">
+              {{d.number}}
             </mat-checkbox>
           </div>
         </div>      
-  </div>  
+  <!-- </div>   -->
 
 <mat-grid-list [cols]="cols | async" [rowHeight]="rowHeight + 'px'" gutterSize="5px">
     <mat-grid-tile *ngFor="let artistCard of artistsInfos | nameFilter:searchName | dayFilter: filterDays | venueFilter: filterVenues" [colspan]="1" [rowspan]="1">
+      
       <mat-card class="artist-card" >
+        <a href="" routerLink="/admin/artists/{{artistCard.id}}">
         <mat-card-header>
           <mat-card-title>{{artistCard.name | uppercase}}</mat-card-title>
         </mat-card-header>
         <div class="img-container">
-          <a href="" routerLink="/admin/artists/{{artistCard.id}}">
+          
             <img 
               mat-card-image 
               [src]="artistCard.photoUrl"
               alt="{{artistCard.name}}"
-            >
-          </a>
+            >          
         </div>        
           <div class="artist_infos">
-            <span>Day {{artistCard.dayId}} / </span>
-            <span>{{artistCard.venue  | titlecase}}</span>
+            <span>Day {{artistCard.day}} / </span>
+            <span>{{artistCard.venue  | titlecase}} / </span>
+            <span>{{artistCard.show?.start | date: 'HH:mm'}}</span>
           </div>
+        </a>
       </mat-card>
     </mat-grid-tile>
   </mat-grid-list>

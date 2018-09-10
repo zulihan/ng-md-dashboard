@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Photo } from 'src/app/_models/photo';
+import { Photo } from '../../../_models/photo';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../auth/service/auth.service';
-import { isNgTemplate } from '../../../../../node_modules/@angular/compiler';
+import { isNgTemplate } from '@angular/compiler';
 import { UserService } from '../service/user.service';
 
 @Component({

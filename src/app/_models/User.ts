@@ -1,5 +1,5 @@
 import { Roles } from './Roles';
-import { Photo } from 'src/app/_models/photo';
+import { Photo } from './photo';
 
 export interface User {
     id: string;

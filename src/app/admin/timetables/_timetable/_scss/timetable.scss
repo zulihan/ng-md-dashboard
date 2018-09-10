@@ -7,6 +7,8 @@
 /* ==========================================================================
  * Mixins
  * ========================================================================== */
+@import '~@angular/material/theming';
+@import 'src/theme.scss';
 /* ==========================================================================
  * Timetable
  * ========================================================================== */
@@ -123,6 +125,11 @@
     li {
       position: relative;
       background-color: #F4F4F4;
+      color: white;  
+      text-align: center;
+      a {
+        padding-top: 10px;      
+      }
       &:nth-of-type(odd) {
         background-color: #FDFDFD;
       }
@@ -164,23 +171,31 @@
         background-position: -2px 0;
       }
       .getin {
-        background-color: rgba(0, 128, 0, 0.5);
+        background-color: $teal;        
         }
+      .setupwings {
+        background-color: $lightgreen; 
+      }
+      .soundcheck {
+        background-color: $green;
+      }
+      .show {
+        background-color: $orange;
+      }
     }
   }
     
   .time-entry {
-    background-color: #EC6A5E;
+    // background-color: #EC6A5E;
     transition: 200ms background-color;
     height: 45px;
     display: block;
     position: absolute;
     z-index: 2;
-    padding: 0 10px;
     white-space: normal;
     overflow: hidden;
     color: #fff;
-    border: 1px solid #e32c1b;
+    // border: 1px solid #e32c1b;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
     small {

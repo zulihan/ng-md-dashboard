@@ -1,0 +1,147 @@
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, NgZone, Renderer2 } from '@angular/core';
+
+import { Timetable } from '../_timetable/timetable';
+import { Renderer } from '../_timetable/renderer';
+import { Scope } from '../_timetable/_models/scope';
+import { GetIn } from 'src/app/_models/getin';
+import { TimetablesService } from '../_service/timetables.service';
+
+@Component({
+  selector: 'app-day-one-timetable',
+  templateUrl: './day-one-timetable.component.html',
+  styleUrls: ['./day-one-timetable.component.scss']
+})
+export class DayOneTimetableComponent implements OnInit, AfterViewInit {
+
+  getInOptions = {
+    url: '', // makes the event clickable
+    class: 'getin', // additional css class
+    data: { // each property will be added to the data-* attributes of the DOM node for this event
+      id: 4,
+      ticketType: 'VIP'
+    },
+    onClick: function(event) {
+        window.alert('You clicked on the ' + event.name + ' event in ' + event.location + '. This is an example of a click handler');
+      }
+    // custom click handler, which is passed the event object and full timetable as context
+  };
+
+
+  @ViewChild('timetableOne') firstTimetable: ElementRef;
+  selectorOne;
+  timetableDayOneVenueOne: Timetable;
+  getInsDayOne: any;
+  // renderer: Renderer;
+  scope: Scope;
+  // artists = [];
+  // events = [];
+  // zone;
+  // render;
+
+  dateNow = new Date();
+  timeNow = +(this.dateNow.getHours() + (this.dateNow.getMinutes() / 60)).toFixed(2);
+
+  constructor(private timeTableService: TimetablesService) {
+    this.timetableDayOneVenueOne = new Timetable();
+  }
+
+  ngOnInit() {
+    this.selectorOne =  this.firstTimetable.nativeElement;
+    this.getInsDayOne = this.timeTableService.getGetInsByDay(1)
+      .subscribe(response => {
+        this.getInsDayOne = response;
+      this.addTimeTable(this.timetableDayOneVenueOne, this.selectorOne, this.getInsDayOne, 3);
+        // this.addTimeTable(this.timetableDayOneVenueOne);
+        console.log('getIns day one: ', this.getInsDayOne );
+      }, error => {
+        console.log(error);
+      });
+
+    // this.addTimeTable(this.timetableDayOneVenueOne);
+  }
+
+
+  ngAfterViewInit() {
+    document.getElementById('time').scrollIntoView();
+}
+
+
+  addTimeTable(tt, selector, getIns, venueId) {
+    tt.setScope(10, 10);
+
+    console.log('Get Ins from addTimeTable method: ', getIns);
+    const getInsByVenue = getIns.filter(g => g.venueId === venueId);
+    const artists: string[] = [];
+    getInsByVenue.forEach(g => artists.push(g.artist));
+    console.log('artists from getins', artists);
+    tt.addArtists(artists);
+    // tt.addArtists(['lord esperanza']);
+
+    getInsByVenue.forEach(g => {
+      console.log('getInsByVenue.forEach', g.artist);
+      console.log('time tesst', g.start);
+    });
+
+    // tt.addEvent('GI', 'lord esperanza', new Date(2018, 8, 25, 20, 15), new Date(2018, 8, 26, 1, 45), this.options);
+
+    getInsByVenue.forEach(g => {
+      if (g.start && g.end !== null) {
+        tt.addEvent('GI', g.artist, new Date(g.start), new Date(g.end), this.getInOptions);
+        // tt.addEvent('GI', g.artist, new Date(2018, 8, 25, 17, 15), new Date(2018, 8, 25, 18, 30), this.options);
+        console.log('g.start from forEach', g.start);
+      }
+    });
+
+    const renderer = new Renderer(tt);
+    renderer.draw(selector);
+    console.log('timeNow from day-one-component in addTimeTable method: ', this.timeNow);
+  }
+
+//   addTimeTable(tt) {
+//   tt.setScope(3, 3);
+
+//   tt.addArtists(['Lord Esperanza', 'Biffty & DJ Weedim', 'Ho99o9', 'Gangue', 'Myth Syzer']);
+
+//   tt.addEvent('GI', 'Lord Esperanza', new Date(2018, 8, 25, 17, 15), new Date(2018, 8, 25, 17, 30), this.options);
+//   tt.addEvent('GI', 'Biffty & DJ Weedim', new Date(2018, 8, 25, 16, 15), new Date(2018, 8, 25, 16, 30), this.options);
+
+//   tt.addEvent('GI', 'Ho99o9', new Date(2018, 8, 27, 9), new Date(2018, 8, 27, 11,45), { url: '#' });
+
+//   tt.addEvent('GI', 'Gangue', new Date(2018, 8, 22, 9), new Date(2018, 8, 22, 10), {  onClick: function(event) {
+//     window.alert('You clicked on the ' + event.name + ' event in ' + event.location + '. This is an example of a click handler');
+//   }} );
+//   tt.addEvent('GI', 'Myth Syzer', new Date(2018, 8, 22, 9), new Date(2018, 8, 23, 0), {  onClick: function(event) {
+//     window.alert('You clicked on the ' + event.name + ' event in ' + event.location + '. This is an example of a click handler');
+//   }} );
+
+//   this.renderer = new Renderer(tt);
+//   this.renderer.draw(this.selector);
+//   console.log('timeNow from day-one-component in addTimeTable method: ', this.timeNow);
+// }
+
+}
+
+
+
+
+// addTimeTable(tt) {
+//   tt.setScope(9, 9);
+
+//   tt.addArtists(['Lord Esperanza', 'Biffty & DJ Weedim', 'Ho99o9', 'Gangue', 'Myth Syzer']);
+
+//   tt.addEvent('GI', 'Lord Esperanza', new Date(2018, 8, 25, 17, 15), new Date(2018, 8, 25, 17, 30), this.options);
+//   tt.addEvent('GI', 'Biffty & DJ Weedim', new Date(2018, 8, 25, 16, 15), new Date(2018, 8, 25, 16, 30), this.options);
+
+//   tt.addEvent('GI', 'Ho99o9', new Date(2018, 8, 27, 9), new Date(2018, 8, 27, 10), { url: '#' });
+
+//   tt.addEvent('GI', 'Gangue', new Date(2018, 8, 22, 9), new Date(2018, 8, 22, 10), {  onClick: function(event) {
+//     window.alert('You clicked on the ' + event.name + ' event in ' + event.location + '. This is an example of a click handler');
+//   }} );
+//   tt.addEvent('GI', 'Myth Syzer', new Date(2018, 8, 22, 9), new Date(2018, 8, 22, 10), {  onClick: function(event) {
+//     window.alert('You clicked on the ' + event.name + ' event in ' + event.location + '. This is an example of a click handler');
+//   }} );
+
+//   this.renderer = new Renderer(tt);
+//   this.renderer.draw(this.selector);
+//   console.log('timeNow from day-one-component in addTimeTable method: ', this.timeNow);
+// }

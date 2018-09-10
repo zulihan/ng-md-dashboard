@@ -18,9 +18,9 @@ import { UsersComponent } from './users/users.component';
 import { ArtistDetailComponent } from './artists/artist-detail/artist-detail.component';
 import { ArtistsListComponent } from './artists/artists-list/artists-list.component';
 import { ArtistDetailResolver } from '../_resolvers/artist-detail.resolver';
-import { ArtistListResolver } from 'src/app/_resolvers/artist-list.resolver';
-import { ArtistEditComponent } from 'src/app/admin/artists/artist-edit/artist-edit.component';
-import { UserEditComponent } from 'src/app/admin/users/user-edit/user-edit.component';
+import { ArtistListResolver } from '../_resolvers/artist-list.resolver';
+import { ArtistEditComponent } from './artists/artist-edit/artist-edit.component';
+import { UserEditComponent } from './users/user-edit/user-edit.component';
 
 // { path: 'admin', canActivate: [AuthGuard] , redirectTo: 'admin/dashboard/v1'},
 
@@ -62,7 +62,7 @@ const adminRoutes: Routes = [
       },
       { path: 'timetables', component: TimetablesComponent, children:
         [
-          {path: 'day1', component: DayOneTimetableComponent }
+          {path: 'day-one', component: DayOneTimetableComponent }
         ]
       }
     ]

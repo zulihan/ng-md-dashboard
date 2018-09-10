@@ -34,8 +34,8 @@ export class Renderer {
         this.container = selector;
         this.checkContainerPrecondition(this.container);
         this.emptyNode(this.container);
-        this.r(this.container);
-        this.a(this.container);
+        this.appendTimetableAside(this.container);
+        this.appendTimetableSection(this.container);
         // syncscroll.reset();
     }
 
@@ -51,39 +51,39 @@ export class Renderer {
         }
     }
 
-    r(e) {
-        const t = e.appendChild(document.createElement('aside'));
-        const n = t.appendChild(document.createElement('ul'));
-        this.o(n);
+    appendTimetableAside(container) {
+        const asideNode = container.appendChild(document.createElement('aside'));
+        const asideULNode = asideNode.appendChild(document.createElement('ul'));
+        this.appendRowHeaders(asideULNode);
     }
 
-    o(e) {
+    appendRowHeaders(ulNode) {
         for (let t = 0; t < this.timetable.artists.length; t++) {
-            const n = e.appendChild(document.createElement('li'));
-            const r = n.appendChild(document.createElement('span'));
-            r.className = 'row-heading';
-            r.textContent = this.timetable.artists[t];
+            const liNode = ulNode.appendChild(document.createElement('li'));
+            const spanNode = liNode.appendChild(document.createElement('span'));
+            spanNode.className = 'row-heading';
+            spanNode.textContent = this.timetable.artists[t];
         }
     }
 
-    a(e) {
-        const t = e.appendChild(document.createElement('section'));
-        const n = t.appendChild(document.createElement('time'));
-        this.u(n), this.l(n);
+    appendTimetableSection(container) {
+        const sectionNode = container.appendChild(document.createElement('section'));
+        const timeNode = sectionNode.appendChild(document.createElement('time'));
+        this.appendColumnHeaders(timeNode), this.appendTimeRows(timeNode);
     }
 
-    u(e) {
+    appendColumnHeaders(node) {
         for (
             let
-            t = e.appendChild(document.createElement('header')),
-            n = t.appendChild(document.createElement('ul')),
+            headerNode = node.appendChild(document.createElement('header')),
+            headerULNode = headerNode.appendChild(document.createElement('ul')),
             r = !1,
             o = !1,
             a = this.timetable.scope.hourStart; !r;) {
-            const i = n.appendChild(document.createElement('li'));
-            const u = i.appendChild(document.createElement('span'));
-            u.className = 'time-label';
-            u.textContent = this.prettyFormatHour(a);
+            const liNode = headerULNode.appendChild(document.createElement('li'));
+            const spanNode = liNode.appendChild(document.createElement('span'));
+            spanNode.className = 'time-label';
+            spanNode.textContent = this.prettyFormatHour(a);
             if (a !== this.timetable.scope.hourEnd
                 || this.timetable.scope.hourStart === this.timetable.scope.hourEnd
                 && !o || (r = !0), 24 === ++a ) {
@@ -93,10 +93,15 @@ export class Renderer {
     }
 
     appendDivTimeNow(node) {
-        const divtn = node.appendChild(document.createElement('div'));
-        divtn.className = 'timenow';
-        divtn.id = 'time';
-        divtn.style.left = (this.timeNow - this.timetable.scope.hourStart) / this.timetable.scopeDurationHours * 100 + '%';
+        const
+            divtn = node.appendChild(document.createElement('div'));
+            divtn.className = 'timenow';
+            divtn.id = 'time';
+            divtn.style.left = this.timeNow > this.timetable.scope.hourStart ?
+                (this.timeNow - this.timetable.scope.hourStart) / this.timetable.scopeDurationHours * 100 + '%' :
+                ((this.timeNow + 24) - this.timetable.scope.hourStart) / this.timetable.scopeDurationHours * 100 + '%';
+
+
         setInterval(() => {
             const dateNow = new Date();
             const timeN = +(dateNow.getHours() + (dateNow.getMinutes() / 60)).toFixed(2);
@@ -106,66 +111,104 @@ export class Renderer {
     }
 
 
-    l(e) {
-        const t = e.appendChild(document.createElement('ul'));
-        t.className = 'room-timeline';
-        t.id = 'rtl';
-        this.appendDivTimeNow(t);
+    appendTimeRows(node) {
+        const ulNode = node.appendChild(document.createElement('ul'));
+        ulNode.className = 'room-timeline';
+        ulNode.id = 'rtl';
+        this.appendDivTimeNow(ulNode);
         for (let n = 0; n < this.timetable.artists.length; n++) {
-            const r = t.appendChild(document.createElement('li'));
-            this.s(this.timetable.artists[n], r);
+            const r = ulNode.appendChild(document.createElement('li'));
+            this.appendLocationEvents(this.timetable.artists[n], r);
         }
     }
 
-    s(e, t) {
+    // s(e, t) {
+    //     for (let n = 0; n < this.timetable.events.length; n++) {
+    //         const r = this.timetable.events[n];
+    //         if (r.artist === e)  {
+    //             this.d(r, t);
+    //         }
+    //     }
+    // }
+
+    appendLocationEvents(artist, node) {
         for (let n = 0; n < this.timetable.events.length; n++) {
-            const r = this.timetable.events[n];
-            if (r.artist === e)  {
-                this.d(r, t);
+            const event = this.timetable.events[n];
+            if (event.artist === artist)  {
+                this.appendEvent(event, node);
             }
         }
     }
 
-    d(e, t) {
-        const n = e.options.url;
-        console.log('n = e.options from renderer:', n);
-        const optionClass = e.options.class;
-        let r = '';
-        n !== undefined ? r = 'a' : r = 'span';
-        const o = t.appendChild(document.createElement(r));
-        const a = o.appendChild(document.createElement('small'));
-        o.title = e.name;
-        if (n) {
-            o.href = e.options.url;
+    appendEvent(event, node) {
+        const url = event.options.url;
+        console.log('n = e.options from renderer:', url);
+        const optionClass = event.options.class;
+        let elementType = '';
+        url !== undefined ? elementType = 'a' : elementType = 'span';
+        const eventNode = node.appendChild(document.createElement(elementType));
+        const smallNode = eventNode.appendChild(document.createElement('small'));
+        eventNode.title = eventNode.name;
+        if (url) {
+            eventNode.href = event.options.url;
         }
         if (optionClass) {
-            o.className = 'time-entry ' + optionClass;
+            eventNode.className = 'time-entry ' + optionClass;
         } else {
-            o.className = 'time-entry';
+            eventNode.className = 'time-entry';
         }
-        o.style.width = this.h(e);
-        o.style.left = this.f(e);
-        a.textContent = e.name;
+        eventNode.style.width = this.computeEventBlockWidth(event);
+        eventNode.style.left = this.computeEventBlockOffset(event);
+        eventNode.textContent = event.name;
     }
 
-    h(e) {
+    // d(e, t) {
+    //     const n = e.options.url;
+    //     console.log('n = e.options from renderer:', n);
+    //     const optionClass = e.options.class;
+    //     let r = '';
+    //     n !== undefined ? r = 'a' : r = 'span';
+    //     const o = t.appendChild(document.createElement(r));
+    //     const a = o.appendChild(document.createElement('small'));
+    //     o.title = e.name;
+    //     if (n) {
+    //         o.href = e.options.url;
+    //     }
+    //     if (optionClass) {
+    //         o.className = 'time-entry ' + optionClass;
+    //     } else {
+    //         o.className = 'time-entry';
+    //     }
+    //     o.style.width = this.h(e);
+    //     o.style.left = this.f(e);
+    //     a.textContent = e.name;
+    // }
+
+    // h(e)
+    computeEventBlockWidth(event) {
         const
-            t = e.startDate,
-            n = e.endDate,
-            r = this.m(t, n);
-        return r / this.timetable.scopeDurationHours * 100 + '%';
+        start = event.startDate,
+        end = event.endDate,
+        durationHours = this.computeDurationInHours(start, end);
+        return durationHours / this.timetable.scopeDurationHours * 100 + '%';
     }
 
 
-    m(e, t) {
-        return (t.getTime() - e.getTime()) / 1e3 / 60 / 60;
+    computeDurationInHours(start, end) {
+        return (end.getTime() - start.getTime()) / 1e3 / 60 / 60;
     }
 
-    f(e) {
+    computeEventBlockOffset(event) {
         const
-            t = e.startDate,
-            n = t.getHours() + (t.getMinutes() / 60);
-        return (n - this.timetable.scope.hourStart) / this.timetable.scopeDurationHours * 100 + '%';
+            eventStart = event.startDate,
+            eventStartHours = eventStart.getHours() + (eventStart.getMinutes() / 60),
+            eventStartDay = eventStart.getDate();
+        if (eventStartHours < this.timetable.scope.hourStart) {
+            return ((eventStartHours + 24) - this.timetable.scope.hourStart) / this.timetable.scopeDurationHours * 100 + '%';
+        }
+        return (eventStartHours - this.timetable.scope.hourStart) / this.timetable.scopeDurationHours * 100 + '%';
     }
 
 }
+
+// return endHour > startHour  ? endHour - startHour : 24 + endHour - startHour;

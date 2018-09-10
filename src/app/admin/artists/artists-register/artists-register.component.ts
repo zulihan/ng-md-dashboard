@@ -3,7 +3,6 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 
 
-
 import { ToastrService } from 'ngx-toastr';
 import { ArtistsService } from '../service/artists.service';
 
@@ -17,8 +16,18 @@ export class ArtistsRegisterComponent implements OnInit {
   error: any;
   registerForm: FormGroup;
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
-  venues = ['Open Air', 'Grand Palais', 'Palais Phocéen'];
-  days = ['1', '2', '3'];
+  venues = [
+    {name: 'Open Air', id: 1},
+    {name: 'Grand Palais' , id: 2},
+    {name: 'Palais Phocéen', id: 3},
+    {name: 'Not set yet', id: 4},
+   ];
+  days = [
+    {number: '1', id: 1},
+    {number: '2', id: 2},
+    {number: '3', id: 3},
+    {number: 'Not set yet', id: 4}
+  ];
   roles = ['admin', 'host', 'runner'];
 
   constructor(
@@ -38,44 +47,97 @@ export class ArtistsRegisterComponent implements OnInit {
 
   createRegisterForm() {
     this.registerForm = this.fb.group({
-      name: [null, [Validators.required, Validators.minLength(2)]],
-      photoUrl: [null, [Validators.nullValidator]],
-      contactName: [null, [Validators.required, Validators.minLength(2)]],
-      contactEmail: [null, [Validators.required, Validators.pattern(this.emailPattern)]],
-      contactPhone: [null, [Validators.minLength(10), Validators.maxLength(10)]],
-      onRoad: [null, [Validators.nullValidator]],
-      onStage: [null,[Validators.nullValidator]],
-      venue: [null, [Validators.nullValidator]],
-      day: [null, [Validators.nullValidator]],
-      showTimeStart: [null, [Validators.nullValidator]],
-      showTimeEnd: [null, [Validators.nullValidator]],
-      getInStart: [null, [Validators.nullValidator]],
-      getInEnd: [null, [Validators.nullValidator]],
-      setupStart: [null, [Validators.nullValidator]],
-      setupEnd: [null, [Validators.nullValidator]],
-      soundCheckStart: [null, [Validators.nullValidator]],
-      soundCheckEnd: [null, [Validators.nullValidator]]
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      photoUrl: ['', [Validators.nullValidator]],
+      contactName: ['', [Validators.required, Validators.minLength(2)]],
+      contactEmail: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
+      contactPhone: ['', [Validators.minLength(10), Validators.maxLength(10)]],
+      onRoad: ['', [Validators.nullValidator]],
+      onStage: ['', [Validators.nullValidator]],
+      venue: [4, [Validators.nullValidator]],
+      day: [4, [Validators.nullValidator]],
+      showTimeStart: ['', [Validators.nullValidator]],
+      showTimeEnd: ['', [Validators.nullValidator]],
+      getInStart: ['', [Validators.nullValidator]],
+      getInEnd: ['', [Validators.nullValidator]],
+      setupStart: ['', [Validators.nullValidator]],
+      setupEnd: ['', [Validators.nullValidator]],
+      soundCheckStart: ['', [Validators.nullValidator]],
+      soundCheckEnd: ['', [Validators.nullValidator]]
     });
   }
 
   onSubmit() {
-    console.log(this.registerForm);
-    // const name = this.registerForm.value.name;
-    // this.artistsService.register(this.registerForm.value).subscribe( () => {
-    //   this.showRegisterSuccess(name);
-    //   console.log(this.registerForm.value);
-    // }, error => {
-    //   console.log(error);
-    //   this.showRegisterError(error);
-    // });
+    const formValue = this.registerForm.value;
+    console.log('form value: ', formValue);
+    console.log('getIn :', formValue.getInStart);
+    const name = formValue.name;
+    const photoUrl = formValue.photoUrl;
+    const contactName = formValue.contactName;
+    const contactEmail = formValue.contactEmail;
+    const contactPhone = formValue.contactPhone;
+    const onRoad = +formValue.onRoad;
+    const onStage = +formValue.onStage;
+    const venueId = +formValue.venue;
+    const dayId = +formValue.day;
+    const getIn = {
+      dayId: +dayId,
+      venueId: +formValue.venue,
+      start: formValue.getInStart,
+      end: formValue.getInEnd
+    };
+    const setUpWings = {
+      dayId: +dayId,
+      venueId: +formValue.venue,
+      start: formValue.setupStart,
+      end: formValue.setupEnd
+    };
+    const soundCheck = {
+      dayId: +dayId,
+      venueId: +formValue.venue,
+      start: formValue.soundCheckStart,
+      end: formValue.soundCheckEnd
+    };
+    const show = {
+      dayId: +dayId,
+      venueId: +formValue.venue,
+      start: formValue.showTimeStart,
+      end: formValue.showTimeEnd
+    };
+    const model = {
+      name,
+      photoUrl,
+      contactName,
+      contactEmail,
+      contactPhone,
+      onRoad,
+      onStage,
+      venueId,
+      dayId,
+      getIn,
+      setUpWings,
+      soundCheck,
+      show
+    };
+    // console.log('model to send: ', JSON.stringify(model));
+    this.artistsService.registerArtist(model)
+      .subscribe( (response) => {
+        this.artistsService.artistList.push(response);
+        this.artistsService.artistListSubject.next(this.artistsService.artistList);
+        this.showRegisterSuccess(model.name);
+        console.log('response: ', response);
+      }, error => {
+        console.log(error);
+        this.showRegisterError(error);
+      });
   }
 
   showRegisterSuccess(name) {
-    this.toastr.success('You\'ve susccesfully registered user ' + name);
+    this.toastr.success('You\'ve susccesfully registered artist ' + name);
   }
 
   showRegisterError(response) {
-    this.toastr.error(response.error);
+    this.toastr.error(response);
   }
 
 }
