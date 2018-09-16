@@ -1,5 +1,11 @@
+import * as firebase from 'firebase';
+
 export interface Location {
-    name?: string;
-    latitude: number;
-    longitude: number;
+    id?: number;
+    name: string;
+    address?: string;
+    coord?: firebase.firestore.GeoPoint;
+    latitude?: number;
+    longitude?: number;
+    type?: string;
 }

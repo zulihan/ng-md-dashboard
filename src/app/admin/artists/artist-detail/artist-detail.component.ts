@@ -14,7 +14,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/operator/startWith';
 import { ArtistEditComponent } from '../artist-edit/artist-edit.component';
-
+import { Checklist } from 'src/app/_models/checklist';
 
 @Component({
   selector: 'app-artist-detail',
@@ -24,6 +24,7 @@ import { ArtistEditComponent } from '../artist-edit/artist-edit.component';
 export class ArtistDetailComponent implements OnInit {
 
   artist: any;
+  checklist: Checklist;
 
   cols;
   rowHeight;
@@ -39,6 +40,7 @@ export class ArtistDetailComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.artist = data['artist'];
+      this.checklist = data['artist']['checklist'];
 
       if ((this.artist.getIn != null || undefined) &&
           (this.artist.getIn.start != null || undefined) &&
@@ -104,21 +106,28 @@ export class ArtistDetailComponent implements OnInit {
         };
       }
 
-
       this.artistsService.artistDetails.next(this.artist);
       console.log('artist from artist detail after updateArtist', this.artist);
       this.artistsService.afterEditArtist.subscribe(artist => this.artist = artist);
       console.log('artist from artist detail after edited artist subscribe', this.artist);
+
+      // this.artistsService.getArtistChecklist(this.artist.id)
+      // .subscribe(checklist => {
+      //   this.checklist = checklist;
+      //   console.log('checklist : ', this.checklist);
+      // });
+
+
     });
 
     console.log('artist detail: ', this.artist);
 
     const grid = new Map([
-      ['xs', 1],
-      ['sm', 1],
-      ['md', 2],
-      ['lg', 3],
-      ['xl', 3]
+      ['xs', 2],
+      ['sm', 2],
+      ['md', 4],
+      ['lg', 4],
+      ['xl', 4]
     ]);
 
     let start: number;
@@ -148,7 +157,7 @@ export class ArtistDetailComponent implements OnInit {
     } else if (cols === 2) {
       return 450;
     } else {
-      return 500;
+      return 450;
     }
 
   }

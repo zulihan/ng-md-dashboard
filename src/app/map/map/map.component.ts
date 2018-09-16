@@ -68,6 +68,10 @@ export class MapComponent implements OnInit {
         console.log(this.locations); });
     }
 
+    // getGeocode() {
+    //     this.geo.getGeoCode().subscribe( response => console.log(response));
+    // }
+
     private getUserLocation() {
      /// locate the user
      if (navigator.geolocation) {

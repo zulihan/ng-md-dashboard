@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../../../environments/environment';
 import { User } from '../../../_models/User';
+import { Runner } from 'src/app/_models/runner';
 
 
 
@@ -26,8 +27,13 @@ export class UserService {
     return this.http.get<User>(this.baseUrl +  'users/' + id);
   }
 
-  updateUser(id: number, user: User) {
-    return this.http.put(this.baseUrl + 'users/' + id, user);
+  getRunners(): Observable<Runner[]> {
+    return this.http.get<Runner[]>(this.baseUrl + 'users/runners');
+  }
+
+  updateUser(id: number, user: User): Observable<User> {
+    console.log('user to send to edit: ', user);
+    return this.http.put<User>(this.baseUrl + 'users/update/' + id, user);
   }
 
   deletePhoto(userId: number, id: number) {

@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { SharedModule } from './_shared/shared.module';
 
 import { FileUploadModule } from 'ng2-file-upload';
 
@@ -34,6 +35,10 @@ import { UsersListComponent } from './users/users-list/users-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { ArtistsRegisterComponent } from './artists/artists-register/artists-register.component';
 import { PhotoEditorComponent } from './users/photo-editor/photo-editor.component';
+import { ChecklistComponent } from './checklist/checklist.component';
+import { TasksComponent } from './tasks/tasks.component';
+import { TasksRegisterComponent } from './tasks/tasks-register/tasks-register.component';
+import { MatDialogModule } from '@angular/material';
 
 
 @NgModule({
@@ -45,14 +50,18 @@ import { PhotoEditorComponent } from './users/photo-editor/photo-editor.componen
     UsersComponent,
     UsersListComponent,
     UserEditComponent,
-    PhotoEditorComponent
+    PhotoEditorComponent,
+    ChecklistComponent,
+    TasksComponent,
+    TasksRegisterComponent,
   ],
-  entryComponents: [ArtistsRegisterComponent],
+  entryComponents: [ArtistsRegisterComponent, TasksRegisterComponent],
   imports: [
     CommonModule,
+    SharedModule,
     RouterModule,
     AdminRoutingModule,
-    MaterialModule,
+    // MaterialModule,
     FlexLayoutModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsKey
@@ -61,15 +70,17 @@ import { PhotoEditorComponent } from './users/photo-editor/photo-editor.componen
     CalModule,
     TimetablesModule,
     AuthModule,
-    FormsModule,
-    ReactiveFormsModule,
-    PipesModule,
-    FileUploadModule
+    // FormsModule,
+    // ReactiveFormsModule,
+    // PipesModule,
+    FileUploadModule,
+    MatDialogModule
   ],
   exports: [
     AdminComponent,
     DashboardComponent,
     MapComponent,
+    TasksRegisterComponent
   ],
   providers: [ArtistsService]
 })

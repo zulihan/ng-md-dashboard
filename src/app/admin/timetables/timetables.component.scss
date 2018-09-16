@@ -1,3 +1,34 @@
+@import '~@angular/material/theming';
+@import 'src/theme.scss';
+
 .container {
     margin-top: 80px;
+
+    .timetables-menu {
+        margin-bottom: 20px;                 
+
+        .panel-title {
+            display: flex;
+            align-items: center;
+        }
+
+        a {
+            display: flex;
+            align-items: center;
+        }
+           
+    }
+
+        mat-icon {
+            margin: 5px;
+        }
+
+        mat-list-item {
+            margin-left: 10px;
+        }
+       
+
+    .timetable ul.room-timeline li:hover {
+        background-color: #1a2515;
+    }
 }

@@ -1,6 +1,20 @@
+@import '~@angular/material/theming';
+@import 'src/theme.scss';
+
 .grid-container {
     margin:  80px 20px;
     //display:  flex;
+}
+
+.artist-details-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    .delete {
+        background-color: $red;
+        color: white;
+    }
 }
 
 .artist-detail-card {

@@ -169,3 +169,295 @@
               <mat-menu #dayThree="matMenu">
                 <button mat-menu-item>Beach</button>                                
               </mat-menu> -->
+
+
+
+
+
+
+
+<div class="container">
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
+      <mat-toolbar color="primary"></mat-toolbar>
+
+      <mat-nav-list>
+        <mat-list-item>
+          <a href="" routerLink="dashboard" routerLinkActive="active">
+            <span>
+              <mat-icon mat-list-icon color="accent">dashboard</mat-icon>
+              <span>Dashboard</span>
+            </span>
+          </a>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-divider></mat-divider>
+
+        <mat-accordion multi="false">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <a href="" routerLink="artists" routerLinkActive="active">
+                <mat-panel-title>
+                  <span>
+                    <mat-icon mat-list-icon color="accent">mic</mat-icon>
+                    Artists
+                  </span>
+                </mat-panel-title>
+              </a>
+            </mat-expansion-panel-header>
+            <ng-template matExpansionPanelContent>
+              <mat-nav-list>
+                <mat-list-item>
+                  <a href="" routerLink="artists" routerLinkActive="active">
+                    <span>
+                      Day One
+                    </span>
+                  </a>
+                </mat-list-item>
+                <mat-list-item>
+                  <a href="" routerLink="artistsDayTwo" routerLinkActive="active">
+                    <span>
+                      Day Two
+                    </span>
+                  </a>
+                </mat-list-item>
+                <mat-list-item>
+                  <a href="" routerLink="artistsDayThree" routerLinkActive="active">
+                    <span>
+                      Day Three
+                    </span>
+                  </a>
+                </mat-list-item>
+              </mat-nav-list>
+            </ng-template>
+          </mat-expansion-panel>
+          <mat-accordion multi="false">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <a href="" routerLink="timetables" routerLinkActive="active">
+                  <mat-panel-title>
+                    <span>
+                      <mat-icon mat-list-icon color="accent">access_time</mat-icon>
+                      TimeTables
+                    </span>
+                  </mat-panel-title>
+                </a>
+              </mat-expansion-panel-header>
+              <ng-template matExpansionPanelContent>
+                <a href="" routerLink="timetables" routerLinkActive="active">
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <a href="" routerLink="timetables" routerLinkActive="active">
+                        <mat-panel-title>
+                          <span>
+                            Day one
+                          </span>
+                        </mat-panel-title>
+                      </a>
+                    </mat-expansion-panel-header>
+                    <ng-template matExpansionPanelContent>
+                      <mat-nav-list>
+                        <mat-list-item>
+                          <a href="" routerLink="timetables" routerLinkActive="active">
+                            <span>
+                              Open Air
+                            </span>
+                          </a>
+                        </mat-list-item>
+                        <mat-list-item>
+                          <a href="" routerLink="timetables" routerLinkActive="active">
+                            <span>
+                              Grand Palais
+                            </span>
+                          </a>
+                        </mat-list-item>
+                        <mat-list-item>
+                          <a href="" routerLink="timetables" routerLinkActive="active">
+                            <span>
+                              Palais Phocéen
+                            </span>
+                          </a>
+                        </mat-list-item>
+                      </mat-nav-list>
+                    </ng-template>
+                  </mat-expansion-panel>
+                </a>
+                <a href="" routerLink="timetables" routerLinkActive="active">
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <a href="" routerLink="timetables" routerLinkActive="active">
+                        <mat-panel-title>
+                          <span>
+                            Day Two
+                          </span>
+                        </mat-panel-title>
+                      </a>
+                    </mat-expansion-panel-header>
+                    <ng-template matExpansionPanelContent>
+                      <mat-nav-list>
+                        <mat-list-item>
+                          <a href="" routerLink="timetables" routerLinkActive="active">
+                            <span>
+                              Open Air
+                            </span>
+                          </a>
+                        </mat-list-item>
+                        <mat-list-item>
+                          <a href="" routerLink="timetables" routerLinkActive="active">
+                            <span>
+                              Grand Palais
+                            </span>
+                          </a>
+                        </mat-list-item>
+                        <mat-list-item>
+                          <a href="" routerLink="timetables" routerLinkActive="active">
+                            <span>
+                              Palais Phocéen
+                            </span>
+                          </a>
+                        </mat-list-item>
+                      </mat-nav-list>
+                    </ng-template>
+                  </mat-expansion-panel>
+                </a>
+                <a href="" routerLink="timetables" routerLinkActive="active">
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <a href="" routerLink="timetables" routerLinkActive="active">
+                        <mat-panel-title>
+                          <span>
+                            Day Three
+                          </span>
+                        </mat-panel-title>
+                      </a>
+                    </mat-expansion-panel-header>
+                    <ng-template matExpansionPanelContent>
+                      <mat-nav-list>
+                        <mat-list-item>
+                          <a href="" routerLink="timetables" routerLinkActive="active">
+                            <span>
+                              Beach
+                            </span>
+                          </a>
+                        </mat-list-item>
+                      </mat-nav-list>
+                    </ng-template>
+                  </mat-expansion-panel>
+                </a>
+              </ng-template>
+            </mat-expansion-panel>
+          </mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <a href="" routerLink="users" routerLinkActive="active">
+                  <mat-panel-title>
+                    <span>
+                      <mat-icon mat-list-icon color="accent">people</mat-icon>
+                      Users
+                    </span>
+                  </mat-panel-title>
+                </a>
+              </mat-expansion-panel-header>
+              <ng-template matExpansionPanelContent>
+                <mat-nav-list>
+                  <mat-list-item>
+                    <a href="" routerLink="users" routerLinkActive="active">
+                      <span>
+                        Admin
+                      </span>
+                    </a>
+                  </mat-list-item>
+                  <mat-list-item>
+                    <a href="" routerLink="users" routerLinkActive="active">
+                      <span>
+                        Hosts
+                      </span>
+                    </a>
+                  </mat-list-item>
+                  <mat-list-item>
+                    <a href="" routerLink="users" routerLinkActive="active">
+                      <span>
+                        Runners
+                      </span>
+                    </a>
+                  </mat-list-item>
+                </mat-nav-list>
+              </ng-template>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+      </mat-nav-list>
+
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar color="primary" class="top-toolbar">
+        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <div class="left-items" fxFlex fxLayout fxLayoutAlign="flex-start">
+          <ul fxLayout fxLayoutGap="30px" class="toolbar-items">
+            <li>
+              <a href="https://www.marsatac.com" target="_blank">
+                <img src="assets/icons/m2018.svg" alt="">
+              </a>
+            </li>
+            <li>Wass'up {{ authService.currentUser?.userName | titlecase }} ?
+              <img class="avatar" src="{{ photoUrl }}" alt="">
+            </li>
+          </ul>
+        </div>
+        <!-- <div class="right-items" fxFlex fxLayout fxLayoutAlign="flex-end">
+            <ul fxLayout fxLayoutGap="20px" class="navigation-items">
+              
+                <li>
+                    <a (click)="logout()">
+                      <mat-icon class="icon">exit_to_app</mat-icon>
+                      <span class="label">Logout</span>
+                     </a>
+                </li>
+            </ul>
+         </div>         -->
+      </mat-toolbar>
+      <!-- Add Content Here -->
+      <ng-content></ng-content>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+
+<!-- <div class="flex-spacer"></div>
+        <mat-nav-list>
+          <mat-list-item>
+            <a (click)="logout()">
+              <span>
+                <mat-icon mat-list-icon color="accent">exit_to_app</mat-icon>
+                <span>Log out</span>
+              </span>
+            </a>
+          </mat-list-item>
+        </mat-nav-list> -->
+
+
+
+        <!-- <span [matMenuTriggerFor]="timetables">Timetables</span>
+              </span>
+              <mat-menu #timetables="matMenu">
+                <button mat-menu-item [matMenuTriggerFor]="dayOne">Day 1</button>
+                <button mat-menu-item [matMenuTriggerFor]="dayTwo">Day 2</button>
+                <button mat-menu-item [matMenuTriggerFor]="dayThree">Day 3</button>
+              </mat-menu> 
+              <mat-menu #dayOne="matMenu">
+                <button mat-menu-item>All</button>
+                <button mat-menu-item>Open Air</button>
+                <button mat-menu-item>Palais Phocéen</button>
+                <button mat-menu-item>Beach</button>                
+              </mat-menu>
+              <mat-menu #dayTwo="matMenu">
+                <button mat-menu-item>All</button>
+                <button mat-menu-item>Open Air</button>
+                <button mat-menu-item>Palais Phocéen</button>
+                <button mat-menu-item>Beach</button>                
+              </mat-menu>
+              <mat-menu #dayThree="matMenu">
+                <button mat-menu-item>Beach</button>                                
+              </mat-menu> -->

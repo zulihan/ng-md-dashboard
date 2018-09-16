@@ -11,8 +11,8 @@
               <td>
                 <mat-icon matPrefix color="primary">perm_identity</mat-icon>
                 <mat-form-field>
-                  <input matInput placeholder="Name" formControlName="name" required>
-                  <mat-error *ngIf="editForm.get('name').hasError('minlength') && editForm.get('name').touched" class="help-block">Your name must be at least 2 characters</mat-error>
+                  <input matInput placeholder="Name" formControlName="userName" required>
+                  <mat-error *ngIf="editForm.get('userName').hasError('minlength') && editForm.get('userName').touched" class="help-block">Your name must be at least 2 characters</mat-error>
                 </mat-form-field>
               </td>
             </tr>
@@ -20,10 +20,10 @@
               <td>
                 <mat-icon matPrefix color="primary">local_phone</mat-icon>
                 <mat-form-field>
-                  <input matInput placeholder="Phone" formControlName="phone" required>
+                  <input matInput placeholder="Phone" formControlName="phoneNumber" required>
                 </mat-form-field>
               </td>
-              <td *ngIf="editForm.get('phone').hasError('minlength') && editForm.get('phone').touched" class="help-block">The phone number must be at least 10 digits</td>
+              <td *ngIf="editForm.get('phoneNumber').hasError('minlength') && editForm.get('phoneNumber').touched" class="help-block">The phone number must be at least 10 digits</td>
             </tr>
             <tr>
               <td>

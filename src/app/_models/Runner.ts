@@ -1,7 +1,7 @@
 export interface Runner {
     id: number;
-    runnerName: string;
+    UserName: string;
     photoUrl: string;
     phoneNumber: string;
-    isActive: boolean;
+    isActive?: boolean;
 }

@@ -1,0 +1,30 @@
+.container {
+    margin-top: 80px;
+
+    .header-image.mat-card-avatar {
+        background-size: cover;    
+        height: 60px;
+        width: 60px;        
+    }
+
+    mat-icon.mat-icon.mat-accent.material-icons {
+        margin-right: 10px;
+    }
+
+    .mat-card-actions {
+        span {
+            font-size: 12px;
+            vertical-align: super;
+        }
+
+        span:nth-child(2) {
+            margin-right: 10px;
+        }
+
+        mat-icon {
+            height: 17px;
+            width: 17px;
+        }
+        
+    }   
+}

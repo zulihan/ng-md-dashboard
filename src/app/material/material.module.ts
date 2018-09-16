@@ -25,6 +25,7 @@ import {
   MatPaginatorModule,
   MatCheckboxModule
 } from '@angular/material';
+
 @NgModule({
   imports: [
     MatButtonModule,

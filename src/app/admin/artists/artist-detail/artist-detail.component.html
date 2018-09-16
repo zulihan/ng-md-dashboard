@@ -1,9 +1,13 @@
 <div class="grid-container">
-  <button mat-raised-button (click)="openEdit(artist)">Edit Artist</button>
-  <button mat-raised-button (click)="deleteArtist(artist.id, artist.name)">Delete Artist</button>
+  <div class="artist-details-buttons">
+    <button mat-raised-button (click)="openEdit(artist)" color="primary">Edit Artist</button>
+    <button class="delete" mat-raised-button (click)="deleteArtist(artist.id, artist.name)">
+      Delete Artist
+    </button>
+  </div>
 
   <mat-grid-list [cols]="cols | async" [rowHeight]="rowHeight + 'px'" gutterSize="5px">
-    <mat-grid-tile [colspan]="1" [rowspan]="1">
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
 
       <mat-card class="artist-detail-card">
         <mat-card-header>
@@ -15,7 +19,7 @@
       </mat-card>
     </mat-grid-tile>
 
-    <mat-grid-tile [colspan]="1" [rowspan]="1">
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
       <mat-card class="artist-detail-card">
         <mat-card-header>
           <mat-card-title>Timeline</mat-card-title>
@@ -79,7 +83,7 @@
       </mat-card>
     </mat-grid-tile>
 
-    <mat-grid-tile [colspan]="1" [rowspan]="1">
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
       <mat-card class="artist-detail-card">
         <mat-card-header>
           <mat-card-title>Infos</mat-card-title>
@@ -131,8 +135,11 @@
         </mat-card-content>        
       </mat-card>
     </mat-grid-tile>
+    <mat-grid-tile [colspan]="2" [rowspan]="1">      
+      <app-checklist-single [checklist]="checklist"></app-checklist-single>        
+    </mat-grid-tile> 
   </mat-grid-list>
-
+  
 </div>
 
 

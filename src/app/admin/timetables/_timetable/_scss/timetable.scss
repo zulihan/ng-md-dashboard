@@ -76,7 +76,7 @@
       .timenow {
         position: absolute;
         height: 100%;
-        border-left: 1px solid red;
+        border-left: 1px solid #ffbc0c;
         z-index: 3;
       }
     }
@@ -145,6 +145,10 @@
       &:first-child .time-entry {
         height: 44px;
       }
+
+      &:hover {
+        background-color: $gray;
+      }
       &:after {
         content: "";
         position: absolute;
@@ -174,13 +178,13 @@
         background-color: $teal;        
         }
       .setupwings {
-        background-color: $lightgreen; 
+        background-color: $cyan; 
       }
       .soundcheck {
-        background-color: $green;
+        background-color: $pink;
       }
       .show {
-        background-color: $orange;
+        background-color: $red;
       }
     }
   }

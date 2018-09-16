@@ -1,0 +1,319 @@
+import {Component, OnInit} from '@angular/core';
+import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
+
+
+export interface Checklist {
+  id: number;
+  artistId: number;
+  artist: string;
+  dayId: number;
+  userId?: number;
+  invitsChecked: boolean;
+  invitsComment: string;
+  sacemChecked: boolean;
+  sacemComment: string;
+  recordingChecked: boolean;
+  reconrdingComment: string;
+}
+
+
+@Component({
+  selector: 'app-checklist',
+  templateUrl: './checklist.component.html',
+  styleUrls: ['./checklist.component.scss']
+})
+export class ChecklistComponent implements OnInit {
+
+  columnsToDisplay = ['ARTIST', 'DAY', 'INVITS', 'SACEM', 'RECORDING', 'SAVE'];
+  expandedElement: Checklist;
+  dataForm: FormArray;
+
+  ELEMENT_DATA: Checklist[] = [
+    {
+      id: 1,
+      artistId: 1,
+      artist: 'lord esperanza',
+      dayId: 1,
+      userId: 0,
+      invitsChecked: false,
+      invitsComment: '',
+      sacemChecked: false,
+      sacemComment: '',
+      recordingChecked: false,
+      reconrdingComment: ''
+    },
+    {
+      id: 2,
+      artistId: 2,
+      artist: 'biffty & dj weedim',
+      dayId: 1,
+      userId: null,
+      invitsChecked: false,
+      invitsComment: '',
+      sacemChecked: false,
+      sacemComment: '',
+      recordingChecked: false,
+      reconrdingComment: ''
+    }
+  ];
+
+  dataSource = this.ELEMENT_DATA;
+
+  constructor(private fb: FormBuilder) { }
+
+  ngOnInit() {
+    this.dataForm = new FormArray([]);
+
+
+   this.getValues();
+   console.log('dataForm: ', this.dataForm);
+  }
+
+  getValues() {
+    for (const row of this.ELEMENT_DATA) {
+
+      (<FormArray>this.dataForm).push(new FormGroup(
+        {
+          id: new FormControl(row['id'], [Validators.nullValidator]),
+          artistId: new FormControl(row['artistId'], [Validators.nullValidator]),
+          artist: new FormControl(row['artist'], [Validators.nullValidator]),
+          dayId: new FormControl(row['dayId'], [Validators.nullValidator]),
+          userId: new FormControl(row['userId'], [Validators.nullValidator]),
+          invitsChecked: new FormControl(row['invitsChecked'], [Validators.nullValidator]),
+          invitsComment: new FormControl(row['invitsComment'], [Validators.nullValidator]),
+          sacemChecked: new FormControl(row['sacemChecked'], [Validators.nullValidator]),
+          sacemComment: new FormControl(row['sacemComment'], [Validators.nullValidator]),
+          recordingChecked: new FormControl(row['recordingChecked'], [Validators.nullValidator]),
+          reconrdingComment: new FormControl(row['reconrdingComment'], [Validators.nullValidator]),
+
+       }));
+    }
+  }
+
+  onSubmit(checklist) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    checklist.value.userId = user['id'];
+    console.log(checklist.value);
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+  <form [formGroup]="dataForm" >
+     
+    <table>         
+      <thead>
+        <tr>          
+          <td>ARTIST</td> 
+          <td>DAY</td>
+          <td>INVITES</td>
+          <td>SACEM</td>
+          <td>RECORDING</td> 
+          <td></td>
+        </tr>
+      </thead>
+      <!-- <div>  -->
+          <div >
+          
+        <tr *ngFor="let checklist of dataForm.controls; let i = index"> 
+            <form formGroupName="{{i}}" (ngSubmit)="onSubmit(checklist)" >
+            <td>
+              {{ checklist['controls'].artist.value }}
+            </td>
+            <td>
+              {{ checklist['controls'].dayId.value }}
+            </td>
+            <td>         
+              <mat-checkbox formControlName="invitsChecked"></mat-checkbox>
+              <mat-form-field>
+                <textarea matInput rows="1" formControlName="invitsComment"></textarea>
+              </mat-form-field>              
+            </td>
+            <td>
+              <mat-checkbox formControlName="sacemChecked"></mat-checkbox>
+              <mat-form-field>
+                <textarea matInput rows="1" formControlName="sacemComment"></textarea>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-checkbox formControlName="recordingChecked"></mat-checkbox>
+              <mat-form-field>
+                <textarea matInput rows="1" formControlName="reconrdingComment"></textarea>
+              </mat-form-field>
+            </td>
+            <td>
+              <button type="submit" mat-raised-button color="primary">Save</button>
+            </td>
+          </form>
+        </tr>
+      <!-- </div>          -->
+    
+    </div>
+    </table>
+   
+  </form>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- *ngFor="let checklist of dataForm.controls['checklists'].controls; let i = index" -->
+
+<!-- <div class="container">
+
+
+  <form [formGroup]="dataForm" >
+      <div >
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngFor="let checklist of dataForm.controls; let i = index">
+      
+        
+       
+        <form formGroupName="{{i}}" (ngSubmit)="onSubmit(checklist)">
+          
+                <ng-container matColumnDef="ARTIST">
+                  <th mat-header-cell *matHeaderCellDef>ARTIST</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.artist}}
+                  </td>
+                </ng-container>        
+                <ng-container matColumnDef="DAY">
+                  <th mat-header-cell *matHeaderCellDef>DAY</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.dayId }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="INVITS">
+                  <th mat-header-cell *matHeaderCellDef>INVITS</th>
+                  <td mat-cell *matCellDef="let element">         
+                    <mat-form-field>
+                      <mat-checkbox ></mat-checkbox>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <textarea rows="1" ></textarea>
+                    </mat-form-field>
+                  </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="SACEM">
+                  <th mat-header-cell *matHeaderCellDef>SACEM</th>
+                  <td mat-cell *matCellDef="let element">
+                    <mat-form-field>
+                      <mat-checkbox ></mat-checkbox>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <textarea rows="1" ></textarea>
+                    </mat-form-field>
+                  </td>
+                </ng-container>
+                  
+                <ng-container matColumnDef="RECORDING">
+                  <th mat-header-cell *matHeaderCellDef>RECORDING</th>
+                  <td mat-cell *matCellDef="let element">
+                    <mat-form-field>
+                      <mat-checkbox ></mat-checkbox>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <textarea rows="1" ></textarea>
+                    </mat-form-field>
+                  </td>
+                </ng-container>
+                            
+                <ng-container matColumnDef="SAVE">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let element">
+                    <button type="submit" mat-raised-button color="primary">Save</button>
+                  </td>
+                </ng-container>
+                   
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+        </form>
+      
+      
+    </table>
+  </div>
+  </form>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="container">
+    yo
+    <form [formGroup]="dataForm" (ngSubmit)="onSubmit()">
+      <table>
+        <tr *ngFor="let checklist of dataForm.controls">
+            <td *ngFor="let item of dataForm.controls['controls']; let i = index">
+              <span formControlName="{{i[0]}}"> {{checklist['controls'].id.value}}</span> 
+            </td>
+            <td>
+                <span formControlName="{{checklist['controls'][1]}}">{{checklist['controls'].artistId.value}}</span>
+            </td>
+            <td>
+              <span formControlName="{{checklist['controls'][2]}}">{{checklist['controls'].artist.value}}</span>
+            </td>        
+            <td>
+              <p formControlName="{{checklist['controls'][3]}}">{{ checklist['controls'].dayId.value }}</p>
+            </td>
+            <td>
+            <td>
+                <p formControlName="{{checklist['controls'][4]}}">{{ checklist['controls'].userId.value }}</p>
+              </td>
+              <td>
+              <mat-checkbox formControlName="{{checklist['controls'][5]}}"></mat-checkbox>
+            </td>
+            <td>
+              <input type="text" formControlName="{{checklist['controls'][6] }}">
+            </td>
+            <td>
+                <mat-checkbox formControlName="{{checklist['controls'][7] }}"></mat-checkbox>
+              </td>
+              <td>
+                <input type="text" formControlName="{{checklist['controls'][8] }}">
+            </td>
+            <td>
+                <mat-checkbox formControlName="{{checklist['controls'][9] }}"></mat-checkbox>
+              </td>
+              <td>
+                <input type="text" formControlName="{{checklist['controls'][10] }}">
+            </td>          
+            <td>
+              <button type="submit" mat-raised-button color="primary">Save</button>
+            </td>
+          </tr>     
+        
+      </table>
+    </form>
+  </div> -->

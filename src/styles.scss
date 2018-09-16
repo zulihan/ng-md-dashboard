@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import 'theme.scss';
 @import "angular-calendar/scss/angular-calendar.scss";
 @import "ng-pick-datetime/assets/style/picker.min.css";
 
@@ -13,6 +15,16 @@ body{
     box-sizing: border-box;
     max-width: 100%;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+    color: $gray;
+
+    a {
+        color: $gray;        
+    }
+
+    a:hover {
+        color: $lightgray;
+        text-decoration: none;
+    }
 }
 
 .mat-list-item-content {
@@ -22,8 +34,24 @@ body{
 
 .mat-expansion-panel-body {
     padding: 0 !important;
-  }
+}
 
-  span.mat-expansion-indicator {
-    padding-right: 5px;
-  }
+span.mat-expansion-indicator {
+padding-right: 5px;
+}
+
+.timetables-menu {
+    
+    a:active {
+        /* background-color: rgba(0, 0, 0, 0.2); */
+        box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+        height: 100%;
+        -ms-grid-row-align: center;
+        align-self: center;
+        border-left: 5px solid $teal;
+        width: 100%;
+        margin-right: 10px;
+    }
+        
+}
+

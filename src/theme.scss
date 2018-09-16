@@ -3,11 +3,20 @@
 
 $custom-primary: mat-palette($mat-cyan);
 $custom-accent: mat-palette($mat-lime);
-$gray: mat-color($mat-blue_gray, 300);
+// $custom-red: mat-palette($mat-red);
+
+$bluegray: mat-color($mat-blue_gray, 300);
+$gray: mat-color($mat-gray, 600);
+$lightgray:mat-color($mat-gray, 400);
 $orange: mat-color($mat-orange, 600);
 $teal: mat-color($mat-teal, 600);
 $green: mat-color($mat-green, 600);
-$lightgreen: mat-color($mat-light_green, 600);
+$lightgreen: mat-color($mat-light_green, A400);
+
+$darkcyan: mat-color($mat-cyan, 700);
+$cyan: mat-color($mat-cyan, 600);
+$red: mat-color($mat-red, A200);
+$pink: mat-color($mat-pink, A700);
 
 $custom-theme: mat-light-theme($custom-primary, $custom-accent);
 
@@ -15,5 +24,6 @@ $custom-theme: mat-light-theme($custom-primary, $custom-accent);
 
 $primary: mat-color($custom-primary);
 $accent: mat-color($custom-accent);
+// $custred: mat-color($custom-red);
 // $grey: rgba(128,128,128,0.5);
 

@@ -40,21 +40,22 @@ export class UserEditComponent implements OnInit {
   createEditForm() {
     this.editForm = this.fb.group({
       email: [this.userToEdit.email, [Validators.required, Validators.pattern(this.emailPattern)]],
-      name: [this.userToEdit.name, [Validators.required, Validators.minLength(2)]],
-      phone: [this.userToEdit.phone, [Validators.required, Validators.minLength(10), , Validators.maxLength(10)]],
+      userName: [this.userToEdit.userName, [Validators.required, Validators.minLength(2)]],
+      phoneNumber: [this.userToEdit.phoneNumber, [Validators.required, Validators.minLength(10), , Validators.maxLength(10)]],
       role: [this.userToEdit.role]
     });
   }
 
 
   onSubmit() {
-    const name = this.editForm.value.name;
+    const name = this.editForm.value.userName;
     const password = this.editForm.value.password;
-    this.userService.updateUser(this.userToEdit.id, this.editForm.value).subscribe( next => {
+    this.userService.updateUser(this.userToEdit.id, this.editForm.value)
+      .subscribe( () => {
       this.showUpdateSuccess(name);
-      console.log(this.editForm.value);
+      console.log('form value: ', this.editForm.value);
     }, error => {
-      console.log(error);
+      console.log('error: ', error.code);
       this.showUpdateError(error);
     });
   }

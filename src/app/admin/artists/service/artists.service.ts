@@ -7,8 +7,7 @@ import { environment } from '../../../../environments/environment';
 
 import { Artist } from '../../../_models/artist';
 import { Venue } from '../../../_models/venue';
-import { map } from '../../../../../node_modules/rxjs-compat/operator/map';
-
+import { Checklist } from '../../../_models/checklist';
 
 
 @Injectable({
@@ -58,8 +57,16 @@ export class ArtistsService {
     return artistsFromDb;
   }
 
+  getArtistsNames(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl + 'artists/names');
+  }
+
   getArtistsByDay(dayNumber: number) {
     return this.http.get<Artist[]>(this.baseUrl + 'artists/day/' + dayNumber);
+  }
+
+  getArtistsByDayByVenue(dayNumber: number, venueId: number) {
+    return this.http.get<Artist[]>(this.baseUrl + 'artists/day/' + dayNumber + '/venue/' + venueId);
   }
 
   getArtist(id: number): Observable<Artist> {
@@ -73,29 +80,23 @@ export class ArtistsService {
 
   editArtist(id: number, artist: any): Observable<Artist> {
     this.editedArtist = artist;
-    // const timezoneOffset = new Date().getTimezoneOffset() * -60000;
-    // artist.getIn.start = artist.getIn.start != null || undefined ?
-    //   artist.getIn.start : null;
-    // artist.getIn.end = artist.getIn.end != null || undefined ?
-    //   artist.getIn.end : null;
-    // artist.setUpWings.start = artist.setUpWings.start != null || undefined ?
-    //   artist.setUpWings.start : null;
-    // artist.setUpWings.end = artist.setUpWings.end != null || undefined ?
-    //   artist.setUpWings.end : null;
-    // artist.soundCheck.start = artist.soundCheck.start != null || undefined ?
-    //   artist.soundCheck.start : null;
-    // artist.soundCheck.end = artist.soundCheck.end != null || undefined ?
-    //   artist.soundCheck.end : null;
-    // artist.show.start = artist.show.start != null || undefined ?
-    //   artist.show.start : null;
-    // artist.soundCheck.end = artist.soundCheck.end != null || undefined ?
-    //   artist.soundCheck.end : null;
-
     return this.http.put<Artist>(this.baseUrl + 'artists/' + id, artist);
   }
 
   deleteArtist(id: number): Observable<any> {
     return this.http.delete(this.baseUrl + 'artists/delete/' + id);
+  }
+
+  getChecklists(): Observable<Checklist[]> {
+    return this.http.get<Checklist[]>(this.baseUrl + 'artists/checklists');
+  }
+
+  getArtistChecklist(id: number): Observable<Checklist> {
+    return this.http.get<Checklist>(this.baseUrl + 'artists/' + id + '/checklist');
+  }
+
+  updateArtistChecklist(id: number, checklist: Checklist): Observable<Checklist> {
+    return this.http.put<Checklist>(this.baseUrl + 'artists/checklist/' + id, checklist);
   }
 
   getVenues(): Observable<Venue[]> {

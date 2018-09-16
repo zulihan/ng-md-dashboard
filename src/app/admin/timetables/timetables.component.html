@@ -1,11 +1,96 @@
 <div class="container">
-    <a href="" routerLink="day-one" routerLinkActive="active">
-            
-                <mat-icon mat-list-icon color="accent">access_time</mat-icon>
-                Day one
-    </a>          
-    
+
+    <div class="timetables-menu">
+        <mat-accordion multi="false">
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <a href="" routerLink="day-one" routerLinkActive="active">
+                        <mat-panel-title>
+                            <span class="panel-title">
+                                <mat-icon mat-list-icon color="accent">access_time</mat-icon>
+                                <span>
+                                    Day one
+                                </span>
+                            </span>
+                        </mat-panel-title>
+                    </a>
+                </mat-expansion-panel-header>
+                <ng-template matExpansionPanelContent>
+                    <mat-nav-list>
+                        <mat-list-item>
+                            <a href="" routerLink="day-one/venue-one" routerLinkActive="active">
+                                <mat-icon mat-list-icon color="accent">speaker</mat-icon>
+                                <span>
+                                    Open Air
+                                </span>
+                            </a>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <a href="" routerLink="day-one/venue-two" routerLinkActive="active">
+                                <mat-icon mat-list-icon color="accent">speaker</mat-icon>
+                                <span>
+                                    Grand Palais
+                                </span>
+                            </a>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <a href="" routerLink="day-one/venue-three" routerLinkActive="active">
+                                <mat-icon mat-list-icon color="accent">speaker</mat-icon>
+                                <span>
+                                    Palais Phocéen
+                                </span>
+                            </a>
+                        </mat-list-item>
+                    </mat-nav-list>
+                </ng-template>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <a href="" routerLink="day-two" routerLinkActive="active">
+                        <mat-panel-title>
+                            <span class="panel-title">
+                                <mat-icon mat-list-icon color="accent">access_time</mat-icon>
+                                <span>
+                                    Day Two
+                                </span>
+                            </span>
+                        </mat-panel-title>
+                    </a>
+                </mat-expansion-panel-header>
+                <ng-template matExpansionPanelContent>
+                    <mat-nav-list>
+                        <mat-list-item>
+                            <a href="" routerLink="day-two/venue-one" routerLinkActive="active">
+                                <mat-icon mat-list-icon color="accent">speaker</mat-icon>
+                                <span>
+                                    Open Air
+                                </span>
+                            </a>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <a href="" routerLink="day-two/venue-two" routerLinkActive="active">
+                                <mat-icon mat-list-icon color="accent">speaker</mat-icon>
+                                <span>
+                                    Grand Palais
+                                </span>
+                            </a>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <a href="" routerLink="day-two/venue-three" routerLinkActive="active">
+                                <mat-icon mat-list-icon color="accent">speaker</mat-icon>
+                                <span>
+                                    Palais Phocéen
+                                </span>
+                            </a>
+                        </mat-list-item>
+                    </mat-nav-list>
+                </ng-template>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>    
+
     <router-outlet></router-outlet>
 </div>
 
 <!-- <app-day-one-timetable></app-day-one-timetable> -->
+

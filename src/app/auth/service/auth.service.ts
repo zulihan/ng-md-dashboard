@@ -94,7 +94,7 @@ export class AuthService {
       return false;
     }
     for (const role of allowedRoles) {
-      if ( user.roles[role]) {
+      if ( user.role[role]) {
         return true;
       }
       return false;

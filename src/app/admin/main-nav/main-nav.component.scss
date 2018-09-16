@@ -13,7 +13,7 @@
 
 .sidenav {
   width: 200px;
-  background-color: $gray;
+  background-color: $cyan;
 }
 
 .top-toolbar  {
@@ -67,9 +67,9 @@
 
   .left-items {
     .toolbar-items {
-      flex-direction: row;
+      // display: flex;      
+      // flex-direction: row;
       box-sizing: border-box;
-      display: flex;
       list-style: none;
       margin-bottom: 0;
       align-items: center;

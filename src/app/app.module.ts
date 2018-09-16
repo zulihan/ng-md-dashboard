@@ -6,6 +6,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { MatDialogModule } from '@angular/material';
 
 import { JwtModule } from '@auth0/angular-jwt';
 
@@ -37,7 +38,7 @@ import { CalendarModule } from 'angular-calendar';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { ArtistDetailResolver } from './_resolvers/artist-detail.resolver';
 import { ArtistListResolver } from './_resolvers/artist-list.resolver';
-import { ArtistsRegisterComponent } from './admin/artists/artists-register/artists-register.component';
+import { TasksService } from 'src/app/_services/tasks.service';
 
 
 @NgModule({
@@ -73,7 +74,7 @@ import { ArtistsRegisterComponent } from './admin/artists/artists-register/artis
     NgbModule.forRoot(),
     NgbModalModule.forRoot(),
     LayoutModule,
-    CalendarModule.forRoot()
+    CalendarModule.forRoot(),
   ],
   providers: [
     AuthService,
@@ -81,6 +82,7 @@ import { ArtistsRegisterComponent } from './admin/artists/artists-register/artis
     AlertifyService,
     JwtHelperService,
     GeoService,
+    TasksService,
     ErrorInterceptorProvider,
     ArtistDetailResolver,
     ArtistListResolver

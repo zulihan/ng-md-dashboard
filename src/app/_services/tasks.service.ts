@@ -4,25 +4,47 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { Observable } from 'rxjs/Observable';
 import { Task } from '../_models/task';
 import { Subject } from 'rxjs/Subject';
+import { RunnerTask } from 'src/app/_models/runner-task';
+import { Runner } from '../_models/runner';
 
 
 
 @Injectable()
 export class TasksService {
 
-    tasksCollection: AngularFirestoreCollection<Task> = this.afs.collection<Task>('tasks');
+    tasksCollection: AngularFirestoreCollection<Task> ;
     taskDocument: AngularFirestoreDocument<Task>;
 
+    runnersTasksCollection: AngularFirestoreCollection<RunnerTask>;
+    runnersTasks: Observable<RunnerTask[]>;
+
     tasks: Observable<Task[]>;
-
     editedTask = new Subject<Task>();
-
     lastUpdateSubject = new Subject<any>();
     lastUpdate;
 
     taskToEdit: Task;
 
-    constructor(private afs: AngularFirestore) {}
+    constructor(private afs: AngularFirestore) {
+        this.runnersTasksCollection = this.afs.collection<RunnerTask>('runnersTasks');
+    }
+
+    getRunnersTask(): Observable<RunnerTask[]> {
+        this.runnersTasks = this.runnersTasksCollection.snapshotChanges().map(actions => {
+            return actions.map(a => {
+              const data = a.payload.doc.data() as RunnerTask;
+              data.id = a.payload.doc.id;
+              return data;
+            });
+          });
+          return this.runnersTasks;
+    }
+
+    addRunerTask(task: RunnerTask) {
+        this.runnersTasksCollection.add(task)
+            .then(_ => console.log('task created'))
+            .catch(err => console.log(err));
+    }
 
     getTasks() {
         this.tasks = this.tasksCollection.snapshotChanges().map(actions => {
@@ -32,9 +54,9 @@ export class TasksService {
               return data;
             });
           });
-          this.sendLastUpdate();
           return this.tasks;
     }
+
 
     addTask(task: Task) {
         this.tasksCollection.add(task);

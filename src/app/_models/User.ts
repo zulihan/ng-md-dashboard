@@ -5,8 +5,8 @@ export interface User {
     id: string;
     userName: string;
     email?: string;
-    phone?: string;
+    phoneNumber?: string;
     photoUrl?: string;
-    roles: Roles;
+    role: Roles;
     photo?: Photo;
 }
