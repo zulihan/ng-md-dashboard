@@ -3,9 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import {MatDialog} from '@angular/material';
 
-import { Artist } from '../../../_models/artist';
-import { GetIn } from '../../../_models/getin';
-
 import { ObservableMedia } from '@angular/flex-layout';
 import { ArtistsService } from '../service/artists.service';
 import { ToastrService } from 'ngx-toastr';
@@ -179,7 +176,7 @@ export class ArtistDetailComponent implements OnInit {
 
   deleteArtist(id, name) {
     if (confirm('Are you sure to delete ' + name.toUpperCase() + ' ?')) {
-      this.artistsService.deleteArtist(id)
+      this.artistsService.deleteArtist(id, name)
         .subscribe(response => {
           console.log('response from deleteArtist: ', response);
           this.showEditSuccess(name);

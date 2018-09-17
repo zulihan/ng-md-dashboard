@@ -64,6 +64,7 @@ export class MapComponent implements OnInit {
     getLocations() {
         // this.locations = this.geo.getLocations();
         this.geo.getLocations().subscribe( locations => {
+            locations.shift();
             this.locations = locations;
         console.log(this.locations); });
     }

@@ -40,6 +40,21 @@ export class ArtistsService {
     artist.soundCheck.end = typeof artist.soundCheck.end === 'string' ? new Date(artist.soundCheck.end) : artist.soundCheck.end;
     console.log('artist from updateArtistAfterEdit: ', artist);
     this.artistDetails.next(artist);
+    console.log('artistList: ', this.artistList);
+    const findInArtistList = this.artistList.find( el => el.id === artistId);
+    const indexInArtistList = this.artistList.indexOf(findInArtistList);
+    console.log('findInArtistList :', findInArtistList );
+    console.log('indexInArtistList :', indexInArtistList );
+    this.artistList.splice(indexInArtistList, 1);
+    this.artistList.splice(indexInArtistList, 0, artist);
+    this.artistListSubject.next(this.artistList);
+  }
+
+  artistIsAlreadyInList(artist) {
+    const artistInList =  this.artistList.find( el => {
+      return el.id === artist.id;
+    });
+    return artistInList !== undefined ? true :  false;
   }
 
   registerArtist(model: Artist): Observable<Artist> {
@@ -50,8 +65,13 @@ export class ArtistsService {
   getArtists(): Observable<Artist[]> {
     const artistsFromDb = this.http.get<Artist[]>(this.baseUrl + 'artists');
     artistsFromDb.subscribe( artists => {
-      artists.map((artist) => !this.artistList.includes(artist) ? this.artistList.push(artist) : false);
-      console.log('artist list: ', this.artistList);
+      artists.map((artist) => {
+        if (!this.artistIsAlreadyInList(artist)) {
+          this.artistList.push(artist);
+        }
+      });
+      console.log('artist list from getArtists: ', this.artistList);
+      // this.artistList = [];
       this.artistListSubject.next(this.artistList);
     });
     return artistsFromDb;
@@ -83,7 +103,11 @@ export class ArtistsService {
     return this.http.put<Artist>(this.baseUrl + 'artists/' + id, artist);
   }
 
-  deleteArtist(id: number): Observable<any> {
+  deleteArtist(id: number, name): Observable<any> {
+    const indexInArtistList = this.artistList.map( el => el.id).indexOf(id);
+    this.artistList.splice(indexInArtistList, 1);
+    console.log('indexInArtistList :', indexInArtistList );
+    this.artistListSubject.next(this.artistList);
     return this.http.delete(this.baseUrl + 'artists/delete/' + id);
   }
 

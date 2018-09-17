@@ -153,19 +153,24 @@ export class TasksRegisterComponent implements OnInit {
     console.log('valueForFrom: ', this.registerTaskForm.get('from').value.name);
     const form = this.registerTaskForm.value;
     const creator = JSON.parse(localStorage.getItem('user')).userName;
+    const type = form.from === 'Marsatac' ? 'drop off' : 'pick-up';
     const task = {
       createdAt: new Date(Date.now()).toString(),
       updatedAt: new Date(Date.now()).toString(),
       createdBy: creator,
       isDone: false,
-      status: 'not started yet',
+      status: 'has not started yet',
       runner: form.runner,
       artist: form.artist,
       pers: form.persons,
       from: form.from,
       to: form.to,
-      startAt: form.time.toString(),
-      closedAt: null
+      startAt: form.time,
+      startAtToString: '',
+      closedAt: null,
+      over: false,
+      type,
+      taskStatus: 'scheduled'
     };
     this.tasksService.addRunerTask(task);
   }

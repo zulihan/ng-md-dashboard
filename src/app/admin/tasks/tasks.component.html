@@ -4,48 +4,105 @@
     <mat-grid-list [cols]="cols | async" [rowHeight]="rowHeight + 'px'" gutterSize="5px">
         <mat-grid-tile *ngFor="let runnerTask of runnersTasks" [colspan]="1"
             [rowspan]="1">
-            <mat-card class="user-card">
-                <mat-card-header>  
+            <mat-card class="runner-task-card"
+                [class.ok]="runnerTask.taskStatus === 'scheduled' ||
+                            runnerTask.taskStatus === 'ok'|| 
+                            runnerTask.taskStatus === 'due' && runnerTask.status === 'has started'"
+                [class.approaching]="runnerTask.taskStatus === 'approaching'"
+                [class.due]="runnerTask.taskStatus === 'due' && runnerTask.status !== 'has not started yet'"
+                [class.late]="runnerTask.taskStatus === 'late'"
+            >
+                <div>
+                    <button mat-button (click)="openEdit(runnerTask)">
+                        <mat-icon color="accent">edit</mat-icon>
+                    </button>
+                </div>
+                <mat-card-header>
                     <div mat-card-avatar class="header-image" [ngStyle]="{'background-image': 'url('+ runnerTask.runner.photoUrl +')'}"></div>
                     <mat-card-title>
-                        Runner: {{runnerTask.runner.userName}}
-                        
+                        <mat-list>
+                            <mat-list-item>
+                                <mat-icon color="accent">airport_shuttle</mat-icon>   
+                                <span>{{runnerTask.runner.userName}}</span>
+                                <span>
+                                    <mat-icon color="accent">phone</mat-icon>
+                                    <span>{{runnerTask.runner.phoneNumber}}</span>
+                                    </span>
+                            </mat-list-item>                            
+                        </mat-list>
                     </mat-card-title>
-                    <mat-card-subtitle>                       
-                        
-                    </mat-card-subtitle>
                 </mat-card-header>
+                <mat-divider></mat-divider>
                 <mat-card-content>
                     <mat-list>
                         <mat-list-item>
                             <mat-icon color="accent">assignment</mat-icon>
-                            <span>Take {{runnerTask.artist.name | titlecase }} / {{runnerTask.pers}} persons
-                            <br>
-                            From: {{runnerTask.from.name}}, To: {{runnerTask.to.name}}
-                            </span>
+                            <span>Take {{runnerTask.artist.name | titlecase }} / {{runnerTask.pers}} persons</span>
+                        
                         </mat-list-item>
                         <mat-divider></mat-divider>
                         <mat-list-item>
-                            <mat-icon color="accent">alarm</mat-icon>
-                            <span>Departure at: {{runnerTask.startAt | date: 'short'}}</span>
+                            <mat-icon color="accent">navigation</mat-icon>                 
+                            <table>
+                                <tr>
+                                    <th class="light-gray">From:</th>
+                                    <th></th>
+                                    <th class="light-gray">To:</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{runnerTask.from.name}}
+                                    </td>
+                                    <td>
+                                        <mat-icon color="accent">arrow_right_alt</mat-icon>
+                                    </td>
+                                    <td>
+                                        {{runnerTask.to.name}}
+                                    </td>
+                                </tr>
+                            </table>
                         </mat-list-item>
                         <mat-divider></mat-divider>
-                        <mat-list-item>
-                            <mat-icon color="accent">phone</mat-icon>
-                            <span>Runner's phone: {{runnerTask.runner.phoneNumber}}</span>
-                        </mat-list-item>
+                        <ng-container *ngIf="!runnerTask.over; else isover">  
+                            <mat-list-item>
+                                <mat-icon color="accent">alarm</mat-icon>
+                                <span>Departure at: {{runnerTask.startAtToString | date: 'shortTime'}} </span>
+                            </mat-list-item>
+                            <mat-list-item>
+                                <span class="departure-status"> ( in: {{runnerTask.startAt | timeAgo }} )</span>
+                            </mat-list-item>
+                            <mat-divider></mat-divider>
+                        </ng-container>
+                        <ng-template #isover>
+                            <mat-list-item>
+                                <mat-icon color="accent">alarm</mat-icon>
+                                <span class="light-gray">Departure at: </span> <span>{{runnerTask.startAt | date: 'shortTime'}} </span> 
+                                <br>
+                                <span class="departure-status"> ( {{runnerTask.startAt | timeAgo }} ago )</span>
+                            </mat-list-item>
+                            <mat-divider></mat-divider>
+                        </ng-template>
+                        
                         <mat-divider></mat-divider>
                         <mat-list-item>
                             <mat-icon color="accent">history</mat-icon>
-                            <span>Status: {{runnerTask.runner.userName}} {{runnerTask.status}}</span>
+                            <div class="status">
+                                <div>
+                                    <span class="light-gray">Status: </span>
+                                    <span>{{runnerTask.runner.userName}} {{runnerTask.status}}</span>
+                                </div>
+                                <div>
+                                    <span>Last updated: {{runnerTask.updatedAt | timeAgo }} ago</span>
+                                </div>
+                            </div>
                         </mat-list-item>
                     </mat-list>
                 </mat-card-content>
                 <mat-card-actions>
-                    <mat-icon color="accent">person</mat-icon>
+                    <button mat-button (click)="delete(runnerTask)">
+                        <mat-icon class="delete">delete_forever</mat-icon>
+                    </button>
                     <span>Created By: {{runnerTask.createdBy}}</span> 
-                    <mat-icon color="accent">access_time</mat-icon>
-                    <span>Last updated on: {{runnerTask.updatedAt | date: 'short'}}</span>                    
                 </mat-card-actions>
             </mat-card>
         </mat-grid-tile>

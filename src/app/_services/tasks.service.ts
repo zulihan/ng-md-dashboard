@@ -17,6 +17,7 @@ export class TasksService {
 
     runnersTasksCollection: AngularFirestoreCollection<RunnerTask>;
     runnersTasks: Observable<RunnerTask[]>;
+    runnerTask: AngularFirestoreDocument<RunnerTask>;
 
     tasks: Observable<Task[]>;
     editedTask = new Subject<Task>();
@@ -44,6 +45,11 @@ export class TasksService {
         this.runnersTasksCollection.add(task)
             .then(_ => console.log('task created'))
             .catch(err => console.log(err));
+    }
+
+    deleteRunnerTask(task: RunnerTask) {
+        this.runnerTask = this.runnersTasksCollection.doc<RunnerTask>(task.id);
+        return this.runnerTask.delete();
     }
 
     getTasks() {

@@ -10,9 +10,9 @@ import { AdminRoutingModule } from './admin-routing.module';
 
 import { AgmCoreModule } from '@agm/core';
 
+import { MatDialogModule } from '@angular/material';
 import { MaterialModule } from '../material/material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
-
 
 // main layout
 import { AdminComponent } from './admin.component';
@@ -38,7 +38,8 @@ import { PhotoEditorComponent } from './users/photo-editor/photo-editor.componen
 import { ChecklistComponent } from './checklist/checklist.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { TasksRegisterComponent } from './tasks/tasks-register/tasks-register.component';
-import { MatDialogModule } from '@angular/material';
+import { TaskEditComponent } from './tasks/task-edit/task-edit.component';
+
 
 
 @NgModule({
@@ -54,8 +55,9 @@ import { MatDialogModule } from '@angular/material';
     ChecklistComponent,
     TasksComponent,
     TasksRegisterComponent,
+    TaskEditComponent
   ],
-  entryComponents: [ArtistsRegisterComponent, TasksRegisterComponent],
+  entryComponents: [ArtistsRegisterComponent, TasksRegisterComponent, TaskEditComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -63,6 +65,7 @@ import { MatDialogModule } from '@angular/material';
     AdminRoutingModule,
     // MaterialModule,
     FlexLayoutModule,
+    PipesModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsKey
     }),
@@ -80,7 +83,8 @@ import { MatDialogModule } from '@angular/material';
     AdminComponent,
     DashboardComponent,
     MapComponent,
-    TasksRegisterComponent
+    TasksRegisterComponent,
+    TaskEditComponent
   ],
   providers: [ArtistsService]
 })

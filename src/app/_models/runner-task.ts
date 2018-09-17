@@ -7,11 +7,15 @@ export interface RunnerTask {
     createdBy: string;
     isDone: boolean;
     runner: Runner;
-    artist: string;
+    artist: any;
     pers: number;
     from: Location;
     to: Location;
-    startAt?: string;
+    startAt?: any;
+    startAtToString: string;
     updatedAt?: string;
     status: string;
+    over: any;
+    type: string;
+    taskStatus: string;
 }

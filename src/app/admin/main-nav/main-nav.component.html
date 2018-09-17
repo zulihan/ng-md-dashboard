@@ -2,7 +2,13 @@
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
-      <mat-toolbar color="primary"></mat-toolbar>
+      <mat-toolbar color="primary" class="left-toolbar">       
+        <div>
+          <a href="https://www.marsatac.com" target="_blank">
+            <img src="assets/icons/m2018.svg" alt="">
+          </a>
+        </div>         
+      </mat-toolbar>
       <mat-accordion>
         <mat-nav-list>
 
@@ -96,12 +102,7 @@
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
         <div class="left-items" fxFlex fxLayout  fxLayout.xs="column" fxLayoutAlign="flex-start">
-          <ul fxLayout fxLayoutWrap="wrap" fxLayoutGap="30px" class="toolbar-items">
-            <li>
-              <a href="https://www.marsatac.com" target="_blank">
-                <img src="assets/icons/m2018.svg" alt="">
-              </a>
-            </li>
+          <ul fxLayout fxLayoutWrap="wrap" fxLayoutGap="30px" class="toolbar-items">            
             <li>Wass'up {{ authService.currentUser?.userName | titlecase }} ?
               <img class="avatar" src="{{ photoUrl }}" alt="">
             </li>

@@ -5,6 +5,8 @@ import { RoleFilterPipe } from './role-filter.pipe';
 import { UserNameFilterPipe } from './userName-filter.pipe';
 import { DayFilterPipe } from './day-filter.pipe';
 import { VenueFilterPipe } from './venue-filter.pipe';
+import { CountdownPipe } from './countdown.pipe';
+import {TimeAgoPipe} from 'time-ago-pipe';
 
 
 
@@ -18,14 +20,19 @@ import { VenueFilterPipe } from './venue-filter.pipe';
       RoleFilterPipe,
       UserNameFilterPipe,
       DayFilterPipe,
-      VenueFilterPipe
+      VenueFilterPipe,
+      CountdownPipe,
+      TimeAgoPipe
+
    ],
    exports: [
       NameFilterPipe,
       RoleFilterPipe,
       UserNameFilterPipe,
       DayFilterPipe,
-      VenueFilterPipe
+      VenueFilterPipe,
+      CountdownPipe,
+      TimeAgoPipe
    ]
 })
 export class PipesModule { }

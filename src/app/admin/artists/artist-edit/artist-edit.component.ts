@@ -97,7 +97,8 @@ export class ArtistEditComponent implements OnInit, OnDestroy {
     const contactPhone = formValue.contactPhone;
     const onRoad = formValue.onRoad;
     const onStage = formValue.onStage;
-    const venueId = formValue.venue;
+    const venue = formValue.venue.name;
+    const venueId = formValue.venue.id;
     const dayId = +formValue.day;
     const getInStart = formValue.getInStart != null || undefined ?
       new Date(formValue.getInStart - timezoneOffset).toISOString().slice(0, -1) : null;
@@ -125,6 +126,7 @@ export class ArtistEditComponent implements OnInit, OnDestroy {
       contactPhone,
       onRoad,
       onStage,
+      venue,
       venueId,
       dayId,
       getIn : {

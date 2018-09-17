@@ -12,8 +12,7 @@
     <mat-grid-tile [colspan]="2" [rowspan]="1">
       
       <mat-card class="dashboard-card">
-        <mat-card-header> 
-          <button (click)="getGeocode()">Get Geocode</button>      
+        <mat-card-header>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
             <div class="map" *ngIf="lat && lng">
@@ -51,7 +50,7 @@
                     >
                     <agm-info-window>
                       <h3><strong>{{location.name}}</strong></h3>
-                      <p>You are </p>
+                      <p>{{location.address}}</p>
                     </agm-info-window>
                   </agm-marker>  
                   
