@@ -172,10 +172,19 @@ export class TasksRegisterComponent implements OnInit {
       type,
       taskStatus: 'scheduled'
     };
-    this.tasksService.addRunerTask(task);
+    // this.tasksService.addRunerTask(task);
+    this.tasksService.runnersTasksCollection.add(task)
+      .then(_ => {
+        console.log('task created');
+        this.showRegisterSuccess();
+       })
+      .catch(error => {
+        console.log(error);
+        this.showRegisterError(error);
+      });
   }
 
-  showRegisterSuccess(name) {
+  showRegisterSuccess() {
     this.toastr.success('You\'ve susccesfully registered a new task');
   }
 

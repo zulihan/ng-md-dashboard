@@ -57,7 +57,10 @@ import { TaskEditComponent } from './tasks/task-edit/task-edit.component';
     TasksRegisterComponent,
     TaskEditComponent
   ],
-  entryComponents: [ArtistsRegisterComponent, TasksRegisterComponent, TaskEditComponent],
+  entryComponents: [
+    ArtistsRegisterComponent,
+    TasksRegisterComponent,
+    TaskEditComponent],
   imports: [
     CommonModule,
     SharedModule,

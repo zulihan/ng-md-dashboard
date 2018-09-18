@@ -18,6 +18,8 @@ export class TasksService {
     runnersTasksCollection: AngularFirestoreCollection<RunnerTask>;
     runnersTasks: Observable<RunnerTask[]>;
     runnerTask: AngularFirestoreDocument<RunnerTask>;
+    editedRunnerTask =  new Subject<RunnerTask>();
+    runnerTasks: Observable<RunnerTask[]>;
 
     tasks: Observable<Task[]>;
     editedTask = new Subject<Task>();
@@ -51,6 +53,14 @@ export class TasksService {
         this.runnerTask = this.runnersTasksCollection.doc<RunnerTask>(task.id);
         return this.runnerTask.delete();
     }
+
+
+    updateRunnerTask(taskId: string, task: RunnerTask) {
+        this.runnerTask = this.tasksCollection.doc<RunnerTask>(taskId);
+        this.runnerTask.update(task);
+        // this.editedRunnerTask.next(this.taskToEditReset());
+    }
+
 
     getTasks() {
         this.tasks = this.tasksCollection.snapshotChanges().map(actions => {

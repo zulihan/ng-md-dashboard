@@ -7,6 +7,8 @@ import { DayFilterPipe } from './day-filter.pipe';
 import { VenueFilterPipe } from './venue-filter.pipe';
 import { CountdownPipe } from './countdown.pipe';
 import {TimeAgoPipe} from 'time-ago-pipe';
+import { RunnersTasksFilterPipe } from './runners-tasks-filter.pipe';
+import { HideCompletedPipe } from './hide-completed.pipe';
 
 
 
@@ -22,8 +24,9 @@ import {TimeAgoPipe} from 'time-ago-pipe';
       DayFilterPipe,
       VenueFilterPipe,
       CountdownPipe,
-      TimeAgoPipe
-
+      TimeAgoPipe,
+      RunnersTasksFilterPipe,
+      HideCompletedPipe
    ],
    exports: [
       NameFilterPipe,
@@ -32,7 +35,9 @@ import {TimeAgoPipe} from 'time-ago-pipe';
       DayFilterPipe,
       VenueFilterPipe,
       CountdownPipe,
-      TimeAgoPipe
+      TimeAgoPipe,
+      RunnersTasksFilterPipe,
+      HideCompletedPipe
    ]
 })
 export class PipesModule { }

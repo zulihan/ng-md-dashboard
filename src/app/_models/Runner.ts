@@ -1,6 +1,6 @@
 export interface Runner {
     id: number;
-    UserName: string;
+    userName: string;
     photoUrl: string;
     phoneNumber: string;
     isActive?: boolean;

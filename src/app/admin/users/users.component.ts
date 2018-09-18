@@ -21,7 +21,7 @@ export class UsersComponent implements OnInit, AfterViewChecked {
   rolesStatus = [
     { role: 'admin', checked: false },
     { role: 'host', checked: false },
-    {role: 'runner', checked: false }
+    { role: 'runner', checked: false }
   ];
   filterArr = [];
   admin;
@@ -110,17 +110,17 @@ export class UsersComponent implements OnInit, AfterViewChecked {
 
   }
 
-  updateFilter(role) {
-    console.log(role);
-    if (role.checked) {
-      this.filterArr.push(role.checked);
-    } else {
-      const index = this.filterArr.indexOf(role.checked);
-      this.filterArr.splice(index, 1);
-    }
-    console.log(this.filterArr);
-    // console.log('role:', this.roles);
-  }
+  // updateFilter(role) {
+  //   console.log(role);
+  //   if (role.checked) {
+  //     this.filterArr.push(role.checked);
+  //   } else {
+  //     const index = this.filterArr.indexOf(role.checked);
+  //     this.filterArr.splice(index, 1);
+  //   }
+  //   console.log(this.filterArr);
+  //   console.log('role:', this.rolesStatus);
+  // }
 
   ngAfterViewChecked() {
     // console.log(this.roles);
