@@ -2,18 +2,21 @@ import { Injectable, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { HttpClient } from '@angular/common/http';
 
+import * as Geofire from 'geofire';
+
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { Location } from '../_models/Location';
+
 import { Task } from 'src/app/_models/task';
+import { Place } from 'src/app/_models/place';
 
 
 
 @Injectable()
 export class GeoService implements OnInit {
 
-  locationsCollection: AngularFirestoreCollection<Location>;
-  locations: Observable<Location[]>;
+  locationsCollection: AngularFirestoreCollection<Place>;
+  locations: Observable<Place[]>;
 
   dbRef: any;
   geoFire: any;
@@ -24,14 +27,15 @@ export class GeoService implements OnInit {
   apiKey = 'AIzaSyAjUVpulfQoIt0LHVGcO9KLzitRXwbZVfs';
 
   constructor(private afs: AngularFirestore, private http: HttpClient) {
-    this.locationsCollection = this.afs.collection<Location>('locations');
+    this.locationsCollection = this.afs.collection<Place>('locations');
     this.locations = this.locationsCollection.snapshotChanges().map(actions => {
       return actions.map(a => {
-        const data = a.payload.doc.data() as Location;
+        const data = a.payload.doc.data() as Place;
         const id = +a.payload.doc.id;
         return { id, ...data };
       });
     });
+    // this.dbRef = this.afs.list('/locations');
   }
 
    ngOnInit() {
@@ -48,8 +52,8 @@ export class GeoService implements OnInit {
    }
 
    // Adds GeoFire data to database
-   setLocation(id: number, location: Location) {
-     this.afs.collection<Location>('locations').doc(id.toString()).set(location)
+   setLocation(id: number, location: Place) {
+     this.afs.collection<Place>('locations').doc(id.toString()).set(location)
          .then(_ => console.log('location updated'))
          .catch(err => console.log(err));
    }

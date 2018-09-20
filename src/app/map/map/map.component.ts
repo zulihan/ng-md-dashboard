@@ -3,6 +3,7 @@ import { GeoService } from '../../_services/geo.service';
 import { log } from 'util';
 import { Geopoint } from '../../_models/Geopoint';
 import { Location } from '../../_models/Location';
+import { Place } from 'src/app/_models/place';
 
 @Component({
   selector: 'app-map',
@@ -11,11 +12,11 @@ import { Location } from '../../_models/Location';
 })
 export class MapComponent implements OnInit {
 
-  lat: number;
+    lat: number;
     lng: number;
     zoom = 13;
 
-    locations: Location[];
+    locations: Place[];
 
     markers: any;
     subscription: any;

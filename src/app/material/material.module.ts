@@ -23,7 +23,8 @@ import {
   MatTabsModule,
   MatSlideToggleModule,
   MatPaginatorModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatProgressBarModule
 } from '@angular/material';
 
 @NgModule({
@@ -51,7 +52,8 @@ import {
     MatTabsModule,
     MatSlideToggleModule,
     MatPaginatorModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatProgressBarModule
   ],
   exports: [
     MatButtonModule,
@@ -77,7 +79,8 @@ import {
     MatTabsModule,
     MatSlideToggleModule,
     MatPaginatorModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatProgressBarModule
   ]
 })
 export class MaterialModule {}

@@ -19,6 +19,7 @@ import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { MapComponent } from '../map/map/map.component';
+import { RunnerMapComponent } from '../map/runner-map/runner-map.component';
 
 import { environment } from '../../environments/environment';
 
@@ -55,7 +56,8 @@ import { TaskEditComponent } from './tasks/task-edit/task-edit.component';
     ChecklistComponent,
     TasksComponent,
     TasksRegisterComponent,
-    TaskEditComponent
+    TaskEditComponent,
+    RunnerMapComponent
   ],
   entryComponents: [
     ArtistsRegisterComponent,
@@ -87,7 +89,8 @@ import { TaskEditComponent } from './tasks/task-edit/task-edit.component';
     DashboardComponent,
     MapComponent,
     TasksRegisterComponent,
-    TaskEditComponent
+    TaskEditComponent,
+    RunnerMapComponent
   ],
   providers: [ArtistsService]
 })

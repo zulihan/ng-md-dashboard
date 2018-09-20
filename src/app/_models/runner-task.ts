@@ -1,4 +1,5 @@
 import { Runner } from 'src/app/_models/runner';
+import { Place } from './place';
 
 export interface RunnerTask {
     id?: any;
@@ -9,8 +10,8 @@ export interface RunnerTask {
     runner: Runner;
     artist: any;
     pers: number;
-    from: Location;
-    to: Location;
+    from: Place;
+    to: Place;
     startAt?: any;
     startAtToString: string;
     updatedAt?: string;

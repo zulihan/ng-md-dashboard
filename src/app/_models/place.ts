@@ -1,8 +1,8 @@
 import * as firebase from 'firebase';
 
-export interface Location {
+export interface Place {
     id?: number;
-    name?: string;
+    name: string;
     address?: string;
     coord?: firebase.firestore.GeoPoint;
     latitude?: number;

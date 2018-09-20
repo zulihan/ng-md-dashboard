@@ -3,13 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/admin/users/service/user.service';
-import { Location } from 'src/app/_models/Location';
 import { ArtistsService } from '../../artists/service/artists.service';
 import { Runner } from 'src/app/_models/runner';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { GeoService } from 'src/app/_services/geo.service';
 import * as firebase from 'firebase';
 import { TasksService } from '../../../_services/tasks.service';
+import { Place } from '../../../_models/place';
 
 @Component({
   selector: 'app-tasks-register',
@@ -24,7 +24,7 @@ export class TasksRegisterComponent implements OnInit {
   persons = [1, 2, 3, 4, 5, 6, 7, 8];
   runners;
   artists;
-  locations: Location[];
+  locations: Place[];
   // locations: Location[] =  ( [
   //   {id: 1, name: 'Festival'},
   //   {id: 2, name: 'Aéroport de Marseille'},
@@ -38,7 +38,7 @@ export class TasksRegisterComponent implements OnInit {
   //   {id: 9, name: 'Hotel Mercure Prado'}
   // ]);
 
-  newLocation: Location = {id: 0, name: 'New Location'};
+  newLocation: Place = {id: 0, name: 'New Location'};
 
   geoCode;
   newLocationLat;
@@ -153,7 +153,14 @@ export class TasksRegisterComponent implements OnInit {
     console.log('valueForFrom: ', this.registerTaskForm.get('from').value.name);
     const form = this.registerTaskForm.value;
     const creator = JSON.parse(localStorage.getItem('user')).userName;
-    const type = form.from === 'Marsatac' ? 'drop off' : 'pick-up';
+    let type;
+    if (form.from === 'Marsatac') {
+      type = 'drop off';
+    } else if ( form.to === 'Marsatac') {
+      type = 'pick-up';
+    } else if ( form.from && form.to !== 'Marsatac') {
+      type = 'three-legs';
+    }
     const task = {
       createdAt: new Date(Date.now()).toString(),
       updatedAt: new Date(Date.now()).toString(),

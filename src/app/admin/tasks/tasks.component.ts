@@ -58,6 +58,8 @@ export class TasksComponent implements
   cols;
   rowHeight;
 
+  panelOpenState = false;
+
 
   constructor(
     public dialog: MatDialog,
@@ -212,11 +214,11 @@ export class TasksComponent implements
 
   heightToCols(cols: number): number {
     if (cols === 1) {
-      return 450;
+      return 470;
     } else if (cols === 2) {
-      return 450;
+      return 470;
     } else {
-      return 450;
+      return 470;
     }
 
   }
@@ -291,7 +293,6 @@ export class TasksComponent implements
 
   }
 
-
   checkTaskStatus(runnerTask) {
     this.ngZone.runOutsideAngular( _ => {
       if (typeof window !== 'undefined') {
@@ -301,7 +302,8 @@ export class TasksComponent implements
           const start = new Date(runnerTask.startAt).getTime();
           if (runnerTask.taskStatus === 'ok' ||
               runnerTask.taskStatus === 'late' ||
-              runnerTask.taskStatus === 'completed') {
+              runnerTask.taskStatus === 'completed' ||
+              dateNow < start - 900000) {
             clearInterval(checkStatusInterval);
           } else if ( dateNow + 900000 >= start && dateNow < start  ) {
             return runnerTask.taskStatus = 'approaching';

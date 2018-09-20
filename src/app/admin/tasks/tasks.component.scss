@@ -53,6 +53,7 @@
 
         padding: 20px !important;
         min-width: 340px;
+        min-height: 453px;
 
         div.edit {
             display: flex;
@@ -99,9 +100,11 @@
         .status {
             display: flex;
             flex-direction: column;
+            width: 100%;
         
             div {
                 display: flex;
+                align-items: center;
             }
             div:nth-child(2) {      
                 mat-icon {
@@ -123,6 +126,8 @@
             align-items: flex-end;
             justify-content: space-between;
             color: $lightgray;
+            padding: 0;
+            margin-bottom: 0 !important;
     
             span {
                 font-size: 12px;
@@ -174,7 +179,32 @@
         .info {
             font-size: 12px;
             margin-left: 15px;
-        }       
+            justify-content: flex-end;
+        }  
+        
+        .mat-expansion-panel {
+            margin: 0 -20px;
+            box-shadow: unset;
+        }
+
+        .mat-expanded {
+            z-index: 1;
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+
+        agm-map {
+            width: 100%;
+        }
+
+        agm-map.sebm-google-map-container {
+            height: 400px;
+        }
+
+        .agm-map-container-inner.sebm-google-map-container-inner {
+            height: 200px;
+        }
     
     }
     
