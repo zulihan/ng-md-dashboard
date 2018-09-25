@@ -31,6 +31,7 @@ import { DayTwoVenueTwoTimetableComponent } from './timetables/day-two-venue-two
 import { DayTwoVenueThreeTimetableComponent } from './timetables/day-two-venue-three-timetable/day-two-venue-three-timetable.component';
 import { ChecklistComponent } from './checklist/checklist.component';
 import { TasksComponent } from 'src/app/admin/tasks/tasks.component';
+import { TasksListComponent } from './tasks/tasks-list/tasks-list.component';
 
 // { path: 'admin', canActivate: [AuthGuard] , redirectTo: 'admin/dashboard/v1'},
 
@@ -85,7 +86,11 @@ const adminRoutes: Routes = [
         ]
       },
       { path: 'checklist', component: ChecklistComponent},
-      { path: 'tasks', component: TasksComponent},
+      { path: 'tasks', component: TasksComponent, children:
+        [
+          {path: 'tasks-list', component: TasksListComponent}
+        ]
+      },
       { path: '**', component: NotFoundComponent }
     ]
   }

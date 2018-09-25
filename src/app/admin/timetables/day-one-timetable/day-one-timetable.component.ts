@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { Timetable } from '../_timetable/timetable';
 import { Renderer } from '../_timetable/renderer';
@@ -12,7 +12,7 @@ import { Artist } from '../../../_models/artist';
   templateUrl: './day-one-timetable.component.html',
   styleUrls: ['./day-one-timetable.component.scss']
 })
-export class DayOneTimetableComponent implements OnInit, AfterViewInit {
+export class DayOneTimetableComponent implements OnInit {
 
   @ViewChild('timetableOne') timetableDayOne: ElementRef;
   selector;
@@ -79,10 +79,6 @@ export class DayOneTimetableComponent implements OnInit, AfterViewInit {
       });
 
   }
-
-  ngAfterViewInit() {
-
-}
 
   setScopeTime(timeTable) {
     const getInsStart = [];

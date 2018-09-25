@@ -18,8 +18,8 @@
 
 
       <agm-marker *ngFor="let location of locations"
-        [latitude]="location['coord'].latitude"
-        [longitude]="location['coord'].longitude"
+        [latitude]="location.coord.latitude"
+        [longitude]="location.coord.longitude"
         >
         <agm-info-window>
           <h3><strong>{{location.name}}</strong></h3>

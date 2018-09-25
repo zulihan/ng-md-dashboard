@@ -40,6 +40,9 @@ import { ChecklistComponent } from './checklist/checklist.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { TasksRegisterComponent } from './tasks/tasks-register/tasks-register.component';
 import { TaskEditComponent } from './tasks/task-edit/task-edit.component';
+import { TaskProgressComponent } from './tasks/task-progress/task-progress.component';
+import { TasksListComponent } from './tasks/tasks-list/tasks-list.component';
+import { RunnersTasksTimetableComponent } from './timetables/runners-tasks-timetable/runners-tasks-timetable.component';
 
 
 
@@ -57,7 +60,10 @@ import { TaskEditComponent } from './tasks/task-edit/task-edit.component';
     TasksComponent,
     TasksRegisterComponent,
     TaskEditComponent,
-    RunnerMapComponent
+    RunnerMapComponent,
+    TaskProgressComponent,
+    TasksListComponent,
+    RunnersTasksTimetableComponent
   ],
   entryComponents: [
     ArtistsRegisterComponent,
@@ -72,7 +78,8 @@ import { TaskEditComponent } from './tasks/task-edit/task-edit.component';
     FlexLayoutModule,
     PipesModule,
     AgmCoreModule.forRoot({
-      apiKey: environment.googleMapsKey
+      apiKey: environment.googleMapsKey,
+      libraries: ['geometry']
     }),
     ArtistsModule,
     CalModule,

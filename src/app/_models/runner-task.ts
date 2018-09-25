@@ -19,4 +19,6 @@ export interface RunnerTask {
     over: any;
     type: string;
     taskStatus: string;
+    estimatedDuration: any;
+    distance: any;
 }

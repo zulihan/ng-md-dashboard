@@ -40,3 +40,5 @@ Thumbs.db
 
 # Environment file
 src/environments/environment.ts
+backend/environment.js
+backend/node_modules

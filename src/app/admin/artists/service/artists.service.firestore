@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+nimport { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Artist } from '../../../_models/artist';
 import { Observable } from 'rxjs/Observable';

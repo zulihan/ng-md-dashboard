@@ -8,4 +8,5 @@ export interface Place {
     latitude?: number;
     longitude?: number;
     type?: string;
+    place_id?: string;
 }

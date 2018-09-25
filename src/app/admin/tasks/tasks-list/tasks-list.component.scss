@@ -1,0 +1,238 @@
+@import '~@angular/material/theming';
+@import 'src/theme.scss';
+
+.container {
+    margin-top: 10px;
+    box-sizing: border-box;
+
+    .light-gray {
+        color: $lightgray;
+    }
+
+    .register {
+        display: flex;
+        justify-content: center;
+    }
+
+    .filter-status {
+        display:  flex;
+        margin-top: 15px;
+        justify-content: space-around;
+        flex: 1 0 auto;
+        flex-wrap:  wrap;
+    }
+
+    .hide-completed {
+        display:  flex;
+        margin-top: 15px;
+        justify-content: center;
+        flex-wrap:  wrap;
+        margin-left: 30px;    
+    }
+
+    .delete {
+        color: $red;
+    }
+
+    .ok {
+        border: 2px solid $green;
+    }
+
+    .approaching {
+        border: 2px solid yellow;
+    }
+
+    .due {
+        border: 2px solid $orange; 
+    }
+
+    .late {
+        border: 2px solid $red;
+    }
+
+    .completed {
+        background-color: rgba(189,189,189,0.15);
+
+        mat-expansion-panel-header {
+            background-color: rgba(189, 189, 189, 0.2);
+        }
+    }
+            
+    .runner-task-card {
+
+        padding: 20px !important;
+        min-width: 340px;
+        min-height: 453px;
+
+        div.edit {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: -25px;
+            margin-right: -35px;
+        
+            mat-icon {        
+                height: 30px;
+                width: 30px;
+                font-size: 30px;
+            }  
+        }  
+        
+        .mat-card-header {
+            justify-content: space-between;
+            padding-bottom: 5px;
+        }
+        
+        span {
+            display: flex;
+            margin-right: 5px;
+        }
+    
+        .header-image.mat-card-avatar {
+            background-size: cover;    
+            height: 60px;
+            width: 60px;        
+        }
+    
+        .mat-icon.mat-accent.material-icons {
+            margin-right: 5px;
+        }
+
+        .mat-list {
+            padding-top: 0;
+        }
+    
+        .mat-list-item {
+            padding: 5px 0;
+            font-size: 14px !important
+        }
+
+        .direction {            
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .nav-direction {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .distance {
+            justify-content: flex-end;
+        }
+       
+        .status {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        
+            div {
+                display: flex;
+                align-items: center;
+                width: 100%;
+            }
+            div:nth-child(2) {      
+                mat-icon {
+                    font-size: 14px;
+                    height: 14px;
+                    width: 14px;
+                    margin-right: 5px;    
+                }
+
+                span {
+                    color: lightgray;
+                        font-size: 12px;
+                }
+            }
+        }
+    
+        .mat-card-actions {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            color: $lightgray;
+            padding: 0;
+            margin-bottom: 0 !important;
+    
+            span {
+                font-size: 12px;
+                vertical-align: super;
+            }
+    
+            span:nth-child(2) {
+                margin-right: 10px;
+            }
+
+            button {
+                min-width: 50px;
+                padding: 0;
+            }
+    
+            mat-icon {
+                height: 24px;
+                width: 24px;
+                font-size: 24px;
+            }        
+            
+        }  
+        
+        table {
+            width: 100%;
+    
+            tr {
+                display: flex;
+            }
+            
+            th {
+                flex: 1 0 auto;
+                font-size: 12px;
+            }
+    
+            th:nth-child(2) {
+                flex: 0 1 auto;
+            }
+    
+            th.light-gray {
+                color: $lightgray;
+            }
+            
+            td {
+                flex: 1 0 auto;
+            }
+        }
+    
+        .info {
+            font-size: 12px;
+            margin-left: 15px;
+            justify-content: flex-end;
+            width: 100%;
+        }  
+        
+        .mat-expansion-panel {
+            margin: 0 -20px;
+            box-shadow: unset;
+        }
+
+        .mat-expanded {
+            z-index: 1;
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+
+        agm-map {
+            width: 100%;
+        }
+
+        agm-map.sebm-google-map-container {
+            height: 400px;
+        }
+
+        .agm-map-container-inner.sebm-google-map-container-inner {
+            height: 200px;
+        }
+    
+    }
+    
+    
+}

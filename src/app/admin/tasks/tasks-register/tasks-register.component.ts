@@ -24,21 +24,19 @@ export class TasksRegisterComponent implements OnInit {
   persons = [1, 2, 3, 4, 5, 6, 7, 8];
   runners;
   artists;
-  locations: Place[];
-  // locations: Location[] =  ( [
-  //   {id: 1, name: 'Festival'},
-  //   {id: 2, name: 'Aéroport de Marseille'},
-  //   {id: 3, name: 'Aéroport de Nice'},
-  //   {id: 4, name: 'Aéroport de Montpellier'},
-  //   {id: 5, name: 'Gare Saint-Charles'},
-  //   {id: 6, name: 'Aéroport de Montpellier'},
-  //   {id: 7, name: 'Hotel Ibis Prado'},
-  //   {id: 8, name: 'Hotel Novotel Prado'},
-  //   {id: 9, name: 'Hotel B&B Prado'},
-  //   {id: 9, name: 'Hotel Mercure Prado'}
-  // ]);
+
+  locations;
+  locationsList;
+
+  directionsObs;
+  estimatedDuration;
+  taskDistance;
+
 
   newLocation: Place = {id: 0, name: 'New Location'};
+
+  marsatacLat = 43.270584762037416;
+  marsatacLng = 5.39729277752383;
 
   geoCode;
   newLocationLat;
@@ -69,10 +67,20 @@ export class TasksRegisterComponent implements OnInit {
     console.log('registerTaskForm before creation: ', this.registerTaskForm);
     this.runners = this.userService.getRunners();
     this.artists = this.artistsService.getArtistsNames();
-    this.geo.getLocations().subscribe( locations => {
-      console.log('locations: ', locations);
-      return this.locations = locations;
+
+    this.locations = this.geo.getLocations();
+    this.geo.getLocations().subscribe(locs => {
+      console.log('this.locations from geo: ', locs);
+
+      return this.locationsList = locs;
     });
+
+    // this.geo.getLocations().subscribe(locs => {
+    //   this.locationsList = locs;
+    //   console.log('this.locationsList: ', this.locationsList);
+    //   this.locationsBSubject.next(this.locationsList);
+    // });
+
     this.createRegisterTaskForm();
     this.createRegisterNewLocationForm();
     this.newLocationLatObs.subscribe( res => this.newLocationLat = res);
@@ -103,24 +111,28 @@ export class TasksRegisterComponent implements OnInit {
       name : ['', [Validators.required, Validators.minLength(2)]],
       address: ['', [Validators.required, Validators.minLength(2)]],
       lat: ['', [Validators.nullValidator]],
-      long: ['', [Validators.nullValidator]]
+      long: ['', [Validators.nullValidator]],
+      place_id: ['', [Validators.nullValidator]]
     });
   }
 
   registerNewLocation() {
+    console.log('this.locationsList from registerNewLocation: ', this.locationsList);
     console.log('this.registerNewLocationForm: ', this.registerNewLocationForm.value);
     console.log('this.newLocationLat: ', this.newLocationLat);
     const form = this.registerNewLocationForm.value;
-    console.log('last location id: ', this.locations[this.locations.length - 1]['id']);
-    const id = this.locations[this.locations.length - 1]['id'] + 1;
+    console.log('last location id: ', this.locationsList[this.locationsList.length - 1]['id']);
+    const id = this.locationsList[this.locationsList.length - 1]['id'] + 1;
     const name = form.name;
     const address = form.address;
     const lat = form.lat;
     const lng = form.long;
+    const place_id = form.place_id;
     const newLocation = {
       name,
       address,
-      coord: new firebase.firestore.GeoPoint(lat, lng)
+      coord: new firebase.firestore.GeoPoint(lat, lng),
+      place_id
     };
     console.log('id: ', id);
     this.geo.setLocation(id, newLocation);
@@ -137,10 +149,12 @@ export class TasksRegisterComponent implements OnInit {
       console.log('geoCode: ', this.geoCode);
       const lat = this.geoCode !== undefined ? this.geoCode.results[0].geometry.location.lat : '';
       const lng = this.geoCode !== undefined ? this.geoCode.results[0].geometry.location.lng : '';
+      const place_id = this.geoCode !== undefined ? this.geoCode.results[0].place_id : '';
       this.newLocationLatSubject.next(lat);
       this.registerNewLocationForm.get('lat').setValue(lat);
       this.newLocationLngSubject.next(lng);
       this.registerNewLocationForm.get('long').setValue(lng);
+      this.registerNewLocationForm.get('place_id').setValue(place_id);
       console.log('lat ', lat);
       console.log('this.newLocationLat ', this.newLocationLat);
 
@@ -154,49 +168,94 @@ export class TasksRegisterComponent implements OnInit {
     const form = this.registerTaskForm.value;
     const creator = JSON.parse(localStorage.getItem('user')).userName;
     let type;
-    if (form.from === 'Marsatac') {
+    console.log('form.from', form.from);
+    if (form.from.name === 'Marsatac') {
       type = 'drop off';
-    } else if ( form.to === 'Marsatac') {
+    } else if ( form.to.name === 'Marsatac') {
       type = 'pick-up';
-    } else if ( form.from && form.to !== 'Marsatac') {
+    } else if ( form.from.name && form.to.name !== 'Marsatac') {
       type = 'three-legs';
     }
-    const task = {
-      createdAt: new Date(Date.now()).toString(),
-      updatedAt: new Date(Date.now()).toString(),
-      createdBy: creator,
-      isDone: false,
-      status: 'has not started yet',
-      runner: form.runner,
-      artist: form.artist,
-      pers: form.persons,
-      from: form.from,
-      to: form.to,
-      startAt: form.time,
-      startAtToString: '',
-      closedAt: null,
-      over: false,
-      type,
-      taskStatus: 'scheduled'
-    };
-    // this.tasksService.addRunerTask(task);
-    this.tasksService.runnersTasksCollection.add(task)
-      .then(_ => {
-        console.log('task created');
-        this.showRegisterSuccess();
-       })
-      .catch(error => {
-        console.log(error);
-        this.showRegisterError(error);
+    const marsatac = this.locationsList.find(loc => loc.name === 'Marsatac');
+    console.log('form.time:', form.time);
+    const departureAt = form.time !== '' ? new Date(form.time).getTime() : new Date(Date.now()).getTime();
+    console.log('departureAt: ', departureAt);
+
+
+    if (form.from.name === 'Marsatac') {
+      this.directionsObs = this.geo.getDirections(
+        {
+          origin: 'ChIJbW8XYqi4yRIRHeukMHYw9ig',
+          destination: 'ChIJbW8XYqi4yRIRHeukMHYw9ig',
+          waypoints: [
+            {
+              location: form.to.place_id,
+            }],
+          provideRouteAlternatives: false,
+          travelMode: 'DRIVING',
+          drivingOptions: {
+            departureTime: +departureAt,
+            trafficModel: 'pessimistic'
+          }
+        });
+
+    }
+    this.directionsObs.subscribe(res => {
+      console.log('response from api call: ', res);
+      let duration = 0;
+      let distance = 0;
+      res.routes[0].legs.forEach(leg => {
+        duration += leg.duration.value;
       });
+      res.routes[0].legs.forEach(leg => {
+        distance += leg.distance.value;
+      });
+      this.estimatedDuration = Math.round((duration + 600) / 50 ) * 50;
+      this.taskDistance = distance;
+      console.log('taskDuration: ', this.estimatedDuration);
+      console.log('taskDistance: ', this.taskDistance);
+
+      const task = {
+        createdAt: new Date(Date.now()).toString(),
+        updatedAt: new Date(Date.now()).toString(),
+        createdBy: creator,
+        isDone: false,
+        status: 'has not started yet',
+        runner: form.runner,
+        artist: form.artist,
+        pers: form.persons,
+        from: form.from,
+        to: form.to,
+        startAt: form.time,
+        startAtToString: '',
+        closedAt: null,
+        over: false,
+        type,
+        taskStatus: 'scheduled',
+        estimatedDuration: this.estimatedDuration,
+        distance: this.taskDistance
+      };
+      this.tasksService.runnersTasksCollection.add(task)
+        .then(_ => {
+          console.log('task created');
+          this.showRegisterSuccess();
+         })
+        .catch(error => {
+          console.log(error);
+          this.showRegisterError(error);
+        });
+    });
+
+    }
+
+
+    showRegisterSuccess() {
+      this.toastr.success('You\'ve susccesfully registered a new task');
+    }
+
+    showRegisterError(error) {
+      this.toastr.error(error);
+    }
+
   }
 
-  showRegisterSuccess() {
-    this.toastr.success('You\'ve susccesfully registered a new task');
-  }
-
-  showRegisterError(error) {
-    this.toastr.error(error);
-  }
-
-}
