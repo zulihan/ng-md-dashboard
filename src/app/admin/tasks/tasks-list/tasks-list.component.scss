@@ -1,7 +1,7 @@
 @import '~@angular/material/theming';
 @import 'src/theme.scss';
 
-.container {
+.tasks-list {
     margin-top: 10px;
     box-sizing: border-box;
 
@@ -12,6 +12,20 @@
     .register {
         display: flex;
         justify-content: center;
+    }
+
+    .mat-expansion-panel {
+        mat-expansion-panel-header mat-icon {
+            margin-right: 5px;
+        }
+
+        mat-list-item {
+            margin-left: 15px;
+        }
+    }
+
+    mat-expansion-panel-header mat-icon {
+        margin-right: 5px;
     }
 
     .filter-status {

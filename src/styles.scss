@@ -55,3 +55,41 @@ padding-right: 5px;
         
 }
 
+li a.tool-tip {
+    position: relative;
+
+    &:hover~div.tooltiptext {
+        background-color: $accent;
+        visibility: visible;
+        opacity: 1;
+      
+    }    
+    
+}
+
+.tooltiptext {
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    position: absolute;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.3s;
+    height: 100%;
+  }
+
+  /* Tooltip arrow */
+//   .tooltiptext::after {
+//     content: "";
+//     position: absolute;
+//     top: 100%;
+//     left: 50%;
+//     margin-left: -5px;
+//     border-width: 5px;
+//     border-style: solid;
+//     border-color: #555 transparent transparent transparent;
+//  }
+
+

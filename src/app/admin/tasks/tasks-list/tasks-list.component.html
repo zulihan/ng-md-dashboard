@@ -1,19 +1,35 @@
-<div class="container">
-    <div class="register">
-      <button mat-raised-button (click)="openRegisterDialog()">Register a new task</button>
-    </div>
+   <div class="tasks-list">
     
-    <div class="filter-status">
-        <span>Filter Status</span>
-        <div *ngFor="let rts of runnersTasksStatus"> 
+    <!-- <div class="filter-status"> -->
+        <mat-accordion multi="false">
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon matPrefix color="primary">tune</mat-icon>
+                    <span>Filter Status</span>
+                </mat-expansion-panel-header>
+                <ng-template matExpansionPanelContent>
+                    <mat-nav-list *ngFor="let rts of runnersTasksStatus">
+                        <mat-list-item>
+                            <mat-checkbox 
+                            class="checkbox-margin" 
+                            [(ngModel)]="rts.checked" 
+                            (click)="rts.checked ? filterArr.splice(filterArr.indexOf(rts.ts), 1) : filterArr.push(rts.ts)">
+                            {{rts.ts}}
+                            </mat-checkbox>
+                        </mat-list-item>
+                    </mat-nav-list>
+                </ng-template>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <!-- <div *ngFor="let rts of runnersTasksStatus"> 
             <mat-checkbox 
             class="checkbox-margin" 
             [(ngModel)]="rts.checked" 
             (click)="rts.checked ? filterArr.splice(filterArr.indexOf(rts.ts), 1) : filterArr.push(rts.ts)">
             {{rts.ts}}
             </mat-checkbox>            
-        </div>
-    </div>     
+        </div> -->
+    <!-- </div>      -->
     <div class="hide-completed">
         <div> 
             <mat-checkbox 
@@ -97,13 +113,15 @@
                                 </mat-list-item>
                                 <mat-divider></mat-divider>
                                 <ng-container *ngIf="!runnerTask.over; else isover">  
-                                    <mat-list-item class="status">
-                                        <div>
-                                            <mat-icon color="accent">alarm</mat-icon>
-                                            <span class="light-gray">Departure at: </span> <span>{{runnerTask.startAt | date: 'shortTime'}} </span>
-                                        </div>
-                                        <div class="info light-gray">
-                                            <span> ( in {{runnerTask.startAt | timeAgo }} )</span>
+                                    <mat-list-item>
+                                        <div  class="status">
+                                            <div>
+                                                <mat-icon color="accent">alarm</mat-icon>
+                                                <span class="light-gray">Departure at: </span> <span>{{runnerTask.startAt | date: 'shortTime'}} </span>
+                                            </div>
+                                            <div class="info light-gray">
+                                                <span> ( in {{runnerTask.startAt | timeAgo }} )</span>
+                                            </div>
                                         </div>                                 
                                     </mat-list-item>
                                     <mat-divider></mat-divider>
@@ -417,5 +435,4 @@
             </ng-template> -->
         </mat-grid-tile>
     </mat-grid-list>
-
 </div>

@@ -1,7 +1,40 @@
 <div class="container">
-    <a href="" routerLink="tasks-list" routerLinkActive="active">
-        <button mat-raised-button>Tasks List</button>
-    </a>
+        <div class="register">
+            <button mat-raised-button color="accent" (click)="openRegisterDialog()">Register a new task</button>
+        </div>
+    <mat-toolbar>  
+        <mat-toolbar-row>
+            <a [routerLink]="['tasks-list']" routerLinkActive [class.active]="rlatl.isActive" #rlatl="routerLinkActive">
+                <mat-icon matPrefix color="primary">list</mat-icon>
+                <span>Tasks List</span>
+            </a>
+        </mat-toolbar-row>
+        <mat-toolbar-row>
+            <a href="" routerLink="runners-tasks-timetable" routerLinkActive="active">
+                <mat-icon matPrefix color="primary">date_range</mat-icon>
+                <span>Tasks Timetable</span>
+            </a>
+        </mat-toolbar-row>
+    </mat-toolbar>  
+
     <router-outlet></router-outlet>
 </div>
 
+<!-- <mat-menu>
+        <mat-list>
+            <mat-list-item>
+                <a href="" routerLink="tasks-list" routerLinkActive="active">
+                    <mat-icon matPrefix color="primary">list</mat-icon>
+                    <span>Tasks List</span>
+                </a>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+                <a href="" routerLink="runners-tasks-timetable" routerLinkActive="active">
+                    <mat-icon matPrefix color="primary">date_range</mat-icon>
+                    <span>Tasks Timetable</span>
+                </a>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </mat-list>
+    </mat-menu> -->

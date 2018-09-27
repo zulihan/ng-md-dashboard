@@ -141,25 +141,69 @@ export class Renderer {
     }
 
     appendEvent(event, node) {
-        const url = event.options.url;
-        console.log('n = e.options from renderer:', url);
-        const optionClass = event.options.class;
-        let elementType = '';
-        url !== undefined ? elementType = 'a' : elementType = 'span';
+        const hasOptions = event.options !== undefined;
+        let
+            hasUrl = false,
+            hasAdditionalClass = false,
+            hasDataAttributes = false,
+            hasClickHandler = false;
+
+        if (hasOptions) {
+            hasUrl = event.options.url !== undefined;
+            hasAdditionalClass = event.options.class !== undefined;
+            hasDataAttributes = event.options.data !== undefined;
+            hasClickHandler = event.options.onClick !== undefined;
+        }
+
+        // const url = event.options.url;
+        // console.log('n = e.options from renderer:', url);
+        const elementType = hasUrl !== undefined ? 'a' :  'span';
         const eventNode = node.appendChild(document.createElement(elementType));
         const smallNode = eventNode.appendChild(document.createElement('small'));
-        eventNode.title = eventNode.name;
-        if (url) {
+        eventNode.title = event.name;
+        console.log(node);
+        const optionClass = event.options.class;
+        // const matTooltip = 'matTooltip';
+        // matTooltip.value = event.description;
+        // eventNode.setAttribute('mat-tooltip', event.description);
+        // eventNode.setAttribute(matTooltip, event.description);
+
+
+        if (hasUrl) {
             eventNode.href = event.options.url;
         }
         if (optionClass) {
-            eventNode.className = 'time-entry ' + optionClass;
+            eventNode.className = 'time-entry tool-tip ' + optionClass;
         } else {
             eventNode.className = 'time-entry';
         }
+        // if (hasDataAttributes) {
+        //     event.options.data.array.forEach(key => {
+        //         eventNode.setAttribute('data-' + key, event.options.data[key]);
+        //     });
+        // }
+        if (hasClickHandler) {
+            eventNode.addEventListener('click', (e) => {
+              event.options.onClick(event, this.timetable, e);
+            });
+        }
+
         eventNode.style.width = this.computeEventBlockWidth(event);
         eventNode.style.left = this.computeEventBlockOffset(event);
         eventNode.textContent = event.name;
+        const div = 'div';
+        const toolTip = document.createElement(div);
+        toolTip.className = 'tooltiptext';
+        // toolTip.textContent = event.description;
+        node.appendChild(toolTip);
+        const eventNodeLeftToNumber = +eventNode.style.left.slice(0, -1);
+        const eventNodewidthToNumber = +eventNode.style.width.slice(0, -1);
+        toolTip.style.left = (eventNodeLeftToNumber + eventNodewidthToNumber).toString() + '%';
+        console.log('toolTip.style.left', eventNodeLeftToNumber);
+        const p = 'p';
+        const paragraph = document.createElement(p);
+        paragraph.textContent = event.description;
+        toolTip.appendChild(paragraph);
     }
 
     // d(e, t) {

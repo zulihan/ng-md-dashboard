@@ -97,7 +97,8 @@ import { RunnersTasksTimetableComponent } from './timetables/runners-tasks-timet
     MapComponent,
     TasksRegisterComponent,
     TaskEditComponent,
-    RunnerMapComponent
+    RunnerMapComponent,
+    RunnersTasksTimetableComponent
   ],
   providers: [ArtistsService]
 })

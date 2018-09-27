@@ -198,16 +198,6 @@ export class TasksListComponent implements OnInit {
 
   }
 
-  openRegisterDialog(): void {
-    const dialogRef = this.dialog.open(TasksRegisterComponent, {
-      width: '500px',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
-
   openEdit(runnerTask): void {
     console.log('runner task from openEdit', runnerTask);
     const dialogRef = this.dialog.open(TaskEditComponent, {

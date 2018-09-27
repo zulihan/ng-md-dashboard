@@ -51,7 +51,7 @@ export class Timetable {
         // return this;
     }
 
-    addEvent(name, artist, start, end, options) {
+    addEvent(name, artist, start, end, options, description?) {
         if (!this.artistExistsIn(artist, this.artists)) {
             throw new Error('Unknown artist');
         }
@@ -66,7 +66,8 @@ export class Timetable {
             artist: artist,
             startDate: start,
             endDate: end,
-            options: optionsHasValidType ? options : undefined
+            options: optionsHasValidType ? options : undefined,
+            description: description
         });
 
         // return this;

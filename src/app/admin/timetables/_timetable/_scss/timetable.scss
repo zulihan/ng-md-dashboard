@@ -175,16 +175,16 @@
         background-position: -2px 0;
       }
       .getin {
-        background-color: $teal;        
+        background-color: rgba($teal, .7);        
         }
       .setupwings {
-        background-color: $cyan; 
+        background-color: rgba($cyan, .7); 
       }
       .soundcheck {
-        background-color: $pink;
+        background-color: rgba($pink, .7);
       }
       .show {
-        background-color: $red;
+        background-color: rgba($red, .7);
       }
     }
   }
@@ -213,6 +213,20 @@
       background-color: #e74030;
     }
   }
+
+
+
+  /* Show the tooltip text when you mouse over the tooltip container */
+  // li a.tool-tip:hover {
+  //   span.tooltiptext {
+  //     visibility: visible;
+  //     opacity: 1;
+  //   }
+  // } 
+
+  // li a.tool-tip:hover {
+  //   background-color: rgba(255, 0, 0, 0.199);
+  // }
 }
 
 @media only screen and (max-width: 960px) {
