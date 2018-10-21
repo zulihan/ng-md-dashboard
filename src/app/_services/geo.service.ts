@@ -7,12 +7,7 @@ import * as Geofire from 'geofire';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
-import { Task } from 'src/app/_models/task';
 import { Place } from 'src/app/_models/place';
-import { Geopoint } from '../_models/Geopoint';
-import { map } from 'rxjs/operators';
-import { google } from '@agm/core/services/google-maps-types';
-
 
 
 @Injectable()
@@ -35,15 +30,8 @@ export class GeoService implements OnInit {
   fsApiKey = environment.firebaseConfig.apiKey;
   nodeApi = environment.nodeApiUrl;
 
-  // directionsService = new google.maps.DirectionsService();
-
   constructor(private afs: AngularFirestore, private http: HttpClient) {
     this.locationsCollection = this.afs.collection<Place>('locations');
-    // this.locations = 
-
-
-    // this.dbRef = this.afs.list('/locations');
-
   }
 
    ngOnInit() {
@@ -51,7 +39,6 @@ export class GeoService implements OnInit {
    }
 
    getLocations() {
-    // this.locations.subscribe(loc => console.log('this.locations from getLocations():', loc));
     this.locations = this.locationsCollection.snapshotChanges().map(actions => {
       return actions.map(a => {
         const data = a.payload.doc.data() as Place;

@@ -5,14 +5,16 @@ import { Component,
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
-import { TasksRegisterComponent } from '../tasks-register/tasks-register.component';
-import { TasksService } from '../../../_services/tasks.service';
-import { RunnerTask } from 'src/app/_models/runner-task';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { TimeService } from '../../../_services/time.service';
+
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ToastrService } from 'ngx-toastr';
-import { TaskEditComponent } from '../task-edit/task-edit.component';
+
+import { TasksService } from '../../../_services/tasks.service';
 import { GeoService } from '../../../_services/geo.service';
+
+import { RunnerTask } from 'src/app/_models/runner-task';
+
+import { TaskEditComponent } from '../task-edit/task-edit.component';
 
 @Component({
   selector: 'app-tasks-list',
@@ -65,12 +67,10 @@ export class TasksListComponent implements OnInit {
       // }, 6000);
      }
 
-
-
   ngOnInit() {
 
     this.tasksService.getRunnersTask().subscribe( tasks => {
-      console.log('tasks: ', tasks);
+      console.log(' TasksListComponent -> ngOnInit -> tasks', tasks);
       this.runnersTasksList = [];
       // this.runnersTasksSubject.next(this.runnersTasksList);
       tasks.forEach(rt => {
@@ -89,23 +89,23 @@ export class TasksListComponent implements OnInit {
           rt.taskStatus = 'due';
         } else if ( timeNow > startTime + 300000 && rt.status === 'has not started yet') {
           rt.taskStatus = 'late';
-          console.log('is late ?: ', rt.taskStatus);
+          console.log(' TasksListComponent -> ngOnInit -> rt.taskStatus', rt.taskStatus);
           rt.taskStatus = 'late';
         } else if ( timeNow > startTime &&
           (rt.status === 'has started' ||
           rt.status === 'has arrived at destination' ||
           rt.status === 'is on the way back')) {
-          console.log('is ok ?: ', rt.taskStatus);
+          console.log(' TasksListComponent -> ngOnInit -> rt.taskStatus is ok ?', rt.taskStatus);
           rt.taskStatus = 'ok';
         } else if ( timeNow > startTime && rt.status === 'has completed') {
            rt.taskStatus = 'completed';
         }
-        console.log('task in forEach: ', rt);
+        console.log(' TasksListComponent -> ngOnInit -> rt in forEach', rt);
         this.runnersTasksList.push(rt);
-        console.log('this.runnersTasksList in forEach', this.runnersTasksList);
+        console.log(' TasksListComponent -> ngOnInit -> this.runnersTasksList in forEach', this.runnersTasksList);
       });
-      console.log('tasks in constructor: ', tasks);
-      console.log('this.runnersTasksList in constructor', this.runnersTasksList);
+      console.log(' TasksListComponent ->  ngOnInit -> tasks', tasks);
+      console.log('TasksListComponent ->  ngOnInit ->  this.runnersTasksList', this.runnersTasksList);
 
       this.runnersTasksList.forEach((rt, index) => {
         if (rt.over === true) {
@@ -143,14 +143,12 @@ export class TasksListComponent implements OnInit {
       // estimatedTravelTime = this.geo.getEstimatedTravelTime(userLocation, location);
         // this. estimatedTravelTime = res
         // console.log(' this.estimatedTravelTime :',  this.estimatedTravelTime );
+
+        // this.filteredList = rt.filter(rtasks => rtasks['taskStatus'] === 'ok');
+        // console.log('this runnersTasks: ', this.runnersTasks);
+        // console.log('this.filteredList', this.filteredList);
+        // return this.filteredList;
     });
-
-      // this.filteredList = rt.filter(rtasks => rtasks['taskStatus'] === 'ok');
-      //     console.log('this runnersTasks: ', this.runnersTasks);
-      //     console.log('this.filteredList', this.filteredList);
-      //     return this.filteredList;
-
-
 
     const grid = new Map([
       ['xs', 1],
@@ -199,7 +197,8 @@ export class TasksListComponent implements OnInit {
   }
 
   openEdit(runnerTask): void {
-    console.log('runner task from openEdit', runnerTask);
+    console.log('TasksListComponent -> runner task from openEdit', runnerTask);
+    console.log(' TasksListComponent -> openEdit() -> runnerTask', runnerTask);
     const dialogRef = this.dialog.open(TaskEditComponent, {
       width: '500px',
       data: {
@@ -217,7 +216,7 @@ export class TasksListComponent implements OnInit {
     if (confirm('Are you sure to delete this task ?')) {
       this.tasksService.deleteRunnerTask(task)
         .then(response => {
-          console.log('response from deleteRunnerTask: ', response);
+          console.log(' TasksListComponent -> delete -> response', response);
           this.showEditSuccess(name);
         }).catch(error => {
           this.showEditError(error);
@@ -235,7 +234,7 @@ export class TasksListComponent implements OnInit {
 
 
   isOver(runnerTask) {
-    console.log('runner Task from isOver(): ', runnerTask);
+    console.log(' TasksListComponent -> isOver(runnerTask)', runnerTask);
     this.ngZone.runOutsideAngular( _ => {
         if (typeof window !== 'undefined') {
           let isOVerInterval;
@@ -255,7 +254,6 @@ export class TasksListComponent implements OnInit {
             }
           }, 6000);
       }});
-
   }
 
   checkTaskStatus(runnerTask) {
@@ -309,62 +307,3 @@ export class TasksListComponent implements OnInit {
   }
 
 }
-
-
- // isOver(runnerTask) {
- //   const dateNow = new Date().getTime();
- //   const start = new Date(runnerTask.startAt).getTime();
- //   console.log('runner Task from isOver(): ', runnerTask);
- //   if (runnerTask.over === true) {
- //     console.log('start at from isOver(): ', start);
- //     console.log('dateNow from isOver(): ', dateNow);
- //     return;
- //   } else {
- //     this.ngZone.runOutsideAngular( _ => {
- //       if (typeof window !== 'undefined') {
- //         let isOVerInterval;
- //         return isOVerInterval = window.setInterval(() => {
- //           if (runnerTask.over === true) {
- //             clearInterval(isOVerInterval);
- //           } else {
- //             const timeNow = new Date().getTime();
- //             const startTime = new Date(runnerTask.startAt).getTime();
- //             console.log('time now:', timeNow);
- //             console.log('start at:', startTime);
- //             console.log('runnerTask over ?: ', runnerTask.over);
- //             return timeNow > startTime ? true : false;
- //           }
- //         }, 6000);
- //     }});
-
- //   }
- // }
-
- // checkTaskStatus(runnerTask) {
- //   const dateNow = new Date().getTime();
- //   const start = new Date(runnerTask.startAt).getTime();
- //   if ( dateNow + 900000 >= start && dateNow !== start ) {
- //     runnerTask.taskStatus = 'approaching';
- //   } else if (dateNow === start || dateNow <= start + 300000) {
- //     runnerTask.taskStatus = 'due';
- //   } else if ( dateNow > start + 300000 && runnerTask.status === 'has not started yet') {
- //     runnerTask.taskStatus = 'late';
- //   } else if ( dateNow > start &&
- //     (runnerTask.status === 'has started' ||
- //     runnerTask.status === 'has arrived at destination' ||
- //     runnerTask.status === 'has completed')) {
- //     runnerTask.taskStatus = 'ok';
- //   }
- // }
-
-
-
-
-
-
-
-
-
-
-
-

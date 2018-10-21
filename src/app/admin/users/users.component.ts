@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { Component, OnInit } from '@angular/core';
+import {MatDialog} from '@angular/material';
 import { RegisterComponent } from '../../auth/register/register.component';
 
 import { UserService } from './service/user.service';
@@ -14,7 +14,7 @@ import { UserEditComponent } from './user-edit/user-edit.component';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit, AfterViewChecked {
+export class UsersComponent implements OnInit {
 
   users: User[];
   searchName: string;
@@ -37,12 +37,12 @@ export class UsersComponent implements OnInit, AfterViewChecked {
     private userService: UserService) { }
 
   ngOnInit() {
-    console.log('filerArr: ', this.filterArr.length);
+    console.log(' UsersComponent -> ngOnInit -> this.filterArr.length', this.filterArr.length);
     this.userService.getUsers().subscribe( response => {
       this.users = response;
-      console.log('users: ', response);
+      console.log(' UsersComponent -> ngOnInit -> response', response);
     }, error => {
-      console.log(error);
+      console.log(' UsersComponent -> ngOnInit -> error', error);
     });
 
     const grid = new Map([
@@ -85,9 +85,9 @@ export class UsersComponent implements OnInit, AfterViewChecked {
   }
 
   openEdit(user): void {
-    console.log(user);
+    console.log(' UsersComponent -> user', user);
     const dialogRef = this.dialog.open(UserEditComponent, {
-      width: '400px',
+      maxWidth: '400px',
       data: {
         dataKey: user
       }
@@ -121,10 +121,6 @@ export class UsersComponent implements OnInit, AfterViewChecked {
   //   console.log(this.filterArr);
   //   console.log('role:', this.rolesStatus);
   // }
-
-  ngAfterViewChecked() {
-    // console.log(this.roles);
-  }
 
 }
 

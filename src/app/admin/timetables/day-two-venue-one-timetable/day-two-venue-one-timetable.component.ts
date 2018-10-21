@@ -64,16 +64,18 @@ export class DayTwoVenueOneTimetableComponent implements OnInit {
     this.artistService.getArtistsByDayByVenue(2, 1)
       .subscribe(artists => {
         this.artists = artists;
-        this.artists.forEach(a => a.show.artist = a.name);
-        this.artists.forEach(a => a.getIn.artist = a.name);
-        this.artists.forEach(a => a.setUpWings.artist = a.name);
-        this.artists.forEach(a => a.soundCheck.artist = a.name);
-        this.artists.forEach(a => this.timeTableDayTwoVenueOne.shows.push(a.show));
-        this.artists.forEach(a => this.timeTableDayTwoVenueOne.getIns.push(a.getIn));
-        this.artists.forEach(a => this.timeTableDayTwoVenueOne.setUpWings.push(a.setUpWings));
-        this.artists.forEach(a => this.timeTableDayTwoVenueOne.soundChecks.push(a.soundCheck));
-        console.log('artists from dayOneVenueOne', this.artists);
-        console.log('this.timeTableDayOneVenueOne', this.timeTableDayTwoVenueOne);
+        this.artists.forEach(a => {
+          a.show.artist = a.name;
+          a.getIn.artist = a.name;
+          a.setUpWings.artist = a.name;
+          a.soundCheck.artist = a.name;
+          this.timeTableDayTwoVenueOne.shows.push(a.show);
+          this.timeTableDayTwoVenueOne.getIns.push(a.getIn);
+          this.timeTableDayTwoVenueOne.setUpWings.push(a.setUpWings);
+          this.timeTableDayTwoVenueOne.soundChecks.push(a.soundCheck);
+        });
+        console.log(' DayTwoVenueOneTimetableComponent -> ngOnInit -> this.artists', this.artists);
+        console.log(' DayTwoVenueOneTimetableComponent -> ngOnInit -> this.timeTableDayTwoVenueOne', this.timeTableDayTwoVenueOne);
         this.day = this.artists[0].dayId;
         this.venue = this.artists[0].venue;
         this.addTimeTable(this.timetable, this.selector, this.timeTableDayTwoVenueOne);
@@ -102,7 +104,7 @@ export class DayTwoVenueOneTimetableComponent implements OnInit {
   addTimeTable(tt, selector, timeTable) {
 
     this.scopeTime = this.setScopeTime(timeTable);
-    console.log('scopTime: ', this.scopeTime);
+    console.log(' DayTwoVenueOneTimetableComponent -> addTimeTable -> this.scopeTime', this.scopeTime);
 
     tt.setScope(this.scopeTime, this.scopeTime);
 
@@ -112,30 +114,30 @@ export class DayTwoVenueOneTimetableComponent implements OnInit {
     tt.addArtists(artists);
 
     timeTable.getIns.forEach(g => {
-      if (g.start && g.end !== null) {
+      if (g.start !== null && g.start !== undefined && g.start !== 0 ) {
         tt.addEvent('GI', g.artist.toUpperCase(), new Date(g.start), new Date(g.end), this.getInOptions);
-        console.log('g.start from forEach', g.start);
+        // console.log(' DayTwoVenueOneTimetableComponent -> addTimeTable -> g.start', g.start);
       }
     });
 
     timeTable.setUpWings.forEach(suw => {
       if (suw.start && suw.end !== null) {
         tt.addEvent('SUW', suw.artist.toUpperCase(), new Date(suw.start), new Date(suw.end), this.setUpWingsOptions);
-        console.log('g.start from forEach', suw.start);
+        // console.log(' DayTwoVenueOneTimetableComponent -> addTimeTable -> suw.start', suw.start);
       }
     });
 
     timeTable.soundChecks.forEach(sc => {
       if (sc.start && sc.end !== null) {
         tt.addEvent('SC', sc.artist.toUpperCase(), new Date(sc.start), new Date(sc.end), this.soundChecksOptions);
-        console.log('sc.start from forEach', sc.start);
+        // console.log(' DayTwoVenueOneTimetableComponent -> addTimeTable -> sc.start', sc.start);
       }
     });
 
     timeTable.shows.forEach(s => {
       if (s.start && s.end !== null) {
         tt.addEvent('Show', s.artist.toUpperCase(), new Date(s.start), new Date(s.end), this.showsOptions);
-        console.log('s.start from forEach', s.start);
+        // console.log(' DayTwoVenueOneTimetableComponent -> addTimeTable -> s.start', s.start);
       }
     });
 

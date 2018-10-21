@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../_shared/shared.module';
-import { MaterialModule } from '../../material/material.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from '../pipes/pipes.module';
 import { AdminRoutingModule } from '../admin-routing.module';
 // import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
@@ -28,14 +26,8 @@ import { ArtistsRegisterComponent } from './artists-register/artists-register.co
   imports: [
     CommonModule,
     SharedModule,
-    // FormsModule,
-    // ReactiveFormsModule,
     PipesModule,
     AdminRoutingModule,
-    // PipesModule,
-    // OwlDateTimeModule,
-    // OwlNativeDateTimeModule,
-    // OwlMomentDateTimeModule
   ],
   exports: [
     ArtistsRegisterComponent

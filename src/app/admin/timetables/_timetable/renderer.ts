@@ -122,15 +122,7 @@ export class Renderer {
         }
     }
 
-    // s(e, t) {
-    //     for (let n = 0; n < this.timetable.events.length; n++) {
-    //         const r = this.timetable.events[n];
-    //         if (r.artist === e)  {
-    //             this.d(r, t);
-    //         }
-    //     }
-    // }
-
+    // s(e, t)
     appendLocationEvents(artist, node) {
         for (let n = 0; n < this.timetable.events.length; n++) {
             const event = this.timetable.events[n];
@@ -140,6 +132,7 @@ export class Renderer {
         }
     }
 
+    // d
     appendEvent(event, node) {
         const hasOptions = event.options !== undefined;
         let
@@ -161,7 +154,7 @@ export class Renderer {
         const eventNode = node.appendChild(document.createElement(elementType));
         const smallNode = eventNode.appendChild(document.createElement('small'));
         eventNode.title = event.name;
-        console.log(node);
+        // console.log(node);
         const optionClass = event.options.class;
         // const matTooltip = 'matTooltip';
         // matTooltip.value = event.description;
@@ -199,34 +192,12 @@ export class Renderer {
         const eventNodeLeftToNumber = +eventNode.style.left.slice(0, -1);
         const eventNodewidthToNumber = +eventNode.style.width.slice(0, -1);
         toolTip.style.left = (eventNodeLeftToNumber + eventNodewidthToNumber).toString() + '%';
-        console.log('toolTip.style.left', eventNodeLeftToNumber);
+        // console.log('toolTip.style.left', eventNodeLeftToNumber);
         const p = 'p';
         const paragraph = document.createElement(p);
         paragraph.textContent = event.description;
         toolTip.appendChild(paragraph);
     }
-
-    // d(e, t) {
-    //     const n = e.options.url;
-    //     console.log('n = e.options from renderer:', n);
-    //     const optionClass = e.options.class;
-    //     let r = '';
-    //     n !== undefined ? r = 'a' : r = 'span';
-    //     const o = t.appendChild(document.createElement(r));
-    //     const a = o.appendChild(document.createElement('small'));
-    //     o.title = e.name;
-    //     if (n) {
-    //         o.href = e.options.url;
-    //     }
-    //     if (optionClass) {
-    //         o.className = 'time-entry ' + optionClass;
-    //     } else {
-    //         o.className = 'time-entry';
-    //     }
-    //     o.style.width = this.h(e);
-    //     o.style.left = this.f(e);
-    //     a.textContent = e.name;
-    // }
 
     // h(e)
     computeEventBlockWidth(event) {
@@ -236,7 +207,6 @@ export class Renderer {
         durationHours = this.computeDurationInHours(start, end);
         return durationHours / this.timetable.scopeDurationHours * 100 + '%';
     }
-
 
     computeDurationInHours(start, end) {
         return (end.getTime() - start.getTime()) / 1e3 / 60 / 60;

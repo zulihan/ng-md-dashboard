@@ -1,133 +1,132 @@
 <mat-dialog-content>
-    <mat-card>
-        <mat-card-header color="primary">
-          <mat-card-title>Edit Task</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <form [formGroup]="editTaskForm" (ngSubmit)="onSubmit()">
-            <table>
+  <mat-card>
+    <mat-card-header color="primary">
+      <mat-card-title>Edit Task</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="editTaskForm" (ngSubmit)="onSubmit()">
+        <table>
+          <tr>
+            <td>
+              <mat-icon matPrefix color="primary">people</mat-icon>
+              <mat-form-field>
+                <mat-select placeholder="Runner" formControlName="runner">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let runner of runners | async" [value]="runner.userName">
+                    {{ runner.userName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <mat-icon matPrefix color="primary">people</mat-icon>
+              <mat-form-field>
+                <mat-select placeholder="Artist / Band" formControlName="artist">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let artist of artists | async" [value]="artist.name">
+                    {{ artist.name | titlecase }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-icon matPrefix color="primary">people</mat-icon>
+              <mat-form-field>
+                <mat-select placeholder="Persons" formControlName="persons">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let person of persons" [value]="person">
+                    {{ person }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <mat-icon matPrefix color="primary">pin_drop</mat-icon>
+              <mat-form-field>
+                <mat-select placeholder="From" formControlName="from">
+                  <mat-option [value]='newLocation'>New Location</mat-option>
+                  <mat-option *ngFor="let location of locations" [value]="location.name">
+                    {{ location.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>              
+            <td>
+              <mat-icon matPrefix color="primary">pin_drop</mat-icon>
+              <mat-form-field>
+                <mat-select placeholder="To" formControlName="to">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let location of locations" [value]="location.name">
+                    {{ location.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+          </tr>
+          <ng-container *ngIf="selectedValueForFrom === 'New Location'">
+            <!-- <tr> -->
+            <h6>Register a new location</h6>                    
+            <div [formGroup]="registerNewLocationForm">
               <tr>
                 <td>
-                  <mat-icon matPrefix color="primary">people</mat-icon>
                   <mat-form-field>
-                    <mat-select placeholder="Runner" formControlName="runner">
-                      <mat-option>--</mat-option>
-                      <mat-option *ngFor="let runner of runners | async" [value]="runner.userName">
-                        {{ runner.userName }}
-                      </mat-option>
-                    </mat-select>
+                    <mat-icon matPrefix color="primary">pin_drop</mat-icon>
+                    <input matInput placeholder="New location's name" formControlName="name">                      
                   </mat-form-field>
                 </td>
               </tr>
-    
               <tr>
                 <td>
-                  <mat-icon matPrefix color="primary">people</mat-icon>
                   <mat-form-field>
-                    <mat-select placeholder="Artist / Band" formControlName="artist">
-                      <mat-option>--</mat-option>
-                      <mat-option *ngFor="let artist of artists | async" [value]="artist.name">
-                        {{ artist.name | titlecase }}
-                      </mat-option>
-                    </mat-select>
+                    <mat-icon matPrefix color="primary">pin_drop</mat-icon>
+                    <input matInput placeholder="New location' address" formControlName="address">                      
                   </mat-form-field>
                 </td>
+              </tr>
+              <button type="button" mat-raised-button color="primary" (click)="getGeocode()">Get coordinates</button>
+              <tr>
                 <td>
-                  <mat-icon matPrefix color="primary">people</mat-icon>
                   <mat-form-field>
-                    <mat-select placeholder="Persons" formControlName="persons">
-                      <mat-option>--</mat-option>
-                      <mat-option *ngFor="let person of persons" [value]="person">
-                        {{ person }}
-                      </mat-option>
-                    </mat-select>
+                    <mat-icon matPrefix color="primary">pin_drop</mat-icon>
+                    <input matInput placeholder="New location's latitude" formControlName="lat" value={{newLocationLat}}>           
                   </mat-form-field>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <mat-icon matPrefix color="primary">pin_drop</mat-icon>
                   <mat-form-field>
-                    <mat-select placeholder="From" formControlName="from">
-                      <mat-option [value]='newLocation'>New Location</mat-option>
-                      <mat-option *ngFor="let location of locations" [value]="location.name">
-                        {{ location.name }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </td>              
-                <td>
-                  <mat-icon matPrefix color="primary">pin_drop</mat-icon>
-                  <mat-form-field>
-                    <mat-select placeholder="To" formControlName="to">
-                      <mat-option>--</mat-option>
-                      <mat-option *ngFor="let location of locations" [value]="location.name">
-                        {{ location.name }}
-                      </mat-option>
-                    </mat-select>
+                    <mat-icon matPrefix color="primary">pin_drop</mat-icon>
+                    <input matInput placeholder="New location's longitude" formControlName="long" value={{newLocationLong}}>                      
                   </mat-form-field>
                 </td>
-              </tr>
-              <ng-container *ngIf="selectedValueForFrom === 'New Location'">
-                <!-- <tr> -->
-                  <h6>Register a new location</h6>                    
-                  <form [formGroup]="registerNewLocationForm">
-                    <tr>
-                      <td>
-                        <mat-form-field>
-                          <mat-icon matPrefix color="primary">pin_drop</mat-icon>
-                          <input matInput placeholder="New location's name" formControlName="name">                      
-                        </mat-form-field>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <mat-form-field>
-                          <mat-icon matPrefix color="primary">pin_drop</mat-icon>
-                          <input matInput placeholder="New location' address" formControlName="address">                      
-                        </mat-form-field>
-                      </td>
-                    </tr>
-                    <button type="button" mat-raised-button color="primary" (click)="getGeocode()">Get coordinates</button>
-                    <tr>
-                      <td>
-                        <mat-form-field>
-                          <mat-icon matPrefix color="primary">pin_drop</mat-icon>
-                          <input matInput placeholder="New location's latitude" formControlName="lat" value={{newLocationLat}}>           
-                        </mat-form-field>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <mat-form-field>
-                          <mat-icon matPrefix color="primary">pin_drop</mat-icon>
-                          <input matInput placeholder="New location's longitude" formControlName="long" value={{newLocationLong}}>                      
-                        </mat-form-field>
-                      </td>
-                    </tr>                    
-                  </form>
-                  <button type="button" mat-raised-button color="primary" (click)="registerNewLocation()">Register new Location</button>
-                <!-- </tr> -->
-              </ng-container>
-              <tr>
-                <td>
-                  <mat-icon matPrefix color="primary">access_time</mat-icon>
-                  <mat-form-field>
-                    <input matInput placeholder="Departure at" formControlName="time" [owlDateTime]="dtss"
-                      [owlDateTimeTrigger]="dtss">
-                    <owl-date-time #dtss></owl-date-time>
-                  </mat-form-field>
-                </td>
-              </tr>
-            </table>
-            <mat-card-actions>
-              <button type="submit" mat-raised-button color="primary" (click)="onNoClick()">Edit
-                task</button>
-              <button type="button" mat-raised-button color="accent" (click)="onNoClick()">Cancel</button>
-              {{ selectedValueForFrom }}
-            </mat-card-actions>
-          </form>
-          <!-- <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner> -->
-        </mat-card-content>
-      </mat-card>
-  </mat-dialog-content>
+              </tr>                    
+            </div>
+            <button type="button" mat-raised-button color="primary" (click)="registerNewLocation()">Register new Location</button>
+            <!-- </tr> -->
+          </ng-container>
+          <tr>
+            <td>
+              <mat-icon matPrefix color="primary">access_time</mat-icon>
+              <mat-form-field>
+                <input matInput placeholder="Departure at" formControlName="time" [owlDateTime]="dtss"
+                  [owlDateTimeTrigger]="dtss">
+                <owl-date-time #dtss></owl-date-time>
+              </mat-form-field>
+            </td>
+          </tr>
+        </table>
+        <mat-card-actions>
+          <button type="submit" mat-raised-button color="primary" (click)="onNoClick()">Edit
+            task</button>
+          <button type="button" mat-raised-button color="accent" (click)="onNoClick()">Cancel</button>
+          {{ selectedValueForFrom }}
+        </mat-card-actions>
+      </form>
+      <!-- <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner> -->
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>

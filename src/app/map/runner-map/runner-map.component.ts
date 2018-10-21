@@ -23,6 +23,7 @@ export class RunnerMapComponent implements OnInit {
     markers: any;
     subscription: any;
 
+    // TODO: Replace with a global
     marsatacLat = 43.270584762037416;
     marsatacLng = 5.39729277752383;
 

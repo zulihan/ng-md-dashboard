@@ -31,9 +31,10 @@
     .filter-status {
         display:  flex;
         margin-top: 15px;
-        justify-content: space-around;
+        justify-content: center;
         flex: 1 0 auto;
-        flex-wrap:  wrap;
+        flex-wrap:  wrap          
+        
     }
 
     .hide-completed {
@@ -244,9 +245,7 @@
 
         .agm-map-container-inner.sebm-google-map-container-inner {
             height: 200px;
-        }
-    
-    }
-    
+        }    
+    }    
     
 }

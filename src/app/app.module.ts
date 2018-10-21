@@ -6,7 +6,6 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { MatDialogModule } from '@angular/material';
 
 import { JwtModule } from '@auth0/angular-jwt';
 

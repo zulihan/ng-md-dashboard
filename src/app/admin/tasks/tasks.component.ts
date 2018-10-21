@@ -17,7 +17,7 @@ export class TasksComponent implements OnInit {
 
   openRegisterDialog(): void {
     const dialogRef = this.dialog.open(TasksRegisterComponent, {
-      width: '500px',
+      width: '300px',
     });
 
     dialogRef.afterClosed().subscribe(result => {

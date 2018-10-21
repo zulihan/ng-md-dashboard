@@ -4,7 +4,6 @@ import { ToastrService } from 'ngx-toastr';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { RunnerTask } from 'src/app/_models/runner-task';
 import { TasksService } from '../../../_services/tasks.service';
-import { Location } from 'src/app/_models/Location';
 import { Subject } from 'rxjs';
 import { UserService } from 'src/app/admin/users/service/user.service';
 import { GeoService } from 'src/app/_services/geo.service';
@@ -56,13 +55,13 @@ export class TaskEditComponent implements OnInit, AfterViewInit {
     ) { }
 
   ngOnInit() {
-    console.log(this.data.dataKey);
+    console.log(' TaskEditComponent -> ngOnInit -> this.data.dataKey', this.data.dataKey);
     this.runnerTaskToEdit = this.data.dataKey;
-    console.log('this.runnerTaskToEdit ', this.runnerTaskToEdit);
+    console.log(' TaskEditComponent -> ngOnInit -> this.runnerTaskToEdit', this.runnerTaskToEdit);
     this.runners = this.userService.getRunners();
     this.artists = this.artistsService.getArtistsNames();
     this.geo.getLocations().subscribe( locations => {
-      console.log('locations: ', locations);
+      console.log(' TaskEditComponent -> ngOnInit -> locations', locations);
       return this.locations = locations;
     });
     this.createEditForm();
@@ -70,7 +69,6 @@ export class TaskEditComponent implements OnInit, AfterViewInit {
     this.createRegisterNewLocationForm();
     this.newLocationLatObs.subscribe( res => this.newLocationLat = res);
     this.newLocationLngObs.subscribe( res => this.newLocationLong = res);
-
   }
 
   ngAfterViewInit() {
@@ -125,10 +123,11 @@ export class TaskEditComponent implements OnInit, AfterViewInit {
   }
 
   registerNewLocation() {
-    console.log('this.registerNewLocationForm: ', this.registerNewLocationForm.value);
-    console.log('this.newLocationLat: ', this.newLocationLat);
+    console.log(' TaskEditComponent -> registerNewLocation -> this.registerNewLocationForm.value', this.registerNewLocationForm.value);
+    console.log(' TaskEditComponent -> registerNewLocation -> this.newLocationLat', this.newLocationLat);
     const form = this.registerNewLocationForm.value;
-    console.log('last location id: ', this.locations[this.locations.length - 1]['id']);
+    console.log(' TaskEditComponent -> registerNewLocation -> this.locations[this.locations.length - 1]["id"]',
+      this.locations[this.locations.length - 1]['id']);
     const id = this.locations[this.locations.length - 1]['id'] + 1;
     const name = form.name;
     const address = form.address;
@@ -139,55 +138,51 @@ export class TaskEditComponent implements OnInit, AfterViewInit {
       address,
       coord: new firebase.firestore.GeoPoint(lat, lng)
     };
-    console.log('id: ', id);
+    console.log(' TaskEditComponent -> registerNewLocation -> id', id);
     this.geo.setLocation(id, newLocation);
     this.editTaskForm.get('from').setValue(newLocation);
     // this.locations.push(newLocation);
-    console.log('newLocation ', newLocation);
+    console.log(' TaskEditComponent -> registerNewLocation -> newLocation', newLocation);
   }
 
   getGeocode() {
     this.geo.getGeoCode(this.newLocationAddress)
       .subscribe( res => {
-      console.log(typeof(res), res);
-      this.geoCode = res;
-      console.log('geoCode: ', this.geoCode);
-      const lat = this.geoCode !== undefined ? this.geoCode.results[0].geometry.location.lat : '';
-      const lng = this.geoCode !== undefined ? this.geoCode.results[0].geometry.location.lng : '';
-      this.newLocationLatSubject.next(lat);
-      this.registerNewLocationForm.get('lat').setValue(lat);
-      this.newLocationLngSubject.next(lng);
-      this.registerNewLocationForm.get('long').setValue(lng);
-      console.log('lat ', lat);
-      console.log('this.newLocationLat ', this.newLocationLat);
-
+        console.log(' TaskEditComponent -> getGeocode -> typeof(res), res', typeof(res), res);
+        this.geoCode = res;
+        console.log(' TaskEditComponent -> getGeocode -> this.geoCode', this.geoCode);
+        const lat = this.geoCode !== undefined ? this.geoCode.results[0].geometry.location.lat : '';
+        const lng = this.geoCode !== undefined ? this.geoCode.results[0].geometry.location.lng : '';
+        this.newLocationLatSubject.next(lat);
+        this.registerNewLocationForm.get('lat').setValue(lat);
+        this.newLocationLngSubject.next(lng);
+        this.registerNewLocationForm.get('long').setValue(lng);
+        console.log(' TaskEditComponent -> getGeocode -> lat', lat);
+        console.log(' TaskEditComponent -> getGeocode -> this.newLocationLat', this.newLocationLat);
       });
   }
 
-
   onSubmit() {
     const form = this.editTaskForm.value;
-    console.log('form value: ', form);
+    console.log(' TaskEditComponent -> onSubmit -> form', form);
     const runner = this.runnersList.find( runners => runners.userName === form.runner);
-    console.log('runner: ', runner);
+    console.log(' TaskEditComponent -> onSubmit -> runner', runner);
 
     const artist  =  this.artistsList.find( artists => artists.name === form.artist);
-    console.log('artist: ', artist);
+    console.log(' TaskEditComponent -> onSubmit -> artist', artist);
 
     const from = this.locations.find(loc => loc.name === form.from);
-    console.log('from: ', from);
+    console.log(' TaskEditComponent -> onSubmit -> from', from);
 
     const to = this.locations.find(loc => loc.name === form.to);
-    console.log('from: ', to);
+    console.log(' TaskEditComponent -> onSubmit -> to', to);
 
     const time = form.time;
-    console.log('time: ', time);
+    console.log(' TaskEditComponent -> onSubmit -> time', time);
+
     //   this.runnersList = rs;
     //   return this.runnersList.find( runners => runners.userName === form.runner);
     // });
-
-
-
 
     // const runner = this.runners.find( run => run.userName === form.runner);
     // console.log('runner : ', runner);

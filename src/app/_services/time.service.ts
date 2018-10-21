@@ -6,22 +6,22 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class TimeService {
 
-isOver: BehaviorSubject<boolean>;
+  isOver: BehaviorSubject<boolean>;
 
-constructor() {}
+  constructor() {}
 
-getTimeNow() {
-  return Date.now();
-}
+  getTimeNow() {
+    return Date.now();
+  }
 
-getIsover(): Observable<boolean> {
-  return this.isOver.asObservable();
-}
+  getIsover(): Observable<boolean> {
+    return this.isOver.asObservable();
+  }
 
-setIsOver(runnerTask): Observable<boolean> {
-  const isOver = (new Date(runnerTask.start).getTime()) > this.getTimeNow() ? true : false;
-    this.isOver.next(isOver);
-  return this.isOver.asObservable();
-}
+  setIsOver(runnerTask): Observable<boolean> {
+    const isOver = (new Date(runnerTask.start).getTime()) > this.getTimeNow() ? true : false;
+      this.isOver.next(isOver);
+    return this.isOver.asObservable();
+  }
 
 }

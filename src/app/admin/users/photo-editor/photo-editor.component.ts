@@ -6,6 +6,7 @@ import { AuthService } from '../../../auth/service/auth.service';
 import { isNgTemplate } from '@angular/compiler';
 import { UserService } from '../service/user.service';
 
+// TODO: work on the html
 @Component({
   selector: 'app-photo-editor',
   templateUrl: './photo-editor.component.html',
@@ -45,7 +46,7 @@ export class PhotoEditorComponent implements OnInit {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
-        console.log('response from photo-editor', response);
+        console.log(' PhotoEditorComponent -> this.uploader.onSuccessItem -> response', response);
         const res: Photo = JSON.parse(response);
         // this.photo.url = res.url;
         const photo = {
@@ -71,7 +72,7 @@ export class PhotoEditorComponent implements OnInit {
     this.userService.deletePhoto(this.userToEdit.id, id).subscribe(() => {
       this.photo.url = null;
     }, error => {
-      console.log(error);
+      console.log(' PhotoEditorComponent -> deletePhoto -> error', error);
     });
   }
 }

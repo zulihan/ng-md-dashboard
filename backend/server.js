@@ -57,38 +57,6 @@ api.get('/directions/:origin/:destination/:waypoints/:departureTime/:mode/:traff
                 
 });
 
-// '&mode=' +
-        // directionRequest.travelMode +
-        // '&departure_time=' +
-        // directionRequest.drivingOptions.departureTime +
-            
-
-
-// api.get('/directions/', (req, res) => {
-//     axios.get('https://maps.googleapis.com/maps/api/directions/json?origin=43.270584762037416,5.39729277752383&destination=43.2794,5.3891&departure_time=1537152030000&mode=driving&key=AIzaSyCTUO8mVPiYvT9lcxA_GRGI5GipYke4oLw')
-//         .then(function (response) {
-//             if (response.data.status == "OK") {
-//                 console.log('response.data.result:', response.data.routes);
-//                 res.send(response.data);
-//             }
-//             else {
-//                 res.status(400).send("Error");
-//             }
-//         })
-//         .catch(function (error) {
-//             res.status(500).send("There was an error!");
-//         })
-        
-// });
-
-
-// api.get('/directions/', (req, res) => {   
-//     console.log(req);
-//     console.log(res.json(directions));   
-// });
-
-// require('./directions')(app, {});
-
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
 });

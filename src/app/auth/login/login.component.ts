@@ -51,20 +51,20 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.loginForm.value);
+    console.log(' LoginComponent -> onSubmit -> this.loginForm.value', this.loginForm.value);
     // const email = this.loginForm.value.email;
     const name = this.loginForm.value.name;
     const password = this.loginForm.value.password;
     this.authService.login(name, password)
       .subscribe(
         next => {
-          console.log('logged in');
+          console.log(' LoginComponent -> onSubmit -> logged in');
           this.showLoginSuccess();
           // this.alertify.success('logged in successfully');
           this.router.navigate(['/']);
         },
         error => {
-          console.log(error.message);
+          console.log(' LoginComponent -> onSubmit -> error.message', error.message);
           this.showLoginError(error.message);
           this.loggingErrorMessage = error.message;
       }

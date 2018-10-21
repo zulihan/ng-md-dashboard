@@ -1,5 +1,4 @@
 
-
 .grid-container {
     margin: 80px 20px;
 
@@ -9,9 +8,6 @@
 
     .artist-list-header {
         display: flex;
-        // align-items: center;
-        // justify-content: space-between;
-        // flex-wrap: wrap;
         margin-bottom: 10px;
     }
 
@@ -24,8 +20,12 @@
 }
 
 .artist-card {
-    max-width: 300px;
+    width: 100%;
     padding: 10px 0 0 0;
+
+    .mat-card {
+        height: 100%;
+    }
 
     mat-icon {
         font-size: 24px;
@@ -37,8 +37,8 @@
     }
 
     .img-container {
-        width: 300px;
-        height: 150px;
+        width: 100%;
+        height: 200px;
         overflow: hidden;
     }
     

@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import { Task } from '../_models/task';
 import { Subject } from 'rxjs/Subject';
 import { RunnerTask } from 'src/app/_models/runner-task';
-import { Runner } from '../_models/runner';
 
 
 
@@ -45,8 +44,8 @@ export class TasksService {
 
     addRunerTask(task: RunnerTask) {
         this.runnersTasksCollection.add(task)
-            .then(_ => console.log('task created'))
-            .catch(err => console.log(err));
+            .then(_ => console.log(' TasksService -> addRunerTask -> task created', task))
+            .catch(err => console.log(' TasksService -> addRunerTask -> err', err));
     }
 
     deleteRunnerTask(task: RunnerTask) {
@@ -61,7 +60,6 @@ export class TasksService {
         // this.editedRunnerTask.next(this.taskToEditReset());
     }
 
-
     getTasks() {
         this.tasks = this.tasksCollection.snapshotChanges().map(actions => {
             return actions.map(a => {
@@ -72,7 +70,6 @@ export class TasksService {
           });
           return this.tasks;
     }
-
 
     addTask(task: Task) {
         this.tasksCollection.add(task);
@@ -97,7 +94,7 @@ export class TasksService {
     }
 
     getEditedTask() {
-        console.log('edited task', this.editedTask);
+        console.log(' TasksService -> getEditedTask -> this.editedTask', this.editedTask);
     }
 
     updateCheckedOrUnchecked(taskId: string, isDone: boolean) {

@@ -17,7 +17,7 @@ import { Place } from '../../../_models/place';
   styleUrls: ['./tasks-register.component.scss']
 })
 export class TasksRegisterComponent implements OnInit {
-
+  // TODO: Create a new component for the newLocation form
   registerTaskForm: FormGroup;
   registerNewLocationForm: FormGroup;
 
@@ -64,14 +64,13 @@ export class TasksRegisterComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit() {
-    console.log('registerTaskForm before creation: ', this.registerTaskForm);
+    console.log(' TasksRegisterComponent -> ngOnInit -> this.registerTaskForm', this.registerTaskForm);
     this.runners = this.userService.getRunners();
     this.artists = this.artistsService.getArtistsNames();
 
     this.locations = this.geo.getLocations();
     this.geo.getLocations().subscribe(locs => {
-      console.log('this.locations from geo: ', locs);
-
+      console.log(' TasksRegisterComponent -> ngOnInit -> locs', locs);
       return this.locationsList = locs;
     });
 
@@ -117,11 +116,12 @@ export class TasksRegisterComponent implements OnInit {
   }
 
   registerNewLocation() {
-    console.log('this.locationsList from registerNewLocation: ', this.locationsList);
-    console.log('this.registerNewLocationForm: ', this.registerNewLocationForm.value);
-    console.log('this.newLocationLat: ', this.newLocationLat);
+    console.log(' TasksRegisterComponent -> registerNewLocation -> this.locationsList', this.locationsList);
+    console.log(' TasksRegisterComponent -> registerNewLocation -> this.registerNewLocationForm.value', this.registerNewLocationForm.value);
+    console.log(' TasksRegisterComponent -> registerNewLocation -> this.newLocationLat', this.newLocationLat);
     const form = this.registerNewLocationForm.value;
-    console.log('last location id: ', this.locationsList[this.locationsList.length - 1]['id']);
+    console.log(' TasksRegisterComponent -> registerNewLocation -> this.locationsList[this.locationsList.length - 1]["id"]',
+      this.locationsList[this.locationsList.length - 1]['id']);
     const id = this.locationsList[this.locationsList.length - 1]['id'] + 1;
     const name = form.name;
     const address = form.address;
@@ -134,30 +134,29 @@ export class TasksRegisterComponent implements OnInit {
       coord: new firebase.firestore.GeoPoint(lat, lng),
       place_id
     };
-    console.log('id: ', id);
+    console.log(' TasksRegisterComponent -> registerNewLocation -> id', id);
     this.geo.setLocation(id, newLocation);
     this.registerTaskForm.get('from').setValue(newLocation);
     // this.locations.push(newLocation);
-    console.log('newLocation ', newLocation);
+    console.log(' TasksRegisterComponent -> registerNewLocation -> newLocation', newLocation);
   }
 
   getGeocode() {
     this.geo.getGeoCode(this.newLocationAddress)
       .subscribe( res => {
-      console.log(typeof(res), res);
-      this.geoCode = res;
-      console.log('geoCode: ', this.geoCode);
-      const lat = this.geoCode !== undefined ? this.geoCode.results[0].geometry.location.lat : '';
-      const lng = this.geoCode !== undefined ? this.geoCode.results[0].geometry.location.lng : '';
-      const place_id = this.geoCode !== undefined ? this.geoCode.results[0].place_id : '';
-      this.newLocationLatSubject.next(lat);
-      this.registerNewLocationForm.get('lat').setValue(lat);
-      this.newLocationLngSubject.next(lng);
-      this.registerNewLocationForm.get('long').setValue(lng);
-      this.registerNewLocationForm.get('place_id').setValue(place_id);
-      console.log('lat ', lat);
-      console.log('this.newLocationLat ', this.newLocationLat);
-
+        console.log(' TasksRegisterComponent -> getGeocode -> typeof(res), res', typeof(res), res);
+        this.geoCode = res;
+        console.log(' TasksRegisterComponent -> getGeocode -> this.geoCode', this.geoCode);
+        const lat = this.geoCode !== undefined ? this.geoCode.results[0].geometry.location.lat : '';
+        const lng = this.geoCode !== undefined ? this.geoCode.results[0].geometry.location.lng : '';
+        const place_id = this.geoCode !== undefined ? this.geoCode.results[0].place_id : '';
+        this.newLocationLatSubject.next(lat);
+        this.registerNewLocationForm.get('lat').setValue(lat);
+        this.newLocationLngSubject.next(lng);
+        this.registerNewLocationForm.get('long').setValue(lng);
+        this.registerNewLocationForm.get('place_id').setValue(place_id);
+        console.log(' TasksRegisterComponent -> getGeocode -> lat', lat);
+        console.log(' TasksRegisterComponent -> getGeocode -> this.newLocationLat', this.newLocationLat);
       });
   }
 
@@ -168,7 +167,7 @@ export class TasksRegisterComponent implements OnInit {
     const form = this.registerTaskForm.value;
     const creator = JSON.parse(localStorage.getItem('user')).userName;
     let type;
-    console.log('form.from', form.from);
+    console.log(' TasksRegisterComponent -> onSubmit -> form.from', form.from);
     if (form.from.name === 'Marsatac') {
       type = 'drop off';
     } else if ( form.to.name === 'Marsatac') {
@@ -177,10 +176,9 @@ export class TasksRegisterComponent implements OnInit {
       type = 'three-legs';
     }
     const marsatac = this.locationsList.find(loc => loc.name === 'Marsatac');
-    console.log('form.time:', form.time);
+    console.log(' TasksRegisterComponent -> onSubmit -> form.time', form.time);
     const departureAt = form.time !== '' ? new Date(form.time).getTime() : new Date(Date.now()).getTime();
-    console.log('departureAt: ', departureAt);
-
+    console.log(' TasksRegisterComponent -> onSubmit -> departureAt', departureAt);
 
     if (form.from.name === 'Marsatac') {
       this.directionsObs = this.geo.getDirections(
@@ -190,7 +188,8 @@ export class TasksRegisterComponent implements OnInit {
           waypoints: [
             {
               location: form.to.place_id,
-            }],
+            }
+          ],
           provideRouteAlternatives: false,
           travelMode: 'DRIVING',
           drivingOptions: {
@@ -198,10 +197,49 @@ export class TasksRegisterComponent implements OnInit {
             trafficModel: 'pessimistic'
           }
         });
-
+    } else if (form.to.name === 'Marsatac' ) {
+      this.directionsObs = this.geo.getDirections(
+        {
+          origin: 'ChIJbW8XYqi4yRIRHeukMHYw9ig',
+          destination: 'ChIJbW8XYqi4yRIRHeukMHYw9ig',
+          waypoints: [
+            {
+              location: form.from.place_id,
+              stopover: true
+            }
+          ],
+          provideRouteAlternatives: false,
+          travelMode: 'DRIVING',
+          drivingOptions: {
+            departureTime: +departureAt,
+            trafficModel: 'pessimistic'
+          }
+        });
+    } else if (form.from.name !== 'Marsatac' && form.to.name !== 'Marsatac' ) {
+      this.directionsObs = this.geo.getDirections(
+        {
+          origin: 'ChIJbW8XYqi4yRIRHeukMHYw9ig',
+          destination: 'ChIJbW8XYqi4yRIRHeukMHYw9ig',
+          waypoints: [
+            {
+              location: form.from.place_id,
+              stopover: true
+            },
+            {
+              location: form.to.place_id,
+              stopover: true
+            }
+          ],
+          provideRouteAlternatives: false,
+          travelMode: 'DRIVING',
+          drivingOptions: {
+            departureTime: +departureAt,
+            trafficModel: 'pessimistic'
+          }
+        });
     }
     this.directionsObs.subscribe(res => {
-      console.log('response from api call: ', res);
+      console.log(' TasksRegisterComponent -> onSubmit -> res: response from api call', res);
       let duration = 0;
       let distance = 0;
       res.routes[0].legs.forEach(leg => {
@@ -212,8 +250,8 @@ export class TasksRegisterComponent implements OnInit {
       });
       this.estimatedDuration = Math.round((duration + 600) / 50 ) * 50;
       this.taskDistance = distance;
-      console.log('taskDuration: ', this.estimatedDuration);
-      console.log('taskDistance: ', this.taskDistance);
+      console.log(' TasksRegisterComponent -> onSubmit -> this.estimatedDuration', this.estimatedDuration);
+      console.log(' TasksRegisterComponent -> onSubmit -> this.taskDistance', this.taskDistance);
 
       const task = {
         createdAt: new Date(Date.now()).toString(),
@@ -237,25 +275,23 @@ export class TasksRegisterComponent implements OnInit {
       };
       this.tasksService.runnersTasksCollection.add(task)
         .then(_ => {
-          console.log('task created');
+        console.log(' TasksRegisterComponent -> onSubmit');
           this.showRegisterSuccess();
          })
         .catch(error => {
-          console.log(error);
+          console.log(' TasksRegisterComponent -> onSubmit -> error', error);
           this.showRegisterError(error);
         });
     });
-
-    }
-
-
-    showRegisterSuccess() {
-      this.toastr.success('You\'ve susccesfully registered a new task');
-    }
-
-    showRegisterError(error) {
-      this.toastr.error(error);
-    }
-
   }
+
+  showRegisterSuccess() {
+    this.toastr.success('You\'ve susccesfully registered a new task');
+  }
+
+  showRegisterError(error) {
+    this.toastr.error(error);
+  }
+
+}
 

@@ -65,8 +65,6 @@ export class ChecklistSingleComponent implements OnInit {
 
 }
 
-
-
 // const model = {
     //   userId: form.userId,
     //   invitsChecked: form.invitsChecked,
@@ -74,5 +72,5 @@ export class ChecklistSingleComponent implements OnInit {
     //   sacemChecked: form.sacemChecked,
     //   sacemComment: form.sacemComment,
     //   recordingChecked: form.recordingChecked,
-    //   reconrdingComment: form.reconrdingComment
+    //   recordingComment: form.recordingComment
     // };

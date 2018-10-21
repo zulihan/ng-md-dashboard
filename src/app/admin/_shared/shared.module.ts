@@ -6,10 +6,7 @@ import { MaterialModule } from '../../material/material.module';
 import { PipesModule } from '../pipes/pipes.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
-
-
 import { ChecklistSingleComponent } from '../checklist/checklist-single/checklist-single.component';
-
 
 @NgModule({
   imports: [

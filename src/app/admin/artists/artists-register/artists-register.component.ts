@@ -69,8 +69,8 @@ export class ArtistsRegisterComponent implements OnInit {
 
   onSubmit() {
     const formValue = this.registerForm.value;
-    console.log('form value: ', formValue);
-    console.log('getIn :', formValue.getInStart);
+    console.log(' ArtistsRegisterComponent -> onSubmit -> formValue', formValue);
+    console.log(' ArtistsRegisterComponent -> onSubmit -> formValue.getInStart', formValue.getInStart);
     const name = formValue.name;
     const photoUrl = formValue.photoUrl;
     const contactName = formValue.contactName;
@@ -119,15 +119,15 @@ export class ArtistsRegisterComponent implements OnInit {
       soundCheck,
       show
     };
-    // console.log('model to send: ', JSON.stringify(model));
+    console.log(' ArtistsRegisterComponent -> onSubmit -> model', model);
     this.artistsService.registerArtist(model)
       .subscribe( (response) => {
+        console.log(' ArtistsRegisterComponent -> onSubmit -> response', response);
         this.artistsService.artistList.push(response);
         this.artistsService.artistListSubject.next(this.artistsService.artistList);
         this.showRegisterSuccess(model.name);
-        console.log('response: ', response);
       }, error => {
-        console.log(error);
+        console.log(' ArtistsRegisterComponent -> onSubmit -> error', error);
         this.showRegisterError(error);
       });
   }

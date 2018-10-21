@@ -27,6 +27,7 @@ export class ArtistsService {
   constructor(private http: HttpClient) { }
 
   updateArtistAfterEdit(artistId: number, artist: Artist) {
+    console.log(' ArtistsService -> updateArtistAfterEdit -> artist', artist);
     artist.id = artistId;
     artist.day = artist.dayId === 4 ? 'Not set yet' : artist.dayId.toString();
     artist.venue = artist.venueId === 4 ? 'Not set yet' : artist.venueId.toString();
@@ -38,13 +39,12 @@ export class ArtistsService {
     artist.setUpWings.end = typeof artist.setUpWings.end === 'string' ? new Date(artist.setUpWings.end) : artist.setUpWings.end;
     artist.soundCheck.start = typeof artist.soundCheck.start === 'string' ? new Date(artist.soundCheck.start) : artist.soundCheck.start;
     artist.soundCheck.end = typeof artist.soundCheck.end === 'string' ? new Date(artist.soundCheck.end) : artist.soundCheck.end;
-    console.log('artist from updateArtistAfterEdit: ', artist);
+    console.log(' ArtistsService -> updateArtistAfterEdit -> artist after edit', artist);
     this.artistDetails.next(artist);
-    console.log('artistList: ', this.artistList);
     const findInArtistList = this.artistList.find( el => el.id === artistId);
+    console.log(' ArtistsService -> updateArtistAfterEdit -> findInArtistList', findInArtistList);
     const indexInArtistList = this.artistList.indexOf(findInArtistList);
-    console.log('findInArtistList :', findInArtistList );
-    console.log('indexInArtistList :', indexInArtistList );
+    console.log(' ArtistsService -> updateArtistAfterEdit -> indexInArtistList', indexInArtistList);
     this.artistList.splice(indexInArtistList, 1);
     this.artistList.splice(indexInArtistList, 0, artist);
     this.artistListSubject.next(this.artistList);
@@ -58,19 +58,20 @@ export class ArtistsService {
   }
 
   registerArtist(model: Artist): Observable<Artist> {
-    console.log('model from artist service: ', model);
+    console.log(' ArtistsService -> constructor -> model', model);
     return this.http.post<Artist>(this.baseUrl + 'artists/register', model);
   }
 
   getArtists(): Observable<Artist[]> {
     const artistsFromDb = this.http.get<Artist[]>(this.baseUrl + 'artists');
     artistsFromDb.subscribe( artists => {
+      console.log(' ArtistsService -> getArtists() -> artists', artists);
       artists.map((artist) => {
         if (!this.artistIsAlreadyInList(artist)) {
           this.artistList.push(artist);
         }
       });
-      console.log('artist list from getArtists: ', this.artistList);
+      console.log(' ArtistsService -> getArtists() -> this.artistList', this.artistList);
       // this.artistList = [];
       this.artistListSubject.next(this.artistList);
     });
@@ -92,7 +93,7 @@ export class ArtistsService {
   getArtist(id: number): Observable<Artist> {
     const artistFromDB = this.http.get<Artist>(this.baseUrl + 'artists/' + id);
     artistFromDB.subscribe(a => {
-      console.log('artist from getArtistMethod: ', a);
+      console.log(' ArtistsService -> constructor -> artistFromDB', a);
       this.updateArtistAfterEdit(a.id, a);
     });
     return artistFromDB;
@@ -106,7 +107,7 @@ export class ArtistsService {
   deleteArtist(id: number, name): Observable<any> {
     const indexInArtistList = this.artistList.map( el => el.id).indexOf(id);
     this.artistList.splice(indexInArtistList, 1);
-    console.log('indexInArtistList :', indexInArtistList );
+    console.log(' ArtistsService -> constructor -> indexInArtistList', indexInArtistList);
     this.artistListSubject.next(this.artistList);
     return this.http.delete(this.baseUrl + 'artists/delete/' + id);
   }
@@ -127,69 +128,4 @@ export class ArtistsService {
     return this.http.get<Venue[]>(this.baseUrl + 'venues');
   }
 
-
-  // getArtist(id: number): Observable<Artist> {
-  //   const artistFromDB = this.http.get<Artist>(this.baseUrl + 'artists/' + id);
-  //   let artist = artistFromDB.subscribe((a) => {
-  //     console.log('a from getArtist method', a);
-  //     return artist = a;
-  //   });
-  //   console.log('artist from getArtist method', artist);
-  //   this.artistDetails.next(artist);
-  //   return artistFromDB;
-  // }
-
-
-  // getArtists() {
-  //   this.http.get('http://localhost:5000/api/artists').subscribe( response => {
-  //     this.artists = response;
-  //   }, error => {
-  //     console.log(error);
-  //   });
-  //   console.log('artists from service: ', this.artists);
-  //   return this.artists;
-  // }
-
 }
-
-
-// artist.getIn.start = artist.getIn.start != null || undefined ?
-//       artist.getIn.start : null;
-//     artist.getIn.end = artist.getIn.end != null || undefined ?
-//       artist.getIn.end : null;
-//     artist.setUpWings.start = artist.setUpWings.start != null || undefined ?
-//       artist.setUpWings.start : null;
-//     artist.setUpWings.end = artist.setUpWings.end != null || undefined ?
-//       artist.setUpWings.end : null;
-//     artist.soundCheck.start = artist.soundCheck.start != null || undefined ?
-//       artist.soundCheck.start : null;
-//     artist.soundCheck.end = artist.soundCheck.end != null || undefined ?
-//       artist.soundCheck.end : null;
-//     artist.show.start = artist.show.start != null || undefined ?
-//       artist.show.start : null;
-//     artist.soundCheck.end = artist.soundCheck.end != null || undefined ?
-//       artist.soundCheck.end : null;
-
-// editArtist(id: number, artist: Artist): Observable<Artist> {
-//   this.editedArtist = artist;
-//   const timezoneOffset = new Date().getTimezoneOffset() * -60000;
-//   artist.getIn.start = artist.getIn.start != null || undefined ?
-//     new Date(artist.getIn.start.getTime() + timezoneOffset) : null;
-//   artist.getIn.end = artist.getIn.end != null || undefined ?
-//     new Date(artist.getIn.end.getTime() + timezoneOffset) : null;
-//   artist.setUpWings.start = artist.setUpWings.start != null || undefined ?
-//     new Date(artist.setUpWings.start.getTime() + timezoneOffset) : null;
-//   artist.setUpWings.end = artist.setUpWings.end != null || undefined ?
-//     new Date(artist.setUpWings.end.getTime() + timezoneOffset) : null;
-//   artist.soundCheck.start = artist.soundCheck.start != null || undefined ?
-//     new Date(artist.soundCheck.start.getTime() + timezoneOffset) : null;
-//   artist.soundCheck.end = artist.soundCheck.end != null || undefined ?
-//     new Date(artist.soundCheck.end.getTime() + timezoneOffset) : null;
-//   artist.show.start = artist.show.start != null || undefined ?
-//     new Date(artist.show.start.getTime() + timezoneOffset) : null;
-//   artist.soundCheck.end = artist.soundCheck.end != null || undefined ?
-//     new Date(artist.soundCheck.end.getTime() + timezoneOffset) : null;
-
-//   return this.http.put<Artist>(this.baseUrl + 'artists/' + id, artist);
-// }
-

@@ -4,11 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/guard/auth.guard';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { NotFoundComponent } from '../views/errors/not-found/not-found.component';
+// import { NotFoundComponent } from '../views/errors/not-found/not-found.component';
 import { AdminComponent } from './admin.component';
 import { MapComponent } from '../map/map/map.component';
 // import { ArtistsListComponent } from './artists/artists-list/artists-list.component';
-import { ArtistsComponent } from './artists/artists.component';
+// import { ArtistsComponent } from './artists/artists.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { CalendarEditComponent } from './calendar/calendar-edit/calendar-edit.component';
 import { DayOneComponent } from './calendar/day-one/day-one.component';
@@ -25,7 +25,7 @@ import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { DayOneVenueOneTimetableComponent } from './timetables/day-one-venue-one-timetable/day-one-venue-one-timetable.component';
 import { DayOneVenueTwoTimetableComponent } from './timetables/day-one-venue-two-timetable/day-one-venue-two-timetable.component';
 import { DayOneVenueThreeTimetableComponent } from './timetables/day-one-venue-three-timetable/day-one-venue-three-timetable.component';
-import { TimetablesModule } from './timetables/timetables.module';
+// import { TimetablesModule } from './timetables/timetables.module';
 import { DayTwoVenueOneTimetableComponent } from './timetables/day-two-venue-one-timetable/day-two-venue-one-timetable.component';
 import { DayTwoVenueTwoTimetableComponent } from './timetables/day-two-venue-two-timetable/day-two-venue-two-timetable.component';
 import { DayTwoVenueThreeTimetableComponent } from './timetables/day-two-venue-three-timetable/day-two-venue-three-timetable.component';
@@ -93,7 +93,7 @@ const adminRoutes: Routes = [
           {path: 'runners-tasks-timetable', component: RunnersTasksTimetableComponent}
         ]
       },
-      { path: '**', component: NotFoundComponent }
+      // { path: '**', component: NotFoundComponent }
     ]
   }
 

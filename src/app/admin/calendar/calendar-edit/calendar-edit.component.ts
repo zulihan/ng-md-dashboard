@@ -10,12 +10,8 @@ import {
   import {
     startOfDay,
     endOfDay,
-    subDays,
-    addDays,
-    endOfMonth,
     isSameDay,
     isSameMonth,
-    addHours
   } from 'date-fns';
 
 import { Subject } from 'rxjs';
@@ -27,7 +23,6 @@ import {
 } from 'angular-calendar';
 
 import localeFr from '@angular/common/locales/fr';
-
 
 // import { CalendarDate } from 'angular-calendar';
 
@@ -134,6 +129,10 @@ export class CalendarEditComponent {
         this.viewDate = date;
       }
     }
+  }
+
+  close() {
+    console.log(' close -> close');
   }
 
   eventTimesChanged({

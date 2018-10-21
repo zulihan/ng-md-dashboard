@@ -53,9 +53,9 @@ export class RegisterComponent implements OnInit {
     const username = this.registerForm.value.username;
     this.authService.register(this.registerForm.value).subscribe( () => {
       this.showRegisterSuccess(username);
-      console.log(this.registerForm.value);
+      console.log(' RegisterComponent -> onSubmit -> this.registerForm.value', this.registerForm.value);
     }, error => {
-      console.log('register error', error);
+      console.log(' RegisterComponent -> onSubmit -> error', error);
       this.showRegisterError(error);
     });
   }

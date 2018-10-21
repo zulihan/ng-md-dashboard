@@ -1,7 +1,11 @@
 <div class="container">
   <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
+    <mat-sidenav #drawer
+      class="sidenav" 
+      fixedInViewport="true" 
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'" 
+      [opened]="!(isHandset$ | async)">
       <mat-toolbar color="primary" class="left-toolbar">       
         <div>
           <a href="https://www.marsatac.com" target="_blank">
@@ -92,13 +96,15 @@
               </span>
             </a>
           </mat-list-item>
-
         </mat-nav-list>
       </mat-accordion>
     </mat-sidenav>
     <mat-sidenav-content>
       <mat-toolbar color="primary" class="top-toolbar">
-        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
+        <button *ngIf="isHandset$ | async" 
+          type="button" aria-label="Toggle sidenav" 
+          mat-icon-button 
+          (click)="drawer.toggle()" >
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
         <div class="left-items" fxFlex fxLayout  fxLayout.xs="column" fxLayoutAlign="flex-start">

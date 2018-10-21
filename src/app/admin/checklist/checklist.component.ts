@@ -4,7 +4,6 @@ import { ArtistsService } from 'src/app/admin/artists/service/artists.service';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
-
 @Component({
   selector: 'app-checklist',
   templateUrl: './checklist.component.html',
@@ -34,7 +33,6 @@ export class ChecklistComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.checklists);
         this.dataSource.sort = this.sort;
       });
-
   }
 
   applyFilter(filterValue: string) {

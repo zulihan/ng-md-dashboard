@@ -104,20 +104,12 @@ export class ArtistDetailComponent implements OnInit {
       }
 
       this.artistsService.artistDetails.next(this.artist);
-      console.log('artist from artist detail after updateArtist', this.artist);
+      console.log(' ArtistDetailComponent -> ngOnInit -> this.artist after updateArtist', this.artist);
       this.artistsService.afterEditArtist.subscribe(artist => this.artist = artist);
-      console.log('artist from artist detail after edited artist subscribe', this.artist);
-
-      // this.artistsService.getArtistChecklist(this.artist.id)
-      // .subscribe(checklist => {
-      //   this.checklist = checklist;
-      //   console.log('checklist : ', this.checklist);
-      // });
-
-
+      console.log(' ArtistDetailComponent -> ngOnInit -> this.artist after edited artist subscribe', this.artist);
     });
 
-    console.log('artist detail: ', this.artist);
+    console.log(' ArtistDetailComponent -> ngOnInit -> this.artist', this.artist);
 
     const grid = new Map([
       ['xs', 2],
@@ -140,10 +132,9 @@ export class ArtistDetailComponent implements OnInit {
       .map(change => {
 
         this.rowHeight = this.heightToCols(grid.get(change.mqAlias));
-        // console.log(this.rowHeight);
+        console.log(' ArtistDetailComponent -> ngOnInit -> this.rowHeight', this.rowHeight);
 
         return grid.get(change.mqAlias);
-
       })
       .startWith(start);
   }
@@ -156,11 +147,10 @@ export class ArtistDetailComponent implements OnInit {
     } else {
       return 450;
     }
-
   }
 
   openEdit(artist): void {
-    console.log('artist from openEdit', artist);
+    console.log(' ArtistDetailComponent -> artist', artist);
     const dialogRef = this.dialog.open(ArtistEditComponent, {
       width: '500px',
       data: {
@@ -169,16 +159,15 @@ export class ArtistDetailComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      console.log(' ArtistDetailComponent -> The dialog was closed');
     });
-
   }
 
   deleteArtist(id, name) {
     if (confirm('Are you sure to delete ' + name.toUpperCase() + ' ?')) {
       this.artistsService.deleteArtist(id, name)
         .subscribe(response => {
-          console.log('response from deleteArtist: ', response);
+          console.log(' ArtistDetailComponent -> deleteArtist -> response', response);
           this.showEditSuccess(name);
           this.router.navigate(['admin/artists']);
         }, error => {
@@ -206,22 +195,3 @@ export class ArtistDetailComponent implements OnInit {
   // }
 
 }
-
-
-// this.artist.getIn.start = this.artist.getIn != null || undefined ?
-//         new Date(this.artist.getIn.start) : this.artist.getIn =  null;
-//       this.artist.getIn.end = this.artist.getIn != null || undefined ?
-//         new Date(this.artist.getIn.end) : this.artist.getIn = null;
-//       this.artist.setUpWings.start = this.artist.setUpWings != null || undefined ?
-//         new Date(this.artist.setUpWings.start) : this.artist.setUpWings = null;
-//       this.artist.setUpWings.end = this.artist.setUpWings != null || undefined ?
-//         new Date(this.artist.setUpWings.end) : this.artist.setUpWings  = null;
-//       this.artist.soundCheck.start = this.artist.soundCheck != null || undefined ?
-//         new Date(this.artist.soundCheck.start) : this.artist.soundCheck = null;
-//       this.artist.soundCheck.end = this.artist.soundCheck != null || undefined ?
-//         new Date(this.artist.soundCheck.end) : this.artist.soundCheck = null;
-//       this.artist.show.start = this.artist.show != null || undefined ?
-//         new Date(this.artist.show.start) : this.artist.show = null;
-//       this.artist.show.end = this.artist.show != null || undefined ?
-//         new Date(this.artist.show.end) : this.artist.show = null;
-

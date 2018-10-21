@@ -11,7 +11,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AgmCoreModule } from '@agm/core';
 
 import { MatDialogModule } from '@angular/material';
-import { MaterialModule } from '../material/material.module';
+// import { MaterialModule } from '../material/material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 // main layout

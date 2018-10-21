@@ -11,8 +11,6 @@ import { RunnersTasksFilterPipe } from './runners-tasks-filter.pipe';
 import { HideCompletedPipe } from './hide-completed.pipe';
 
 
-
-
 @NgModule({
    imports: [
       CommonModule

@@ -73,9 +73,9 @@ export class DayOneTimetableComponent implements OnInit {
       .subscribe(response => {
         this.timeTableDayOne = response;
         this.addTimeTable(this.timetable, this.selector, this.timeTableDayOne);
-        console.log('getIns day one: ', this.timeTableDayOne );
+        console.log(' DayOneTimetableComponent -> ngOnInit -> this.timeTableDayOne', this.timeTableDayOne);
       }, error => {
-        console.log(error);
+        console.log(' DayOneTimetableComponent -> ngOnInit -> error', error);
       });
 
   }
@@ -84,7 +84,9 @@ export class DayOneTimetableComponent implements OnInit {
     const getInsStart = [];
 
     timeTable.getIns.value.forEach(g => {
-      getInsStart.push(g.start);
+      if (g.start !== null && g.start !== undefined && g.start !== 0 ) {
+        getInsStart.push(g.start);
+      }
     });
 
     const getInsStartumber = getInsStart.map(gis => {
@@ -100,50 +102,50 @@ export class DayOneTimetableComponent implements OnInit {
   }
 
   addTimeTable(tt, selector, timeTable) {
+    const artists: string[] = [];
     this.scopeTime = this.setScopeTime(timeTable);
-    console.log('scopTime: ', this.scopeTime);
+    console.log(' DayOneTimetableComponent -> addTimeTable -> this.scopeTime', this.scopeTime);
 
     tt.setScope(this.scopeTime, this.scopeTime);
 
-    console.log('timeTable from addTimeTable method: ', timeTable);
+    console.log(' DayOneTimetableComponent -> addTimeTable -> timeTable', timeTable);
+    console.log(' DayOneTimetableComponent -> addTimeTable -> artists', artists);
+    console.log(' DayOneTimetableComponent -> addTimeTable -> this.artists', this.artists);
 
-    const artists: string[] = [];
-    console.log('artists from getins', artists);
-    console.log('artists: ', this.artists);
     this.artists.forEach(a => artists.push(a.name.toUpperCase()));
     tt.addArtists(artists);
 
     timeTable.getIns.value.forEach(g => {
-      if (g.start && g.end !== null) {
+      if (g.start && g.end !== (null || undefined || 0 )) {
         tt.addEvent('GI', g.artist.toUpperCase(), new Date(g.start), new Date(g.end), this.getInOptions);
-        console.log('g.start from forEach', g.start);
+        // console.log('g.start from forEach', g.start);
       }
     });
 
     timeTable.setUpWings.value.forEach(suw => {
       if (suw.start && suw.end !== null) {
         tt.addEvent('SUW', suw.artist.toUpperCase(), new Date(suw.start), new Date(suw.end), this.setUpWingsOptions);
-        console.log('g.start from forEach', suw.start);
+        // console.log('g.start from forEach', suw.start);
       }
     });
 
     timeTable.soundChecks.value.forEach(sc => {
       if (sc.start && sc.end !== null) {
         tt.addEvent('SC', sc.artist.toUpperCase(), new Date(sc.start), new Date(sc.end), this.soundChecksOptions);
-        console.log('sc.start from forEach', sc.start);
+        // console.log('sc.start from forEach', sc.start);
       }
     });
 
     timeTable.shows.value.forEach(s => {
       if (s.start && s.end !== null) {
         tt.addEvent('Show', s.artist.toUpperCase(), new Date(s.start), new Date(s.end), this.showsOptions);
-        console.log('s.start from forEach', s.start);
+        // console.log('s.start from forEach', s.start);
       }
     });
 
     const renderer = new Renderer(tt);
     renderer.draw(selector);
-    console.log('timeNow from day-one-component in addTimeTable method: ', this.timeNow);
+    console.log(' DayOneTimetableComponent -> addTimeTable -> this.timeNow', this.timeNow);
     document.getElementById('time').scrollIntoView({behavior: 'instant', block: 'center', inline: 'nearest'});
   }
 

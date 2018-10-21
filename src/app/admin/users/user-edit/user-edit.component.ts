@@ -27,9 +27,10 @@ export class UserEditComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-    console.log(this.data.dataKey);
+    console.log(' UserEditComponent -> ngOnInit -> this.data.dataKey', this.data.dataKey);
+    console.log(' UserEditComponent -> ngOnInit -> this.userToEdit', this.userToEdit);
+
     this.createEditForm();
-    console.log(this.userToEdit);
     this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
 
@@ -53,9 +54,9 @@ export class UserEditComponent implements OnInit {
     this.userService.updateUser(this.userToEdit.id, this.editForm.value)
       .subscribe( () => {
       this.showUpdateSuccess(name);
-      console.log('form value: ', this.editForm.value);
+      console.log(' UserEditComponent -> onSubmit -> this.editForm.value', this.editForm.value);
     }, error => {
-      console.log('error: ', error.code);
+      console.log(' UserEditComponent -> onSubmit -> error.code', error.code);
       this.showUpdateError(error);
     });
   }

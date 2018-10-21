@@ -29,9 +29,7 @@ export class AuthService {
 
   constructor(private router: Router,
               private jwtHelperService: JwtHelperService,
-              private http: HttpClient) {
-
-  }
+              private http: HttpClient) {}
 
   changeUserPhoto(photoUrl: string) {
     this.photoUrl.next(photoUrl);
@@ -50,7 +48,7 @@ export class AuthService {
       .pipe(
         map( (response: any) => {
           const user = response;
-          console.log('user from login response', user);
+          console.log(' AuthService -> login -> user', user);
           if (user) {
             localStorage.setItem('token', user.token);
             this.decodedToken = this.jwtHelper.decodeToken(user.token);
@@ -63,11 +61,11 @@ export class AuthService {
   }
 
   isLoggedIn(): Observable<boolean> {
+    console.log(' AuthService -> isLoggedIn()');
     const token = this.jwtHelperService.tokenGetter();
     if (!token) {
       return of(false);
     }
-    console.log('called isLoggedIn method in AuthService: ');
     return of(!this.jwtHelperService.isTokenExpired(token));
   }
 
@@ -109,8 +107,8 @@ export class AuthService {
 
   // If error, console log and notify user
   private handleError(error: Error) {
+    console.log(' AuthService -> privatehandleError -> error', error.message);
     this.loginErrorMessage = error.message;
-    console.error(error);
     // this.notify.update(error.message, 'error');
   }
 }
