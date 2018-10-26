@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Runz } from 'src/app/_models/runz';
 
 @Component({
   selector: 'app-task-progress',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./task-progress.component.scss']
 })
 export class TaskProgressComponent implements OnInit {
+  run: Runz;
 
   constructor() { }
 

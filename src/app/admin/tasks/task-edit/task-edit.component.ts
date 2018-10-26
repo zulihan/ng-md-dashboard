@@ -10,7 +10,8 @@ import { GeoService } from 'src/app/_services/geo.service';
 import { ArtistsService } from 'src/app/admin/artists/service/artists.service';
 import * as firebase from 'firebase';
 import { Place } from 'src/app/_models/place';
-
+import { environment } from 'src/environments/environment'
+import { TaskStatus, RunStatus, RunType } from "src/app/_enums/enums";
 
 @Component({
   selector: 'app-task-edit',
@@ -18,11 +19,16 @@ import { Place } from 'src/app/_models/place';
   styleUrls: ['./task-edit.component.scss']
 })
 export class TaskEditComponent implements OnInit, AfterViewInit {
+  // TODO: UPDATE RUN runzService updateRun() is from or to have changed
+  // and if runner have changed;  
+
+  FESTIVAL = environment.FESTIVAL;
 
   runnerTaskToEdit: RunnerTask;
   editTaskForm: FormGroup;
   registerNewLocationForm: FormGroup;
 
+  // Available seats in a van
   persons = [1, 2, 3, 4, 5, 6, 7, 8];
   runners;
   runnersList;
@@ -60,6 +66,12 @@ export class TaskEditComponent implements OnInit, AfterViewInit {
     console.log(' TaskEditComponent -> ngOnInit -> this.runnerTaskToEdit', this.runnerTaskToEdit);
     this.runners = this.userService.getRunners();
     this.artists = this.artistsService.getArtistsNames();
+    this.runners.subscribe(rs => {
+      return this.runnersList = rs;
+    });
+    this.artists.subscribe(as => {
+      return this.artistsList = as;
+    });
     this.geo.getLocations().subscribe( locations => {
       console.log(' TaskEditComponent -> ngOnInit -> locations', locations);
       return this.locations = locations;
@@ -72,12 +84,7 @@ export class TaskEditComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.runners.subscribe(rs => {
-      return this.runnersList = rs;
-    });
-    this.artists.subscribe(as => {
-      return this.artistsList = as;
-    });
+    
   }
 
   get selectedValueForFrom(): any { return this.editTaskForm.get('from').value.name; }
@@ -109,7 +116,7 @@ export class TaskEditComponent implements OnInit, AfterViewInit {
       to: [this.runnerTaskToEdit.to.name, [Validators.nullValidator]],
       time: [new Date(this.runnerTaskToEdit.startAt), [Validators.nullValidator]],
       status: [this.runnerTaskToEdit.status, [Validators.nullValidator]],
-      taskStatus: ['scheduled', [Validators.nullValidator]]
+      taskStatus: [TaskStatus.SCHEDULED, [Validators.nullValidator]]
     });
   }
 
@@ -163,53 +170,96 @@ export class TaskEditComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
+    console.log(' TaskEditComponent -> onSubmit -> this.runnersList', this.runnersList);
     const form = this.editTaskForm.value;
     console.log(' TaskEditComponent -> onSubmit -> form', form);
+    let partialEditedTask = this.returnFormatedTask(form);
+    let directionsHaveChanged = this.checkIfDirectionsHaveChanged(this.runnerTaskToEdit, form);
+    let runnerHasChanged = this.checkIfRunnerHaveChanged(this.runnerTaskToEdit, form);
+        
+    // if we need to update run because origin or destination have changed me must also recalculate the directions
+    if (directionsHaveChanged) {
+      // Re calculate new directions, methods from tasks register
+      // getDirections, createLegs, createRun;
+    } else if (runnerHasChanged) {
+      // if runner has been changed then update the run with new runner.
+      // this.runzService.updateRun(runId, runnerId);
+    }
+
+  }
+
+  /**
+ * @returns boolean true if origin OR destination have changed
+ *
+ * @this {checkIfDirectionsHaveChanged}
+ * @param {RunnerTask} runnerTaskToEdit the task before editing.
+ * @param {FormGroup} form the form
+ */
+  checkIfDirectionsHaveChanged(runnerTaskToEdit, form): boolean {
+    if (form.from !== runnerTaskToEdit.from.name ||
+        form.to !== runnerTaskToEdit.to.name ) {
+          return true;
+        }
+    return false;
+  }
+
+/**
+ * @returns boolean true if runner has been changed
+ *
+ * @this {checkIfRunnerHaveChanged}
+ * @param {RunnerTask} runnerTaskToEdit the task before editing.
+ * @param {FormGroup} form the form
+ */
+  checkIfRunnerHaveChanged(runnerTaskToEdit, form) {
+    if (form.runner !== runnerTaskToEdit.runner.name ) {
+        return true;
+      }
+    return false;
+  }
+
+  returnFormatedTask(form) {
     const runner = this.runnersList.find( runners => runners.userName === form.runner);
     console.log(' TaskEditComponent -> onSubmit -> runner', runner);
-
     const artist  =  this.artistsList.find( artists => artists.name === form.artist);
     console.log(' TaskEditComponent -> onSubmit -> artist', artist);
-
     const from = this.locations.find(loc => loc.name === form.from);
     console.log(' TaskEditComponent -> onSubmit -> from', from);
-
     const to = this.locations.find(loc => loc.name === form.to);
     console.log(' TaskEditComponent -> onSubmit -> to', to);
-
     const time = form.time;
     console.log(' TaskEditComponent -> onSubmit -> time', time);
+    let type;
+    if (form.from.name === this.FESTIVAL.NAME ) {
+      type = RunType.DROPOFF
+    } else if (form.to.name === this.FESTIVAL.NAME) {
+      type = RunType.PICKUP;
+    } else if (form.from.name !== this.FESTIVAL.NAME && form.to.name !== this.FESTIVAL.NAME ) {
+      type = RunType.THREELEGS;
+    }
+    const creator = this.runnerTaskToEdit.createdBy;
+    const createdAt = this.runnerTaskToEdit.createdAt;
+    const startAtToString = new Date(form.startAt).toString();
+    const taskId = this.runnerTaskToEdit.id;
+    const editedTask = {
+      createdAt: createdAt,
+      updatedAt: new Date(Date.now()).toString(),
+      createdBy: creator,
+      isDone: false,
+      status: form.status,
+      runner: form.runner,
+      artist: form.artist,
+      pers: form.persons,
+      from: form.from,
+      to: form.to,
+      startAt: form.time,
+      startAtToString: startAtToString,
+      closedAt: null,
+      over: this.runnerTaskToEdit.over,
+      type,
+      taskStatus: form.taskStatus
+    };
 
-    //   this.runnersList = rs;
-    //   return this.runnersList.find( runners => runners.userName === form.runner);
-    // });
-
-    // const runner = this.runners.find( run => run.userName === form.runner);
-    // console.log('runner : ', runner);
-    // const creator = this.runnerTaskToEdit.createdBy;
-    // const type = form.from === 'Marsatac' ? 'drop off' : 'pick-up';
-    // const createdAt = this.runnerTaskToEdit.createdAt;
-    // const startAtToString = new Date(form.startAt).toString();
-    // const taskId = this.runnerTaskToEdit.id;
-    // const task = {
-    //   createdAt: createdAt,
-    //   updatedAt: new Date(Date.now()).toString(),
-    //   createdBy: creator,
-    //   isDone: false,
-    //   status: form.status,
-    //   runner: form.runner,
-    //   artist: form.artist,
-    //   pers: form.persons,
-    //   from: form.from,
-    //   to: form.to,
-    //   startAt: form.time,
-    //   startAtToString: startAtToString,
-    //   closedAt: null,
-    //   over: this.runnerTaskToEdit.over,
-    //   type,
-    //   taskStatus: form.taskStatus
-    // };
-    // this.tasksService.updateRunnerTask(taskId, task);
+    return editedTask;
   }
 
   showEditSuccess() {

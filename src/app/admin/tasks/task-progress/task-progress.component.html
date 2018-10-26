@@ -1,6 +1,6 @@
-<mat-list-item *ngIf="runnerTask.type === 'drop off' || runnerTask.type === 'pick-up'; else threelegs">
+<mat-list-item *ngIf="run.type === 'drop off' || run.type === 'pick-up'; else threelegs">
     <mat-progress-bar color="primary" mode="determinate" value="40"></mat-progress-bar>
-    <span> </span>
+    <span> </span> 
     <mat-progress-bar color="primary" mode="determinate" value="00"></mat-progress-bar>
 </mat-list-item>
 <mat-divider></mat-divider>

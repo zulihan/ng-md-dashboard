@@ -1,17 +1,26 @@
 <div class="map">
-  <agm-map 
-    [latitude]="marsatacLat" 
-    [longitude]="marsatacLng" 
-    [styles]="styles"
-    [zoom]="zoom" 
+  <agm-map
+    [latitude]="runnerPositionLat" 
+    [longitude]="runnerPositionLng"
+    [styles]="mapOptions.styles"
+    [zoom]="mapOptions.zoom" 
     [usePanning]="true">
     <agm-marker 
-      [latitude]="marsatacLat"
-      [longitude]="marsatacLng"
+      [latitude]="FESTIVAL.LAT"
+      [longitude]="FESTIVAL.LNG"
       [iconUrl]="'/../../assets/icons/m2018.png'">
       <agm-info-window>
         <h3><strong>Marsatac</strong></h3>      
         <p>Here is Marsatac</p>
+      </agm-info-window>      
+    </agm-marker>
+    <agm-marker *ngIf="runnerPosition !== undefined"
+      [latitude]="runnerPositionLat"
+      [longitude]="runnerPositionLng"
+      [iconUrl]="'/../../assets/icons/runner.png'">
+      <agm-info-window>
+        <h3><strong>{{ runnerPositionUserName }}</strong></h3>      
+        <p>Last time position was updated: {{ timestampToDate | timeAgo }} ago</p>
       </agm-info-window>      
     </agm-marker>
     <agm-marker *ngFor="let location of locations"
@@ -21,6 +30,10 @@
         <h3><strong>{{location.name}}</strong></h3>
         <p>{{location.address}}</p>
       </agm-info-window>
-    </agm-marker>   
+    </agm-marker>
+    <agm-direction
+      [origin]="origin"
+      [destination]="destination">
+    </agm-direction>
     </agm-map> 
 </div>

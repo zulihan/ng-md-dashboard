@@ -10,6 +10,11 @@ import { GeoService } from 'src/app/_services/geo.service';
 import * as firebase from 'firebase';
 import { TasksService } from '../../../_services/tasks.service';
 import { Place } from '../../../_models/place';
+import { RunzService } from '../../../_services/runz.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { TaskStatus, RunStatus, RunType } from "src/app/_enums/enums";
+import { environment } from 'src/environments/environment'
+
 
 @Component({
   selector: 'app-tasks-register',
@@ -18,6 +23,17 @@ import { Place } from '../../../_models/place';
 })
 export class TasksRegisterComponent implements OnInit {
   // TODO: Create a new component for the newLocation form
+
+  FESTIVAL = environment.FESTIVAL;
+  festival = {
+    name: this.FESTIVAL.NAME,
+    place_id: this.FESTIVAL.PLACE_ID,
+    Coord: {
+      latitude: this.FESTIVAL.LAT,
+      longitude: this.FESTIVAL.LNG
+    }
+  }
+
   registerTaskForm: FormGroup;
   registerNewLocationForm: FormGroup;
 
@@ -25,19 +41,21 @@ export class TasksRegisterComponent implements OnInit {
   runners;
   artists;
 
+  task;
+  run;
+  type;
+  legs;
+  directionsLegs;
+
   locations;
   locationsList;
 
-  directionsObs;
+  directionsObs: Observable<Object>;
   estimatedDuration;
   taskDistance;
 
-
   newLocation: Place = {id: 0, name: 'New Location'};
-
-  marsatacLat = 43.270584762037416;
-  marsatacLng = 5.39729277752383;
-
+ 
   geoCode;
   newLocationLat;
   newLocationLong;
@@ -60,8 +78,10 @@ export class TasksRegisterComponent implements OnInit {
     private artistsService: ArtistsService,
     private geo: GeoService,
     private tasksService: TasksService,
+    private runzService: RunzService,
     public taskDialogRef: MatDialogRef<TasksRegisterComponent>,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     console.log(' TasksRegisterComponent -> ngOnInit -> this.registerTaskForm', this.registerTaskForm);
@@ -71,7 +91,9 @@ export class TasksRegisterComponent implements OnInit {
     this.locations = this.geo.getLocations();
     this.geo.getLocations().subscribe(locs => {
       console.log(' TasksRegisterComponent -> ngOnInit -> locs', locs);
-      return this.locationsList = locs;
+      this.locationsList = locs;
+      // this.festival = this.locationsList.find(loc => loc.name === 'Marsatac');
+      return this.locationsList;
     });
 
     // this.geo.getLocations().subscribe(locs => {
@@ -165,26 +187,39 @@ export class TasksRegisterComponent implements OnInit {
     console.log('selectedValueForFrom: ', this.selectedValueForFrom);
     console.log('valueForFrom: ', this.registerTaskForm.get('from').value.name);
     const form = this.registerTaskForm.value;
-    const creator = JSON.parse(localStorage.getItem('user')).userName;
-    let type;
-    console.log(' TasksRegisterComponent -> onSubmit -> form.from', form.from);
-    if (form.from.name === 'Marsatac') {
-      type = 'drop off';
-    } else if ( form.to.name === 'Marsatac') {
-      type = 'pick-up';
-    } else if ( form.from.name && form.to.name !== 'Marsatac') {
-      type = 'three-legs';
-    }
-    const marsatac = this.locationsList.find(loc => loc.name === 'Marsatac');
+    this.getDirections(form).subscribe( directions => {
+      this.spinner.show();
+      console.log(' TasksRegisterComponent -> onSubmit -> res: response from api call', directions);
+      this.createLegs(form, directions);
+      this.createRun(form, this.legs)
+        .then( ref => {
+        const runId = ref.id;
+        this.createTask(form, runId)
+          .then(_ => {
+            console.log(' TasksRegisterComponent -> onSubmit');
+            this.spinner.hide();
+            this.onNoClick();
+            this.showRegisterSuccess();
+          })
+          .catch(error => {
+            console.log(' TasksRegisterComponent -> onSubmit -> error', error);
+            this.showRegisterError(error);
+          });
+      });      
+    });  
+  }
+
+  getDirections(form): Observable<Object> {
     console.log(' TasksRegisterComponent -> onSubmit -> form.time', form.time);
     const departureAt = form.time !== '' ? new Date(form.time).getTime() : new Date(Date.now()).getTime();
     console.log(' TasksRegisterComponent -> onSubmit -> departureAt', departureAt);
 
-    if (form.from.name === 'Marsatac') {
+    if (form.from.name === this.FESTIVAL.NAME) {
+      this.type = RunType.DROPOFF;
       this.directionsObs = this.geo.getDirections(
         {
-          origin: 'ChIJbW8XYqi4yRIRHeukMHYw9ig',
-          destination: 'ChIJbW8XYqi4yRIRHeukMHYw9ig',
+          origin: this.FESTIVAL.PLACE_ID,
+          destination: this.FESTIVAL.PLACE_ID,
           waypoints: [
             {
               location: form.to.place_id,
@@ -197,11 +232,12 @@ export class TasksRegisterComponent implements OnInit {
             trafficModel: 'pessimistic'
           }
         });
-    } else if (form.to.name === 'Marsatac' ) {
+    } else if (form.to.name === this.FESTIVAL.NAME ) {
+      this.type = RunType.PICKUP;
       this.directionsObs = this.geo.getDirections(
         {
-          origin: 'ChIJbW8XYqi4yRIRHeukMHYw9ig',
-          destination: 'ChIJbW8XYqi4yRIRHeukMHYw9ig',
+          origin: this.FESTIVAL.PLACE_ID,
+          destination: this.FESTIVAL.PLACE_ID,
           waypoints: [
             {
               location: form.from.place_id,
@@ -215,11 +251,12 @@ export class TasksRegisterComponent implements OnInit {
             trafficModel: 'pessimistic'
           }
         });
-    } else if (form.from.name !== 'Marsatac' && form.to.name !== 'Marsatac' ) {
+    } else if (form.from.name !== this.FESTIVAL.NAME && form.to.name !== this.FESTIVAL.NAME ) {
+      this.type = RunType.THREELEGS;
       this.directionsObs = this.geo.getDirections(
         {
-          origin: 'ChIJbW8XYqi4yRIRHeukMHYw9ig',
-          destination: 'ChIJbW8XYqi4yRIRHeukMHYw9ig',
+          origin: this.FESTIVAL.PLACE_ID,
+          destination: this.FESTIVAL.PLACE_ID,
           waypoints: [
             {
               location: form.from.place_id,
@@ -238,51 +275,143 @@ export class TasksRegisterComponent implements OnInit {
           }
         });
     }
-    this.directionsObs.subscribe(res => {
-      console.log(' TasksRegisterComponent -> onSubmit -> res: response from api call', res);
-      let duration = 0;
-      let distance = 0;
-      res.routes[0].legs.forEach(leg => {
-        duration += leg.duration.value;
-      });
-      res.routes[0].legs.forEach(leg => {
-        distance += leg.distance.value;
-      });
-      this.estimatedDuration = Math.round((duration + 600) / 50 ) * 50;
-      this.taskDistance = distance;
-      console.log(' TasksRegisterComponent -> onSubmit -> this.estimatedDuration', this.estimatedDuration);
-      console.log(' TasksRegisterComponent -> onSubmit -> this.taskDistance', this.taskDistance);
+    return this.directionsObs;
+  }
 
-      const task = {
-        createdAt: new Date(Date.now()).toString(),
-        updatedAt: new Date(Date.now()).toString(),
-        createdBy: creator,
-        isDone: false,
-        status: 'has not started yet',
-        runner: form.runner,
-        artist: form.artist,
-        pers: form.persons,
-        from: form.from,
-        to: form.to,
-        startAt: form.time,
-        startAtToString: '',
-        closedAt: null,
-        over: false,
-        type,
-        taskStatus: 'scheduled',
-        estimatedDuration: this.estimatedDuration,
-        distance: this.taskDistance
+  createLegs(form, directions) {
+    console.log(' TasksRegisterComponent -> createLegs -> directions', directions);
+    this.directionsLegs = directions.routes[0].legs;
+    console.log(' TasksRegisterComponent -> createLegs -> this.directionsLegs', this.directionsLegs);
+
+    if (this.type === RunType.DROPOFF || this.type === RunType.PICKUP) {
+      this.legs = {
+        one: {
+          started_at: null,
+          completed_at: null,
+          distance: this.directionsLegs[0].distance.value,
+          duration: this.directionsLegs[0].duration.value,
+          percent_dist_travelled: 0,
+        },
+        two: {
+          started_at: null,
+          completed_at: null,
+          distance: this.directionsLegs[1].distance.value,
+          duration: this.directionsLegs[1].duration.value,
+          percent_dist_travelled: 0,
+          }
       };
-      this.tasksService.runnersTasksCollection.add(task)
-        .then(_ => {
-        console.log(' TasksRegisterComponent -> onSubmit');
-          this.showRegisterSuccess();
-         })
-        .catch(error => {
-          console.log(' TasksRegisterComponent -> onSubmit -> error', error);
-          this.showRegisterError(error);
-        });
-    });
+      if (this.type === RunType.DROPOFF) {
+        this.legs['one'].from = form.from;
+        this.legs['one'].to = form.to;
+        this.legs['two'].from = form.to;
+        this.legs['two'].to = form.from;
+      } else if (this.type === RunType.PICKUP ) {
+        this.legs['one'].from = form.to;
+        this.legs['one'].to = form.from;
+        this.legs['two'].from = form.from;
+        this.legs['two'].to = form.to;
+      }
+    } else if (this.type === RunType.THREELEGS) {
+      this.legs = {
+        one: {
+          started_at: null,
+          completed_at: null,
+          distance: this.directionsLegs[0].distance.value,
+          duration: this.directionsLegs[0].duration.value,
+          percent_dist_travelled: 0,
+          from: this.festival,
+          to: form.from
+        },
+        two: {
+          started_at: null,
+          completed_at: null,
+          distance: this.directionsLegs[1].distance.value,
+          duration: this.directionsLegs[1].duration.value,
+          percent_dist_travelled: 0,
+          from: form.from,
+          to: form.to
+        },
+        three: {
+          started_at: null,
+          completed_at: null,
+          distance: this.directionsLegs[2].distance.value,
+          duration: this.directionsLegs[2].duration.value,
+          percent_dist_travelled: 0,
+          from: form.to,
+          to: this.festival
+        }
+      };
+    } else {
+      console.log(' TasksRegisterComponent -> createLegs -> error: ', 'unknown type !');
+    }
+    return this.legs;
+  }
+
+  createRun(form, legs): Promise<firebase.firestore.DocumentReference> {
+    let duration = 0;
+    let distance = 0;
+    let from = form.from;
+    let to = form.to;
+    let runner_id = form.runner.id;
+    let start_scheduled_at = form.time;
+    for (const key in legs) {
+      if (legs.hasOwnProperty(key)) {
+        distance += legs[key].distance;
+        console.log(' TasksRegisterComponent -> distance', distance);
+        duration += legs[key].duration;
+        console.log(' TasksRegisterComponent -> duration', duration);
+        console.log(' TasksRegisterComponent -> legs[key].distance', legs[key].distance);
+        console.log(' TasksRegisterComponent -> legs[key].duration.value', legs[key].duration);
+      }
+    }
+
+    this.estimatedDuration = Math.round((duration + 600) / 50 ) * 50;
+    this.taskDistance = distance;
+    console.log(' TasksRegisterComponent -> onSubmit -> this.estimatedDuration', this.estimatedDuration);
+    console.log(' TasksRegisterComponent -> onSubmit -> this.taskDistance', this.taskDistance);
+    this.run = {
+      from,
+      to,
+      start_scheduled_at,
+      runner_id,
+      status: RunStatus.NOT_STARTED,
+      started_at: null,
+      dist_travelled: 0,
+      distance_total: Number(this.taskDistance),
+      duration_total: Number(this.estimatedDuration),
+      estimated_duration: Number(this.estimatedDuration),
+      percent_dist_travelled: 0,
+      legs
+    };
+    console.log(' TasksRegisterComponent -> this.run', this.run);
+    return this.runzService.initRun(this.run);
+  }
+
+  createTask(form, runId) {
+    const creator = JSON.parse(localStorage.getItem('user')).userName;
+    this.task = {
+      createdAt: new Date(Date.now()).toString(),
+      updatedAt: new Date(Date.now()).toString(),
+      createdBy: creator,
+      isDone: false,
+      runner: form.runner,
+      artist: form.artist,
+      pers: form.persons,
+      from: form.from,
+      to: form.to,
+      startAt: form.time,
+      startAtToString: '',
+      closedAt: null,
+      over: false,
+      type: this.type,
+      taskStatus: TaskStatus.SCHEDULED,
+      status: RunStatus.NOT_STARTED,
+      estimatedDuration: this.estimatedDuration,
+      runId,
+      distance: this.taskDistance
+    };
+
+    return this.tasksService.runnersTasksCollection.add(this.task);
   }
 
   showRegisterSuccess() {
@@ -292,6 +421,25 @@ export class TasksRegisterComponent implements OnInit {
   showRegisterError(error) {
     this.toastr.error(error);
   }
+
+  // showLoading() {
+  //   if(!this.loading){
+  //     this.loading = this.loadingCtrl.create({
+  //       content: 'Loading position...'
+  //     });
+  //       this.loading.present();
+  //   }
+  // }
+
+  // dismissLoading(error?) {
+  //     if (this.loading) {
+  //         this.loading.dismiss();
+  //         this.loading = null;
+  //         if (error) {
+  //           alert(error)
+  //         }
+  //     }
+  // }
 
 }
 

@@ -8,7 +8,8 @@ import { FileUploadModule } from 'ng2-file-upload';
 
 import { AdminRoutingModule } from './admin-routing.module';
 
-import { AgmCoreModule } from '@agm/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction'
 
 import { MatDialogModule } from '@angular/material';
 // import { MaterialModule } from '../material/material.module';
@@ -43,7 +44,7 @@ import { TaskEditComponent } from './tasks/task-edit/task-edit.component';
 import { TaskProgressComponent } from './tasks/task-progress/task-progress.component';
 import { TasksListComponent } from './tasks/tasks-list/tasks-list.component';
 import { RunnersTasksTimetableComponent } from './timetables/runners-tasks-timetable/runners-tasks-timetable.component';
-
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -81,6 +82,7 @@ import { RunnersTasksTimetableComponent } from './timetables/runners-tasks-timet
       apiKey: environment.googleMapsKey,
       libraries: ['geometry']
     }),
+    AgmDirectionModule,
     ArtistsModule,
     CalModule,
     TimetablesModule,
@@ -89,7 +91,8 @@ import { RunnersTasksTimetableComponent } from './timetables/runners-tasks-timet
     // ReactiveFormsModule,
     // PipesModule,
     FileUploadModule,
-    MatDialogModule
+    MatDialogModule,
+    NgxSpinnerModule
   ],
   exports: [
     AdminComponent,
@@ -100,6 +103,9 @@ import { RunnersTasksTimetableComponent } from './timetables/runners-tasks-timet
     RunnerMapComponent,
     RunnersTasksTimetableComponent
   ],
-  providers: [ArtistsService]
+  providers: [
+    ArtistsService,
+    // GoogleMapsAPIWrapper
+  ]
 })
 export class AdminModule {}

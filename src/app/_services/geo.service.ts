@@ -8,12 +8,14 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
 import { Place } from 'src/app/_models/place';
+import { RunnerTracking } from 'src/app/_models/runner-tracking';
 
 
 @Injectable()
 export class GeoService implements OnInit {
 
   locationsCollection: AngularFirestoreCollection<Place>;
+  runnersLocationsCollection: AngularFirestoreCollection<RunnerTracking>;
 
   locationsList;
   locationsBSubject = new BehaviorSubject<Place[]>(this.locationsList);
@@ -32,6 +34,7 @@ export class GeoService implements OnInit {
 
   constructor(private afs: AngularFirestore, private http: HttpClient) {
     this.locationsCollection = this.afs.collection<Place>('locations');
+    this.runnersLocationsCollection = this.afs.collection<RunnerTracking>('runners');
   }
 
    ngOnInit() {
@@ -71,29 +74,64 @@ export class GeoService implements OnInit {
             + this.apiKey);
    }
 
-   getDirections(object) {
-     console.log('object in getDistance(): ', object);
-     return this.http.get(this.nodeApi +
-      'directions/place_id:' +
-      object.origin +
-      '/place_id:' +
-      object.destination +
-      '/place_id:' +
-      object.waypoints[0].location +
-      '/' +
-      object.drivingOptions.departureTime +
-      '/' +
-      object.travelMode +
-      '/' +
-      object.drivingOptions.trafficModel
+  getDirections(object) {
+    console.log('object in getDistance(): ', object);
+    console.log('$$$$$$$$$$$$ GeoService -> getDirections -> object.waypoints.length', object.waypoints.length);
 
-     );
+    if (object.waypoints.length > 1) {
+      let waypoints = 'place_id:' + object.waypoints[0].location + '|' +
+      'place_id:' + object.waypoints[1].location
+      
+      return this.http.get(this.nodeApi +
+        'directions/place_id:' +
+        object.origin +
+        '/place_id:' +
+        object.destination +
+        '/' +
+        waypoints +
+        '/' +
+        object.drivingOptions.departureTime +
+        '/' +
+        object.travelMode +
+        '/' +
+        object.drivingOptions.trafficModel
+      )
+    }
+    return this.http.get(this.nodeApi +
+    'directions/place_id:' +
+    object.origin +
+    '/place_id:' +
+    object.destination +
+    '/place_id:' +
+    object.waypoints[0].location +
+    '/' +
+    object.drivingOptions.departureTime +
+    '/' +
+    object.travelMode +
+    '/' +
+    object.drivingOptions.trafficModel
+    );
     //  .pipe(map(response => console.log(response)))
    }
 
-   getRunners() {
-     return this.http.get(this.nodeApi + 'runners/');
-   }
+  getRunnersLocations(): Observable<any> {
+    return this.runnersLocationsCollection.snapshotChanges().map(actions => {
+      return actions.map(action => {
+        const data = action.payload.doc.data() as RunnerTracking;
+        const id = action.payload.doc.id;
+        return { id, ...data };
+      });
+    });
+  }
+
+  getRunnerLocation(runnerId): Observable<any> {
+    console.log(' GeoService -> runnerId', runnerId);
+    let runnerLocationDoc = this.afs.collection('runners', ref => ref.where('uid','==', runnerId));
+    console.log(' GeoService -> runnerLocationDoc', runnerLocationDoc);
+    let runnerLocation = runnerLocationDoc.valueChanges();
+    console.log(' GeoService -> runnerLocation', runnerLocation);
+    return runnerLocation;
+  }
 
 
    /// Queries database for nearby locations

@@ -173,10 +173,14 @@
                             <mat-expansion-panel-header class="light-gray">
                                 <mat-icon mat-list-icon color="accent">room</mat-icon>
                                 {{ panelOpenState ? 'Hide map' : 'Show map' }}
+                                Runner task type : {{ runnerTask.type }}
                             </mat-expansion-panel-header>
-                        
+                            
                             <ng-template matExpansionPanelContent>
-                                <app-runner-map 
+                                <app-runner-map
+                                    [runnerTaskType]="runnerTask.type"
+                                    [runnerTaskRunId]="runnerTask.runId"
+                                    [runnerId]="runnerTask.runner.id"
                                     [locations]="[runnerTask.from, runnerTask.to]"
                                     [locationTwo]="runnerTask.to">
                                 </app-runner-map>

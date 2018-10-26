@@ -1,4 +1,5 @@
 <mat-dialog-content>
+  <ngx-spinner></ngx-spinner>
   <mat-card>
     <mat-card-header color="primary">
       <mat-card-title>Register a new Task</mat-card-title>
@@ -102,7 +103,7 @@
           </tr>
         </table>
         <mat-card-actions>
-          <button type="submit" mat-raised-button color="primary" (click)="onNoClick()">Register
+          <button type="submit" mat-raised-button color="primary">Register
             task</button>
           <button type="button" mat-raised-button color="accent" (click)="onNoClick()">Cancel</button>
           {{ selectedValueForFrom }}

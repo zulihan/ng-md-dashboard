@@ -28,7 +28,8 @@ export class TasksService {
     taskToEdit: Task;
 
     constructor(private afs: AngularFirestore) {
-        this.runnersTasksCollection = this.afs.collection<RunnerTask>('runnersTasks');
+        this.runnersTasksCollection = this.afs.collection<RunnerTask>('runnersTasks', ref => ref.orderBy('startAt'));
+        console.log(' TasksService -> constructor -> this.runnersTasksCollection', this.runnersTasksCollection);
     }
 
     getRunnersTask(): Observable<RunnerTask[]> {

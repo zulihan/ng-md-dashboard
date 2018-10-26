@@ -24,15 +24,18 @@ const port = 4201;
 api.get('/directions/:origin/:destination/:waypoints/:departureTime/:mode/:trafficModel', async (req, res) => {
 
     // let directionRequest = JSON.parse(req.params.directionRequest);
-    console.log(apiKey.GOOGLE_MAPS_API_KEY);
-    console.log('request params origin: ', (req.params.origin).toString());
-    console.log('request params destination: ', (req.params.destination).toString());
-    axios.get('https://maps.googleapis.com/maps/api/directions/json?origin=' +
+    // console.log(apiKey.GOOGLE_MAPS_API_KEY);
+    // console.log('request params origin: ', (req.params.origin).toString());
+    // console.log('request params destination: ', (req.params.destination).toString());
+    console.log(' typeof(req.params.waypoints)', typeof(req.params.waypoints));
+    console.log(' req.params.waypoints', req.params.waypoints.toString());
+    let waypoints = req.params.waypoints;
+    let query = 'https://maps.googleapis.com/maps/api/directions/json?origin=' +
         (req.params.origin).toString() +
         '&destination=' +
         (req.params.destination).toString() +
         '&waypoints=' +
-        req.params.waypoints +
+        waypoints.toString() +
         '&departure_time=' +        
         req.params.departureTime +
         '&mode=' +
@@ -40,19 +43,22 @@ api.get('/directions/:origin/:destination/:waypoints/:departureTime/:mode/:traff
         '&traffic_model=' +
         req.params.trafficModel +
         '&key=' + 
-        apiKey.GOOGLE_MAPS_API_KEY)
+        apiKey.GOOGLE_MAPS_API_KEY;
+        console.log(' query', query);
+
+    axios.get(query)
         .then(function (response) {
             if (response.data.status == "OK") {
-                console.log('response.data.result:', response.data.routes);
+                // console.log('response.data.result:', response.data.routes);
                 res.send(response.data);
             }
             else {
-                console.log(response);
+                console.log('response.data.status !== "OK": ', response);
                 res.status(400).send("Error");
             }
         })
         .catch(function (error) {
-            res.status(500).send("There was an error!");
+            res.status(500).send("There was an error!: " +  error);
         })
                 
 });

@@ -15,38 +15,65 @@
         <mat-card-content class="dashboard-card-content">
           <div class="map" *ngIf="lat && lng">
             <agm-map 
-              [latitude]="marsatacLat" 
-              [longitude]="marsatacLng" 
+              [latitude]="FESTIVAL_LAT" 
+              [longitude]="FESTIVAL_LNG" 
               [styles]="styles"
               [zoom]="zoom" 
               [usePanning]="true"> 
   
               <agm-marker 
-                [latitude]="marsatacLat"
-                [longitude]="marsatacLng"
+                [latitude]="FESTIVAL_LAT"
+                [longitude]="FESTIVAL_LNG"
                 [iconUrl]="'/../../assets/icons/m2018.png'">
                 <agm-info-window>
-                  <h3><strong>Marsatac</strong></h3>      
-                  <p>Here is Marsatac</p>
+                  <h3><strong>{{FESTIVAL.NAME}}</strong></h3>      
+                  <p>Here is {{FESTIVAL.NAME}}</p>
                 </agm-info-window>      
               </agm-marker>  
               <agm-marker
                 [latitude]="lat"
                 [longitude]="lng"
-                [iconUrl]="'/../../assets/icons/m1.png'">
+                [iconUrl]="'/../../assets/icons/me.png'">
                 <agm-info-window>
                   <h3><strong>Julien</strong></h3>
                   <p>That's where I am right now !</p>
                 </agm-info-window>
               </agm-marker>    
-              <agm-marker *ngFor="let location of locations"
-                [latitude]="location['coord'].latitude"
-                [longitude]="location['coord'].longitude">
+              <agm-marker *ngFor="let hotel of hotels"
+                [latitude]="hotel['coord'].latitude"
+                [longitude]="hotel['coord'].longitude"
+                [iconUrl]="markers.hotels">   
                 <agm-info-window>
-                  <h3><strong>{{location.name}}</strong></h3>
-                  <p>{{location.address}}</p>
+                  <h3><strong>{{hotel.name}}</strong></h3>
+                  <p>{{hotel.address}}</p>
                 </agm-info-window>
-              </agm-marker>           
+              </agm-marker> 
+              <agm-marker *ngFor="let airport of airports"
+                [latitude]="airport['coord'].latitude"
+                [longitude]="airport['coord'].longitude"
+                [iconUrl]="markers.airports">   
+                <agm-info-window>
+                  <h3><strong>{{airport.name}}</strong></h3>
+                  <p>{{airport?.address}}</p>
+                </agm-info-window>
+              </agm-marker>
+              <agm-marker *ngFor="let trainStation of trainStations"
+                [latitude]="trainStation['coord'].latitude"
+                [longitude]="trainStation['coord'].longitude"
+                [iconUrl]="markers.trainStations">   
+                <agm-info-window>
+                  <h3><strong>{{trainStation.name}}</strong></h3>
+                  <p>{{trainStation?.address}}</p>
+                </agm-info-window>
+              </agm-marker> 
+              <agm-marker *ngFor="let runnerLocation of runnersLocations"
+                [latitude]="runnerLocation.position.coords.latitude"
+                [longitude]="runnerLocation.position.coords.longitude"
+                [iconUrl]="markers.runners">
+                <agm-info-window>
+                  <h3><strong>{{runnerLocation.userName}}</strong></h3>
+                </agm-info-window>
+              </agm-marker>     
             </agm-map> 
           </div>
         </mat-card-content>
