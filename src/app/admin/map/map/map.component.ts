@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { GeoService } from '../../_services/geo.service';
+import { GeoService } from '../../../_services/geo.service';
 import { Place } from 'src/app/_models/place';
 // import { log } from 'util';
 // import { Geopoint } from '../../_models/Geopoint';
 // import { Location } from '../../_models/Location';
 import { environment } from 'src/environments/environment'
 import { PlaceType } from "src/app/_enums/enums";
-import { RunnerTracking } from '../../_models/runner-tracking';
+import { RunnerTracking } from '../../../_models/runner-tracking';
 
 @Component({
   selector: 'app-map',
@@ -14,7 +14,9 @@ import { RunnerTracking } from '../../_models/runner-tracking';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
-
+    origin =  { lat: 43.270584762037416, lng: 5.39729277752383};
+    destination = {lat: 43.170584762037416, lng: 5.69729277752383};
+    
     lat: number;
     lng: number;
     zoom = 13;

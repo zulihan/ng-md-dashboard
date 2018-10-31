@@ -286,19 +286,19 @@ export class TasksRegisterComponent implements OnInit {
     if (this.type === RunType.DROPOFF || this.type === RunType.PICKUP) {
       this.legs = {
         one: {
-          started_at: null,
-          completed_at: null,
+          started_at: '',
+          completed_at: '',
           distance: this.directionsLegs[0].distance.value,
           duration: this.directionsLegs[0].duration.value,
           percent_dist_travelled: 0,
         },
         two: {
-          started_at: null,
-          completed_at: null,
+          started_at: '',
+          completed_at: '',
           distance: this.directionsLegs[1].distance.value,
           duration: this.directionsLegs[1].duration.value,
           percent_dist_travelled: 0,
-          }
+        }
       };
       if (this.type === RunType.DROPOFF) {
         this.legs['one'].from = form.from;
@@ -314,8 +314,8 @@ export class TasksRegisterComponent implements OnInit {
     } else if (this.type === RunType.THREELEGS) {
       this.legs = {
         one: {
-          started_at: null,
-          completed_at: null,
+          // started_at: '',
+          // completed_at: '',
           distance: this.directionsLegs[0].distance.value,
           duration: this.directionsLegs[0].duration.value,
           percent_dist_travelled: 0,
@@ -323,8 +323,8 @@ export class TasksRegisterComponent implements OnInit {
           to: form.from
         },
         two: {
-          started_at: null,
-          completed_at: null,
+          // started_at: '',
+          // completed_at: '',
           distance: this.directionsLegs[1].distance.value,
           duration: this.directionsLegs[1].duration.value,
           percent_dist_travelled: 0,
@@ -332,8 +332,8 @@ export class TasksRegisterComponent implements OnInit {
           to: form.to
         },
         three: {
-          started_at: null,
-          completed_at: null,
+          // started_at: '',
+          // completed_at: '',
           distance: this.directionsLegs[2].distance.value,
           duration: this.directionsLegs[2].duration.value,
           percent_dist_travelled: 0,
@@ -375,8 +375,8 @@ export class TasksRegisterComponent implements OnInit {
       start_scheduled_at,
       runner_id,
       status: RunStatus.NOT_STARTED,
-      started_at: null,
-      dist_travelled: 0,
+      // started_at: '',
+      distance_travelled: 0,
       distance_total: Number(this.taskDistance),
       duration_total: Number(this.estimatedDuration),
       estimated_duration: Number(this.estimatedDuration),
@@ -390,8 +390,8 @@ export class TasksRegisterComponent implements OnInit {
   createTask(form, runId) {
     const creator = JSON.parse(localStorage.getItem('user')).userName;
     this.task = {
-      createdAt: new Date(Date.now()).toString(),
-      updatedAt: new Date(Date.now()).toString(),
+      createdAt: new Date(Date.now()),
+      updatedAt: new Date(Date.now()),
       createdBy: creator,
       isDone: false,
       runner: form.runner,
@@ -401,7 +401,7 @@ export class TasksRegisterComponent implements OnInit {
       to: form.to,
       startAt: form.time,
       startAtToString: '',
-      closedAt: null,
+      closedAt: '',
       over: false,
       type: this.type,
       taskStatus: TaskStatus.SCHEDULED,

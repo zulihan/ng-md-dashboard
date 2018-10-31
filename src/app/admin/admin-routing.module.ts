@@ -6,7 +6,7 @@ import { AuthGuard } from '../auth/guard/auth.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 // import { NotFoundComponent } from '../views/errors/not-found/not-found.component';
 import { AdminComponent } from './admin.component';
-import { MapComponent } from '../map/map/map.component';
+import { MapComponent } from './map/map/map.component';
 // import { ArtistsListComponent } from './artists/artists-list/artists-list.component';
 // import { ArtistsComponent } from './artists/artists.component';
 import { CalendarComponent } from './calendar/calendar.component';

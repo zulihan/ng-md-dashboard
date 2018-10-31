@@ -31,9 +31,9 @@
         <p>{{location.address}}</p>
       </agm-info-window>
     </agm-marker>
-    <agm-direction
-      [origin]="origin"
-      [destination]="destination">
-    </agm-direction>
+    <!-- <agm-direction *ngIf="route"
+      [origin]="route.origin"
+      [destination]="route.destination">
+    </agm-direction> -->
     </agm-map> 
 </div>

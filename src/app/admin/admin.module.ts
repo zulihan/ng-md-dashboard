@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -19,8 +19,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
-import { MapComponent } from '../map/map/map.component';
-import { RunnerMapComponent } from '../map/runner-map/runner-map.component';
+import { MapComponent } from './map/map/map.component';
+import { RunnerMapComponent } from './map/runner-map/runner-map.component';
 
 import { environment } from '../../environments/environment';
 
@@ -82,7 +82,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
       apiKey: environment.googleMapsKey,
       libraries: ['geometry']
     }),
-    AgmDirectionModule,
+    AgmDirectionModule.forRoot(),
     ArtistsModule,
     CalModule,
     TimetablesModule,
@@ -105,7 +105,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   ],
   providers: [
     ArtistsService,
-    // GoogleMapsAPIWrapper
+    GoogleMapsAPIWrapper
   ]
 })
 export class AdminModule {}

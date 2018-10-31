@@ -92,7 +92,7 @@ import { AgmDirectionModule } from 'agm-direction';
     ErrorInterceptorProvider,
     ArtistDetailResolver,
     ArtistListResolver,
-    GoogleMapsAPIWrapper
+    GoogleMapsAPIWrapper    
   ],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA ]

@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { GeoService } from '../../_services/geo.service';
+import { Component, OnInit, Input, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { GeoService } from '../../../_services/geo.service';
 import { Place } from 'src/app/_models/place';
 import { combineLatest } from 'rxjs';
 import { environment } from 'src/environments/environment'
-import { Runz } from '../../_models/runz';
-import { RunzService } from '../../_services/runz.service';
+import { Runz } from '../../../_models/runz';
+import { RunzService } from '../../../_services/runz.service';
 import { LatLng, GoogleMapsAPIWrapper } from '@agm/core';
 import { RunStatus, RunType } from 'src/app/_enums/enums';
 
@@ -13,7 +13,7 @@ import { RunStatus, RunType } from 'src/app/_enums/enums';
   selector: 'app-runner-map',
   templateUrl: './runner-map.component.html',
   styleUrls: ['./runner-map.component.scss'],
-  providers: [GoogleMapsAPIWrapper]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RunnerMapComponent implements OnInit, OnDestroy {
        
@@ -26,11 +26,14 @@ export class RunnerMapComponent implements OnInit, OnDestroy {
     FESTIVAL = environment.FESTIVAL;
 
     route;
-    runSubscription: any;
+    runSubscription;
     run: any;
     hasStarted;
-    runnerPositionSubscription: any;
+    runnerPositionSubscription;
     runnerPosition;
+
+    combinedSubscription;
+
     runnerPositionLat;
     runnerPositionLng;
     runnerPositionTimestamp;
@@ -68,8 +71,8 @@ export class RunnerMapComponent implements OnInit, OnDestroy {
         ]
     };
 
-    origin =  { lat: 43.270584762037416, lng: 5.39729277752383};
-    destination = {lat: 43.170584762037416, lng: 5.69729277752383};
+    // origin =  { lat: 43.270584762037416, lng: 5.39729277752383};
+    // destination = {lat: 43.170584762037416, lng: 5.69729277752383};
 
 
     // Need to:
@@ -80,39 +83,17 @@ export class RunnerMapComponent implements OnInit, OnDestroy {
     
     constructor(
         private geo: GeoService,
-        private runzService: RunzService,
-        private mapsApi: GoogleMapsAPIWrapper) {
+        private runzService: RunzService) {
 
      }
 
     ngOnInit() {
         console.log(' RunnerMapComponent -> ngOnIni -> this.runType', this.runType);
-        // this.runSubscription = this.runzService.getRun(this.runId)
-        //     .subscribe( run => {
-        //         this.run = run;
-        //         if( this.run.status === (RunStatus.STARTED || RunStatus.ON_THE_WAY_BACK || RunStatus.ON_THE_WAY_TO_SECOND_DESTINATION)) {
-        //             this.hasStarted = true;
-        //         }
-        //         let runStatus = this.run.status;
-        //         console.log(' RunnerMapComponent -> ngOnInit -> this.run', this.run);
-                
-        //     });
-        // this.runnerPositionSubscription = this.geo.getRunnerLocation(this.runnerId)
-        // .subscribe( pos => {
-        //     console.log(' RunnerMapComponent -> ngOnInit -> pos', pos);
-        //     this.runnerPosition = pos[0].position;
-        //     this.runnerPositionLat = this.runnerPosition.coords.latitude;
-        //     this.runnerPositionLng = this.runnerPosition.coords.longitude;
-        //     this.runnerPositionTimestamp = this.runnerPosition.timestamp;
-        //     this.runnerPositionUserName = this.runnerPosition.userName;
-        //     this.timestampToDate = new Date(this.runnerPositionTimestamp);
-        //     this.center = <LatLng>{lat: this.runnerPositionLat, lng:this.runnerPositionLng};
-        //     console.log(' RunnerMapComponent -> ngOnInit -> this.center', this.center);
-        // });
+        
         this.runSubscription = this.runzService.getRun(this.runId);            
         this.runnerPositionSubscription = this.geo.getRunnerLocation(this.runnerId);
 
-        combineLatest(this.runSubscription, this.runnerPositionSubscription, (run, pos) => ({ run, pos }))       
+        this.combinedSubscription = combineLatest(this.runSubscription, this.runnerPositionSubscription, (run, pos) => ({ run, pos }))       
             .subscribe( pair => {
                 this.run = pair.run;
                 if( this.run.status === (RunStatus.STARTED || RunStatus.ON_THE_WAY_BACK || RunStatus.ON_THE_WAY_TO_SECOND_DESTINATION)) {
@@ -134,8 +115,10 @@ export class RunnerMapComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.runSubscription.unsubscribe();
-        this.runnerPositionSubscription.unsubscribe();
+        console.log('****** RunnerMapComponent -> ngOnDestroy ******');
+        this.combinedSubscription.unsubscribe();
+        // this.runSubscription.unsubscribe();
+        // this.runnerPositionSubscription.unsubscribe();
     }
 
     getLocations() {
@@ -182,11 +165,11 @@ export class RunnerMapComponent implements OnInit, OnDestroy {
                 case RunType.THREELEGS:
                     waypoints = [
                         {
-                        location: this.locations[0].place_id,
+                        location: from,
                         stopover: true
                         },
                         {
-                        location: this.locations[1].to.place_id,
+                        location: to,
                         stopover: true
                         }
                     ];
