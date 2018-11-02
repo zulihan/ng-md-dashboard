@@ -286,15 +286,11 @@ export class TasksRegisterComponent implements OnInit {
     if (this.type === RunType.DROPOFF || this.type === RunType.PICKUP) {
       this.legs = {
         one: {
-          started_at: '',
-          completed_at: '',
           distance: this.directionsLegs[0].distance.value,
           duration: this.directionsLegs[0].duration.value,
           percent_dist_travelled: 0,
         },
         two: {
-          started_at: '',
-          completed_at: '',
           distance: this.directionsLegs[1].distance.value,
           duration: this.directionsLegs[1].duration.value,
           percent_dist_travelled: 0,
@@ -314,8 +310,6 @@ export class TasksRegisterComponent implements OnInit {
     } else if (this.type === RunType.THREELEGS) {
       this.legs = {
         one: {
-          // started_at: '',
-          // completed_at: '',
           distance: this.directionsLegs[0].distance.value,
           duration: this.directionsLegs[0].duration.value,
           percent_dist_travelled: 0,
@@ -323,8 +317,6 @@ export class TasksRegisterComponent implements OnInit {
           to: form.from
         },
         two: {
-          // started_at: '',
-          // completed_at: '',
           distance: this.directionsLegs[1].distance.value,
           duration: this.directionsLegs[1].duration.value,
           percent_dist_travelled: 0,
@@ -332,8 +324,6 @@ export class TasksRegisterComponent implements OnInit {
           to: form.to
         },
         three: {
-          // started_at: '',
-          // completed_at: '',
           distance: this.directionsLegs[2].distance.value,
           duration: this.directionsLegs[2].duration.value,
           percent_dist_travelled: 0,
@@ -375,7 +365,6 @@ export class TasksRegisterComponent implements OnInit {
       start_scheduled_at,
       runner_id,
       status: RunStatus.NOT_STARTED,
-      // started_at: '',
       distance_travelled: 0,
       distance_total: Number(this.taskDistance),
       duration_total: Number(this.estimatedDuration),
