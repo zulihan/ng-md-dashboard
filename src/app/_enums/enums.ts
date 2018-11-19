@@ -1,6 +1,4 @@
-export class Enums {
-    
-}
+export class Enums {}
 
 export enum RunStatus {
     NOT_STARTED = 'has not started yet',
@@ -17,7 +15,7 @@ export enum TaskStatus {
     APPROACHING = 'approaching',
     DUE = 'due',
     LATE = 'late',
-    OK = "ok",
+    OK = 'ok',
     DONE = 'done'
 }
 
