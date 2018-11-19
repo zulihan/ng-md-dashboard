@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import * as firebase from 'firebase';
 
 import { Observable } from 'rxjs/Observable';
 import { Task } from '../_models/task';
 import { Subject } from 'rxjs/Subject';
 import { RunnerTask } from 'src/app/_models/runner-task';
+import { distinctUntilChanged, map, debounceTime } from 'rxjs/operators';
 
 
 
@@ -28,25 +30,40 @@ export class TasksService {
     taskToEdit: Task;
 
     constructor(private afs: AngularFirestore) {
-        this.runnersTasksCollection = this.afs.collection<RunnerTask>('runnersTasks', ref => ref.orderBy('startAt'));
+        this.runnersTasksCollection =
+            this.afs.collection<RunnerTask>
+                ('runnersTasks', ref => ref.orderBy('startAt', 'desc').orderBy('isDone', 'desc'));
         console.log(' TasksService -> constructor -> this.runnersTasksCollection', this.runnersTasksCollection);
     }
 
-    getRunnersTask(): Observable<RunnerTask[]> {
-        this.runnersTasks = this.runnersTasksCollection.snapshotChanges().map(actions => {
+    /// Firebase Server Timestamp
+    get timestamp() {
+        return firebase.firestore.FieldValue.serverTimestamp();
+    }
+
+    getRunnersTasks(): Observable<RunnerTask[]> {
+        // this.runnersTasks = this.runnersTasksCollection;
+        this.runnersTasks = this.runnersTasksCollection.snapshotChanges().pipe(map(actions => {
             return actions.map(a => {
               const data = a.payload.doc.data() as RunnerTask;
               data.id = a.payload.doc.id;
+              console.log(' TasksService -> getRunnersTasks() -> data', data);
               return data;
             });
-          });
-          return this.runnersTasks;
+        }));
+        console.log(' TasksService -> this.runnersTasks', this.runnersTasks);
+        return this.runnersTasks;
     }
 
     addRunerTask(task: RunnerTask) {
-        this.runnersTasksCollection.add(task)
-            .then(_ => console.log(' TasksService -> addRunerTask -> task created', task))
-            .catch(err => console.log(' TasksService -> addRunerTask -> err', err));
+        const timestamp = this.timestamp;
+        const data = {
+            ...task,
+            updatedAt: timestamp,
+            createdAt: timestamp
+        };
+        console.log(' TasksService -> addRunerTask -> data', data);
+        return this.runnersTasksCollection.add(data);
     }
 
     deleteRunnerTask(task: RunnerTask) {

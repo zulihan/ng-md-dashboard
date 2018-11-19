@@ -10,7 +10,7 @@ import { ObservableMedia } from '@angular/flex-layout';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ToastrService } from 'ngx-toastr';
 
-import { Enums, RunStatus, TaskStatus } from "src/app/_enums/enums";
+import { Enums, RunStatus, TaskStatus } from 'src/app/_enums/enums';
 // import { RunStatus } from "src/app/_enums/run-status.enum";
 // import { TaskStatus } from "src/app/_enums/task-status.enum";
 
@@ -21,21 +21,43 @@ import { RunnerTask } from 'src/app/_models/runner-task';
 
 import { TaskEditComponent } from '../task-edit/task-edit.component';
 import { RunzService } from 'src/app/_services/runz.service';
+import { trigger, transition, style, animate, state } from '@angular/animations';
+import { Subscription, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { rxSubscriber } from 'rxjs/internal-compatibility';
+
 
 @Component({
   selector: 'app-tasks-list',
   templateUrl: './tasks-list.component.html',
-  styleUrls: ['./tasks-list.component.scss']
+  styleUrls: ['./tasks-list.component.scss'],
+  animations: [
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({opacity: 0}),
+          animate('1000ms', style({opacity: 1}))
+        ]),
+        transition(':leave', [
+          style({transform: 'translateY(0)', opacity: 1}),
+          animate('700ms', style({transform: 'translateY(-100%)', opacity: 0}))
+        ])
+      ]
+    )
+  ]
 })
 export class TasksListComponent implements OnInit, OnDestroy {
 
   // public taskStatus = TaskStatus;
   // public runStatus = RunStatus;
 
-  runnersTasksList: RunnerTask[] = [];
+  runnersTasksList;
   runnersTasksSubject = new BehaviorSubject< RunnerTask[]>(this.runnersTasksList);
+  runnerTasksObs;
   runnersTasksObservable = this.runnersTasksSubject.asObservable();
   runnersTasks: RunnerTask[];
+
+  runnerTasksSub: Subscription;
 
   estimatedTravelTime;
 
@@ -49,7 +71,7 @@ export class TasksListComponent implements OnInit, OnDestroy {
   ];
   filterArr = [];
 
-  rtsCompleted = { rts: 'completed', checked: false};
+  rtsCompleted = { rts: 'done', checked: false};
   hideCompletedArr = [];
 
   over: boolean;
@@ -68,8 +90,8 @@ export class TasksListComponent implements OnInit, OnDestroy {
     private observableMedia: ObservableMedia,
     private ngZone: NgZone,
     private toastr: ToastrService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private geo: GeoService
+    // private changeDetectorRef: ChangeDetectorRef,
+    // private geo: GeoService
     ) {
 
       // changeDetectorRef.detach();
@@ -80,25 +102,32 @@ export class TasksListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.tasksService.getRunnersTask().subscribe( tasks => {
-      this.runnersTasksList = [];
-      // this.runnersTasksSubject.next(this.runnersTasksList);
-      tasks.map( rt => this.runnersTasksList.push(rt));
-      this.runnersTasksList.forEach(rt => {
-        this.formatTask(rt);
-        this.determineTaskStatus(rt);
-        console.log(' ngOnInit -> determineTaskStatus');
-        if (rt.over === false) {
-          if (!(rt.taskStatus === TaskStatus.OK || rt.taskStatus === TaskStatus.LATE)) {
-            this.checkTaskStatus(rt);
-          }
-          this.isOver(rt);
-        }
-      });
-      console.log('TasksListComponent ->  ngOnInit ->  this.runnersTasksList', this.runnersTasksList);
-      
+    this.getTasks().subscribe( tasks => {
+      console.log(' TasksListComponent -> ngOnInit -> tasks', tasks);
+      this.runnersTasksList =  tasks;
       this.runnersTasksSubject.next(this.runnersTasksList);
-      this.runnersTasksObservable.subscribe( rts => this.runnersTasks = rts);
+    });
+
+
+
+
+      // this.runnersTasksList = [];
+      // // this.runnersTasksSubject.next(this.runnersTasksList);
+      // tasks.map( rt => this.runnersTasksList.push(rt));
+      // this.runnersTasksList.forEach(rt => {
+      //   this.formatTask(rt);
+      //   this.determineTaskStatus(rt);
+      //   console.log(' ngOnInit -> determineTaskStatus');
+      //   if (rt.over === false) {
+      //     if (!(rt.taskStatus === TaskStatus.OK || rt.taskStatus === TaskStatus.LATE)) {
+      //       this.checkTaskStatus(rt);
+      //     }
+      //     this.isOver(rt);
+      //   }
+      // });
+      // console.log('TasksListComponent ->  ngOnInit ->  this.runnersTasksList', this.runnersTasksList);
+
+
 
       // this.runnersTasksObservable.subscribe( rt => {
       //   return this.runnersTasks = rt;
@@ -113,7 +142,8 @@ export class TasksListComponent implements OnInit, OnDestroy {
         // console.log('this runnersTasks: ', this.runnersTasks);
         // console.log('this.filteredList', this.filteredList);
         // return this.filteredList;
-    });
+    // });
+
 
     const grid = new Map([
       ['xs', 1],
@@ -139,6 +169,33 @@ export class TasksListComponent implements OnInit, OnDestroy {
         return grid.get(change.mqAlias);
       })
       .startWith(start);
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.isOVerInterval);
+    // this.runnersTasksSub.unsubscribe();
+  }
+
+  getTasks() {
+    const rtasks = this.tasksService.getRunnersTasks()
+      .pipe(
+        map( tasks => {
+          return tasks.map( rt => {
+            console.log(' TasksListComponent -> ngOnInit -> rt', rt);
+            this.formatTask(rt);
+            this.determineTaskStatus(rt);
+            if (rt.over === false) {
+              if (!(rt.taskStatus === TaskStatus.OK || rt.taskStatus === TaskStatus.LATE)) {
+              this.checkTaskStatus(rt);
+              }
+              this.isOver(rt);
+              console.log(' TasksListComponent -> ngOnInit -> rt', rt);
+            }
+            return rt;
+          });
+        })
+      );
+    return rtasks;
   }
 
   filteredLateStatus(arr) {
@@ -178,7 +235,7 @@ export class TasksListComponent implements OnInit, OnDestroy {
         .then(response => {
           this.runzService.deleteRun(task.runId)
             .then( () => this.showEditSuccess(name))
-            .catch( error => console.log(' delete -> error', error))            
+            .catch( error => console.log(' delete -> error', error));
         }).catch(error => {
           this.showEditError(error);
         });
@@ -194,30 +251,39 @@ export class TasksListComponent implements OnInit, OnDestroy {
   }
 
 /**
- * Format the task fields 
+ * Format the task fields
  *
  * @this {formatTask}
  * @param {RunnerTask} runnerTask the task you want to format.
  */
   formatTask(runnerTask) {
     runnerTask.distance = (runnerTask.distance / 1000).toFixed(1) + ' km';
-    runnerTask.estimatedDuration = runnerTask.estimatedDuration !== undefined ? this.convertSecondsToHrsMinsSec(runnerTask.estimatedDuration) : '';
+    runnerTask.estimatedDuration = runnerTask.estimatedDuration !== undefined ?
+                                      this.convertSecondsToHrsMinsSec(runnerTask.estimatedDuration) : '';
     runnerTask.startAt = +new Date(runnerTask.startAt.seconds * 1000).getTime();
     runnerTask.startAtToString = new Date(runnerTask.startAt).toString();
-    runnerTask.createdAt = new Date(runnerTask.createdAt).toString();
-    runnerTask.closedAt = new Date(runnerTask.closedAt).toString();
-    runnerTask.updatedAt = new Date(runnerTask.updatedAt).toString();
+    if (runnerTask.createdAt) {
+      runnerTask.createdAt = new Date(runnerTask.createdAt.seconds * 1000).getTime();
+    }
+    if (runnerTask.closedAt) {
+      runnerTask.closedAt = new Date(runnerTask.closedAt.seconds * 1000).getTime();
+    }
+    if (runnerTask.updatedAt) {
+      console.log(' formatTask -> runnerTask.updatedAt', runnerTask.updatedAt);
+    runnerTask.updatedAt = new Date(runnerTask.updatedAt.seconds * 1000).toString();
+    console.log(' formatTask -> runnerTask.updatedAt', runnerTask.updatedAt);
+    }
   }
 
 /**
- * Determine what the task status should be according to actual time 
+ * Determine what the task status should be according to actual time
  *
  * @this {determineTaskStatus}
  * @param {RunnerTask} runnerTask the task you want to check status.
  */
   determineTaskStatus(runnerTask) {
-    const timeNow = new Date().getTime(); 
-    const startTime = new Date(runnerTask.startAt).getTime(); 
+    const timeNow = new Date().getTime();
+    const startTime = new Date(runnerTask.startAt).getTime();
     runnerTask.over = timeNow > startTime ? true : false;
     if ( timeNow + 900000 >= startTime && timeNow < startTime  ) {
       runnerTask.taskStatus =  TaskStatus.APPROACHING;
@@ -234,7 +300,7 @@ export class TasksListComponent implements OnInit, OnDestroy {
       runnerTask.taskStatus = TaskStatus.OK;
     } else if ( timeNow > startTime && runnerTask.status === RunStatus.COMPLETED) {
        runnerTask.taskStatus = TaskStatus.DONE;
-    }    
+    }
   }
 
 /**
@@ -246,7 +312,7 @@ export class TasksListComponent implements OnInit, OnDestroy {
   isOver(runnerTask) {
     this.ngZone.runOutsideAngular( _ => {
         if (typeof window !== 'undefined') {
-          this.isOVerInterval;
+
           return this.isOVerInterval = window.setInterval(() => {
             if (runnerTask.over === true) {
               clearInterval(this.isOVerInterval);
@@ -320,10 +386,6 @@ export class TasksListComponent implements OnInit, OnDestroy {
     date.setSeconds(seconds); // specify value for SECONDS here
     const result = date.toISOString().substr(11, 8);
     return result;
-  }
-
-  ngOnDestroy(){
-    clearInterval(this.isOVerInterval);
   }
 
 }

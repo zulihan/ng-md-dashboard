@@ -12,8 +12,8 @@ import { TasksService } from '../../../_services/tasks.service';
 import { Place } from '../../../_models/place';
 import { RunzService } from '../../../_services/runz.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { TaskStatus, RunStatus, RunType } from "src/app/_enums/enums";
-import { environment } from 'src/environments/environment'
+import { TaskStatus, RunStatus, RunType } from 'src/app/_enums/enums';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -32,7 +32,7 @@ export class TasksRegisterComponent implements OnInit {
       latitude: this.FESTIVAL.LAT,
       longitude: this.FESTIVAL.LNG
     }
-  }
+  };
 
   registerTaskForm: FormGroup;
   registerNewLocationForm: FormGroup;
@@ -55,7 +55,7 @@ export class TasksRegisterComponent implements OnInit {
   taskDistance;
 
   newLocation: Place = {id: 0, name: 'New Location'};
- 
+
   geoCode;
   newLocationLat;
   newLocationLong;
@@ -195,8 +195,8 @@ export class TasksRegisterComponent implements OnInit {
         .then( ref => {
         const runId = ref.id;
         this.createTask(form, runId)
-          .then(_ => {
-            console.log(' TasksRegisterComponent -> onSubmit');
+          .then( docref => {
+            console.log(' TasksRegisterComponent -> onSubmit -> ref', docref);
             this.spinner.hide();
             this.onNoClick();
             this.showRegisterSuccess();
@@ -205,14 +205,14 @@ export class TasksRegisterComponent implements OnInit {
             console.log(' TasksRegisterComponent -> onSubmit -> error', error);
             this.showRegisterError(error);
           });
-      });      
-    });  
+      });
+    });
   }
 
   getDirections(form): Observable<Object> {
-    console.log(' TasksRegisterComponent -> onSubmit -> form.time', form.time);
+    console.log(' TasksRegisterComponent -> getDirections() -> form.time', form.time);
     const departureAt = form.time !== '' ? new Date(form.time).getTime() : new Date(Date.now()).getTime();
-    console.log(' TasksRegisterComponent -> onSubmit -> departureAt', departureAt);
+    console.log(' TasksRegisterComponent -> getDirections() -> departureAt', departureAt);
 
     if (form.from.name === this.FESTIVAL.NAME) {
       this.type = RunType.DROPOFF;
@@ -340,10 +340,10 @@ export class TasksRegisterComponent implements OnInit {
   createRun(form, legs): Promise<firebase.firestore.DocumentReference> {
     let duration = 0;
     let distance = 0;
-    let from = form.from;
-    let to = form.to;
-    let runner_id = form.runner.id;
-    let start_scheduled_at = form.time;
+    const from = form.from;
+    const to = form.to;
+    const runner_id = form.runner.id;
+    const start_scheduled_at = form.time;
     for (const key in legs) {
       if (legs.hasOwnProperty(key)) {
         distance += legs[key].distance;
@@ -379,8 +379,8 @@ export class TasksRegisterComponent implements OnInit {
   createTask(form, runId) {
     const creator = JSON.parse(localStorage.getItem('user')).userName;
     this.task = {
-      createdAt: new Date(Date.now()),
-      updatedAt: new Date(Date.now()),
+      // createdAt: new Date(Date.now()),
+      // updatedAt: new Date(Date.now()),
       createdBy: creator,
       isDone: false,
       runner: form.runner,
@@ -389,8 +389,8 @@ export class TasksRegisterComponent implements OnInit {
       from: form.from,
       to: form.to,
       startAt: form.time,
-      startAtToString: '',
-      closedAt: '',
+      // startAtToString: '',
+      // closedAt: '',
       over: false,
       type: this.type,
       taskStatus: TaskStatus.SCHEDULED,
@@ -400,7 +400,7 @@ export class TasksRegisterComponent implements OnInit {
       distance: this.taskDistance
     };
 
-    return this.tasksService.runnersTasksCollection.add(this.task);
+    return this.tasksService.addRunerTask(this.task);
   }
 
   showRegisterSuccess() {

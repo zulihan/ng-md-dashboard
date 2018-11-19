@@ -9,7 +9,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { AdminRoutingModule } from './admin-routing.module';
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
-import { AgmDirectionModule } from 'agm-direction'
+import { AgmDirectionModule } from 'agm-direction';
 
 import { MatDialogModule } from '@angular/material';
 // import { MaterialModule } from '../material/material.module';

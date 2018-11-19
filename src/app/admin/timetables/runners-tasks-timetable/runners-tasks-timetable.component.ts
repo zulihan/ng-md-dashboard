@@ -44,7 +44,7 @@ export class RunnersTasksTimetableComponent implements OnInit {
 
   ngOnInit() {
     this.selector =  this.runnerstimetable.nativeElement;
-    this.tasksService.getRunnersTask()
+    this.tasksService.getRunnersTasks()
       .subscribe(rts => {
         this.runners = [];
         console.log(' RunnersTasksTimetableComponent -> this.runners -> Before for', this.runners);

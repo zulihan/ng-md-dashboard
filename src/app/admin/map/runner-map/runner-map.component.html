@@ -31,9 +31,11 @@
         <p>{{location.address}}</p>
       </agm-info-window>
     </agm-marker>
-    <!-- <agm-direction *ngIf="route"
-      [origin]="route.origin"
-      [destination]="route.destination">
-    </agm-direction> -->
+    <agm-direction
+      [origin]="originSubject | async"
+      [destination]="destinationSubject | async"
+      [waypoints]="waypointsSubject | async"
+      [renderOptions]="optionsSubject | async">
+    </agm-direction>
     </agm-map> 
 </div>

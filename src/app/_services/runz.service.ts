@@ -39,13 +39,13 @@ export class RunzService {
   }
 
   getRun(runId): Observable<Runz> {
-    let runDoc = this.afs.collection<Runz>('runz').doc<Runz>(runId);
-    let run = runDoc.valueChanges();
+    const runDoc = this.afs.collection<Runz>('runz').doc<Runz>(runId);
+    const run = runDoc.valueChanges();
     return run;
   }
 
   deleteRun(runId) {
-    let runDoc = this.afs.collection<Runz>('runz').doc<Runz>(runId);
+    const runDoc = this.afs.collection<Runz>('runz').doc<Runz>(runId);
     return runDoc.delete();
   }
 

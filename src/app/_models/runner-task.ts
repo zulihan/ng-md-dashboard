@@ -3,8 +3,8 @@ import { Place } from './place';
 
 export interface RunnerTask {
     id?: any;
-    closedAt?: string;
-    createdAt: string;
+    closedAt?: any;
+    createdAt?: any;
     createdBy: string;
     isDone: boolean;
     runner: Runner;
@@ -14,7 +14,7 @@ export interface RunnerTask {
     to: Place;
     startAt?: any;
     startAtToString: string;
-    updatedAt?: string;
+    updatedAt?: any;
     status: string;
     over: any;
     type: string;

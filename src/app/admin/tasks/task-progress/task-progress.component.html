@@ -1,16 +1,38 @@
-<mat-list-item *ngIf="run.type === 'drop off' || run.type === 'pick-up'; else threelegs">
-    <mat-progress-bar color="primary" mode="determinate" value="40"></mat-progress-bar>
+
+<div class="progress-bars-wrapper"
+    *ngIf="runType === 'drop off' || runType === 'pick-up'; else threelegs">
+    <mat-progress-bar
+        color="accent"
+        [mode]="pbOneModeSubject | async"
+        [value]="pbOneValueSubject | async">        
+    </mat-progress-bar>
     <span> </span> 
-    <mat-progress-bar color="primary" mode="determinate" value="00"></mat-progress-bar>
-</mat-list-item>
+    <mat-progress-bar
+        color="accent"
+        [mode]="pbTwoModeSubject | async"
+        [value]="pbTwoValueSubject | async">
+    </mat-progress-bar>
+</div>
 <mat-divider></mat-divider>
 <ng-template #threelegs>
     <mat-list-item>
-        <mat-progress-bar color="primary" mode="determinate" value="40"></mat-progress-bar>
+        <mat-progress-bar
+            color="accent"
+            [mode]="pbOneModeSubject | async"
+            [value]="pbOneValueSubject | async">
+        </mat-progress-bar>
         <span> </span>
-        <mat-progress-bar color="primary" mode="determinate" value="00"></mat-progress-bar>
+        <mat-progress-bar
+            color="accent"
+            [mode]="pbTwoModeSubject | async"
+            [value]="pbTwoValueSubject | async">
+        </mat-progress-bar>
         <span> </span>
-        <mat-progress-bar color="primary" mode="determinate" value="00"></mat-progress-bar>
+        <mat-progress-bar
+            color="accent"
+            [mode]="pbThreeModeSubject | async"
+            [value]="pbThreeValueSubject | async">
+        </mat-progress-bar>
     </mat-list-item>
     <mat-divider></mat-divider>
 </ng-template>

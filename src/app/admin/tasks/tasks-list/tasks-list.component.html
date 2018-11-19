@@ -43,7 +43,7 @@
 
     <mat-grid-list [cols]="cols | async" [rowHeight]="rowHeight + 'px'" gutterSize="5px">
         <mat-grid-tile 
-            *ngFor="let runnerTask of runnersTasks | runnersTasksFilter:filterArr | hideCompleted:hideCompletedArr"
+            *ngFor="let runnerTask of runnersTasksObservable | async | runnersTasksFilter:filterArr | hideCompleted:hideCompletedArr"
             [colspan]="1"
             [rowspan]="1">
             <!-- <ng-container *ngIf="runnerTask.taskStatus === 'late'"> -->
@@ -65,7 +65,9 @@
                     </button>
                 </div> -->
                 <mat-card-header>
-                    <div mat-card-avatar class="header-image" [ngStyle]="{'background-image': 'url('+ runnerTask.runner.photoUrl +')'}"></div>
+                    <div mat-card-avatar class="header-image" 
+                        [ngStyle]="{'background-image': 'url('+ runnerTask.runner.photoUrl +')'}">
+                    </div>
                     <mat-card-title>
                         <mat-list>
                             <mat-list-item>
@@ -85,8 +87,8 @@
                     <mat-list>
                         <!-- <mat-accordion> -->                                
                         <mat-list-item>
-                            <mat-icon color="accent">assignment</mat-icon>
-                            <span>Take {{runnerTask.artist.name | titlecase }} / {{runnerTask.pers}} persons</span>                        
+                            <mat-icon color="accent">people</mat-icon>
+                            <span>{{runnerTask.artist.name | titlecase }} / {{runnerTask.pers}} persons</span>                        
                         </mat-list-item>
                         <mat-divider></mat-divider>
                         <mat-list-item>                                                   
@@ -149,37 +151,29 @@
                                 <div class="info">
                                     <span>Last update: {{ runnerTask.updatedAt | timeAgo }} ago</span>
                                 </div>                                  
-                            </div>
-                        </mat-list-item>
-                        <mat-list-item *ngIf="runnerTask.type === 'drop off' || runnerTask.type === 'pick-up'; else threelegs">
-                            <mat-progress-bar color="accent" mode="determinate" value="40"></mat-progress-bar>
-                            <span> </span>
-                            <mat-progress-bar color="accent" mode="determinate" value="00"></mat-progress-bar>
+                            </div>                            
                         </mat-list-item>
                         <mat-divider></mat-divider>
-                        <ng-template #threelegs>
-                            <mat-list-item>
-                                <mat-progress-bar color="accent" mode="determinate" value="40"></mat-progress-bar>
-                                <span> </span>
-                                <mat-progress-bar color="accent" mode="determinate" value="00"></mat-progress-bar>
-                                <span> </span>
-                                <mat-progress-bar color="accent" mode="determinate" value="00"></mat-progress-bar>
-                            </mat-list-item>
-                            <mat-divider></mat-divider>
-                        </ng-template>
+                        <mat-list-item>
+                            <div class="rt-progress">
+                                <app-task-progress
+                                    [runId]="runnerTask.runId"
+                                    [runType]="runnerTask.type">
+                                </app-task-progress>
+                            </div>
+                        </mat-list-item>
                         <mat-expansion-panel 
-                        (opened)="panelOpenState = true"
-                        (closed)="panelOpenState = false">                        
+                            (opened)="panelOpenState = true"
+                            (closed)="panelOpenState = false">                        
                             <mat-expansion-panel-header class="light-gray">
-                                <mat-icon mat-list-icon color="accent">room</mat-icon>
+                                <mat-icon mat-list-icon color="accent">map</mat-icon>
                                 {{ panelOpenState ? 'Hide map' : 'Show map' }}
-                                Runner task type : {{ runnerTask.type }}
                             </mat-expansion-panel-header>
                             
                             <ng-template matExpansionPanelContent>
                                 <app-runner-map
-                                    [runnerTaskType]="runnerTask.type"
-                                    [runnerTaskRunId]="runnerTask.runId"
+                                    [runType]="runnerTask.type"
+                                    [runId]="runnerTask.runId"
                                     [runnerId]="runnerTask.runner.id"
                                     [locations]="[runnerTask.from, runnerTask.to]"
                                     [locationTwo]="runnerTask.to">
