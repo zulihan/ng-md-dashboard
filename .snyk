@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.12.0
+version: v1.14.1
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -12,3 +12,10 @@ patch:
         patched: '2018-07-28T13:39:51.258Z'
     - node-sass > node-gyp > request > hawk > cryptiles > boom > hoek:
         patched: '2018-07-28T13:39:51.258Z'
+  SNYK-JS-LODASH-567746:
+    - node-sass > sass-graph > lodash:
+        patched: '2020-04-30T21:28:19.826Z'
+    - firebase > @firebase/firestore > grpc > lodash:
+        patched: '2020-04-30T21:28:19.826Z'
+    - node-sass > gaze > globule > lodash:
+        patched: '2020-04-30T21:28:19.826Z'
