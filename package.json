@@ -37,7 +37,7 @@
     "fs-extra": "^6.0.1",
     "geofire": "^4.1.2",
     "hammerjs": "2.0.x",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "ng-pick-datetime": "^6.0.12",
     "ng-pick-datetime-moment": "^1.0.7",
     "ng2-file-upload": "^1.3.0",
