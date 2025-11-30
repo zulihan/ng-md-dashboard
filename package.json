@@ -14,7 +14,7 @@
     "@agm/core": "~1.0.0-beta.5",
     "@angular/animations": "^6.0.9",
     "@angular/cdk": "^6.4.0",
-    "@angular/common": "^6.0.3",
+    "@angular/common": "^19.2.16",
     "@angular/compiler": "^6.0.3",
     "@angular/core": "^6.0.3",
     "@angular/flex-layout": "^6.0.0-beta.16",
